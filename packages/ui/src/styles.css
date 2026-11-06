@@ -1,0 +1,155 @@
+/*
+ * waldow-ds stylesheet. Import once in your app:
+ *   @import "@waldow-ds/ui/styles.css";
+ *
+ * The Tailwind theme below only references --ds-* token variables. Tailwind's
+ * default colour, radius and shadow scales are cleared, so utilities like
+ * bg-blue-500 or rounded-2xl don't exist. See ADR 001.
+ */
+@import "tailwindcss";
+@import "@waldow-ds/tokens/tokens.css";
+
+@source "./";
+
+@custom-variant dark (&:where([data-theme="dark"], [data-theme="dark"] *));
+
+@theme inline {
+  --color-*: initial;
+  --radius-*: initial;
+  --shadow-*: initial;
+
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  /* Semantic: page and surfaces */
+  --color-background: var(--ds-color-background-default);
+  --color-background-subtle: var(--ds-color-background-subtle);
+  --color-background-muted: var(--ds-color-background-muted);
+  --color-background-inverse: var(--ds-color-background-inverse);
+  --color-surface: var(--ds-color-surface-default);
+  --color-surface-raised: var(--ds-color-surface-raised);
+  --color-overlay: var(--ds-color-surface-overlay);
+
+  /* Semantic: text */
+  --color-foreground: var(--ds-color-text-default);
+  --color-muted-foreground: var(--ds-color-text-muted);
+  --color-disabled-foreground: var(--ds-color-text-disabled);
+  --color-inverse-foreground: var(--ds-color-text-inverse);
+  --color-link: var(--ds-color-text-link);
+
+  /* Semantic: borders */
+  --color-border: var(--ds-color-border-default);
+  --color-border-strong: var(--ds-color-border-strong);
+  --color-ring: var(--ds-color-border-focus);
+
+  /* Semantic: actions */
+  --color-primary: var(--ds-color-action-primary-default);
+  --color-primary-hover: var(--ds-color-action-primary-hover);
+  --color-primary-foreground: var(--ds-color-action-primary-text);
+  --color-secondary: var(--ds-color-action-secondary-default);
+  --color-secondary-hover: var(--ds-color-action-secondary-hover);
+  --color-secondary-foreground: var(--ds-color-action-secondary-text);
+  --color-danger: var(--ds-color-action-danger-default);
+  --color-danger-hover: var(--ds-color-action-danger-hover);
+  --color-danger-foreground: var(--ds-color-action-danger-text);
+
+  /* Semantic: status */
+  --color-success-subtle: var(--ds-color-status-success-background);
+  --color-success-text: var(--ds-color-status-success-text);
+  --color-success-border: var(--ds-color-status-success-border);
+  --color-warning-subtle: var(--ds-color-status-warning-background);
+  --color-warning-text: var(--ds-color-status-warning-text);
+  --color-warning-border: var(--ds-color-status-warning-border);
+  --color-danger-subtle: var(--ds-color-status-danger-background);
+  --color-danger-text: var(--ds-color-status-danger-text);
+  --color-danger-border: var(--ds-color-status-danger-border);
+  --color-info-subtle: var(--ds-color-status-info-background);
+  --color-info-text: var(--ds-color-status-info-text);
+  --color-info-border: var(--ds-color-status-info-border);
+
+  /* Component colours */
+  --color-input: var(--ds-input-background);
+  --color-input-border: var(--ds-input-border);
+  --color-card: var(--ds-card-background);
+  --color-dialog: var(--ds-dialog-background);
+  --color-row-hover: var(--ds-table-row-hover);
+
+  /* Spacing: the numeric scale (p-4, gap-2) is the token space scale */
+  --spacing: var(--ds-space-1);
+  --spacing-button-sm: var(--ds-button-height-sm);
+  --spacing-button-md: var(--ds-button-height-md);
+  --spacing-button-lg: var(--ds-button-height-lg);
+  --spacing-button-x-sm: var(--ds-button-padding-x-sm);
+  --spacing-button-x-md: var(--ds-button-padding-x-md);
+  --spacing-button-x-lg: var(--ds-button-padding-x-lg);
+  --spacing-input: var(--ds-input-height);
+  --spacing-input-x: var(--ds-input-padding-x);
+  --spacing-checkbox: var(--ds-checkbox-size);
+  --spacing-card-inset: var(--ds-card-padding);
+  --spacing-dialog-inset: var(--ds-dialog-padding);
+  --spacing-badge-x: var(--ds-badge-padding-x);
+  --spacing-cell-x: var(--ds-table-cell-padding-x);
+  --spacing-cell-y: var(--ds-table-cell-padding-y);
+  --container-dialog: var(--ds-dialog-width);
+
+  /* Radius */
+  --radius-sm: var(--ds-radius-sm);
+  --radius-control: var(--ds-radius-control);
+  --radius-surface: var(--ds-radius-surface);
+  --radius-pill: var(--ds-radius-pill);
+  --radius-button: var(--ds-button-radius);
+  --radius-input: var(--ds-input-radius);
+  --radius-checkbox: var(--ds-checkbox-radius);
+  --radius-card: var(--ds-card-radius);
+  --radius-badge: var(--ds-badge-radius);
+  --radius-dialog: var(--ds-dialog-radius);
+
+  /* Elevation */
+  --shadow-raised: var(--ds-elevation-raised);
+  --shadow-floating: var(--ds-elevation-floating);
+  --shadow-overlay: var(--ds-elevation-overlay);
+  --shadow-card: var(--ds-card-shadow);
+  --shadow-dialog: var(--ds-dialog-shadow);
+
+  /* Typography */
+  --font-sans: var(--ds-font-body);
+  --font-mono: var(--ds-font-code);
+  --text-xs: var(--ds-font-size-xs);
+  --text-sm: var(--ds-font-size-sm);
+  --text-base: var(--ds-font-size-md);
+  --text-lg: var(--ds-font-size-lg);
+  --text-xl: var(--ds-font-size-xl);
+  --text-2xl: var(--ds-font-size-2xl);
+  --text-3xl: var(--ds-font-size-3xl);
+  --text-4xl: var(--ds-font-size-4xl);
+
+  /* Motion */
+  --default-transition-duration: var(--ds-motion-duration-fast);
+  --default-transition-timing-function: var(--ds-motion-easing-standard);
+  --animate-fade-in: fade-in var(--ds-motion-duration-normal) var(--ds-motion-easing-standard);
+  --animate-pop-in: pop-in var(--ds-motion-duration-normal) var(--ds-motion-easing-standard);
+}
+
+@keyframes fade-in {
+  from { opacity: 0; }
+}
+
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.97); }
+}
+
+@layer base {
+  *,
+  ::before,
+  ::after {
+    border-color: var(--color-border);
+  }
+
+  body {
+    background-color: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    line-height: var(--ds-line-height-normal);
+    -webkit-font-smoothing: antialiased;
+  }
+}

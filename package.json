@@ -9,7 +9,7 @@
   "scripts": {
     "dev": "pnpm --filter @waldow-ds/web dev",
     "build": "pnpm -r run build",
-    "lint": "oxlint",
+    "lint": "oxlint && node scripts/check-tokens.mjs",
     "typecheck": "pnpm -r run typecheck",
     "check": "pnpm lint && pnpm build && pnpm typecheck"
   },
