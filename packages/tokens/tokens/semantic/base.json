@@ -1,0 +1,63 @@
+{
+  "radius": {
+    "$type": "dimension",
+    "control": {
+      "$value": "{radius.md}"
+    },
+    "surface": {
+      "$value": "{radius.lg}"
+    },
+    "pill": {
+      "$value": "{radius.full}"
+    }
+  },
+  "font": {
+    "body": {
+      "$type": "fontFamily",
+      "$value": "{font-family.sans}"
+    },
+    "code": {
+      "$type": "fontFamily",
+      "$value": "{font-family.mono}"
+    }
+  },
+  "elevation": {
+    "$type": "shadow",
+    "raised": {
+      "$value": "{shadow.sm}"
+    },
+    "floating": {
+      "$value": "{shadow.md}"
+    },
+    "overlay": {
+      "$value": "{shadow.lg}"
+    }
+  },
+  "focus-ring": {
+    "width": {
+      "$type": "dimension",
+      "$value": "{border-width.thick}"
+    },
+    "offset": {
+      "$type": "dimension",
+      "$value": "{border-width.thick}"
+    }
+  },
+  "motion": {
+    "duration": {
+      "$type": "duration",
+      "fast": {
+        "$value": "{duration.fast}"
+      },
+      "normal": {
+        "$value": "{duration.normal}"
+      }
+    },
+    "easing": {
+      "$type": "cubicBezier",
+      "standard": {
+        "$value": "{easing.standard}"
+      }
+    }
+  }
+}
