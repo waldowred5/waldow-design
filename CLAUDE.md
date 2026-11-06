@@ -1,6 +1,8 @@
-# waldow-ds
+# waldow.design
 
 A small but real design system: tokens → components → Storybook, with Chromatic and CI gates. Read `README.md` for the map; this file is the contract for generating UI and working in the repo.
+
+**Naming:** the public name is **waldow.design**. Use it in UI copy, docs, titles and anything user-facing. `waldow-ds` is only an identifier: the repo slug and the `@waldow-ds/*` package scope.
 
 ## The UI contract
 

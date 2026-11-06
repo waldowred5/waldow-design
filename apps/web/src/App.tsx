@@ -66,7 +66,7 @@ function App() {
         <Stack direction="horizontal" justify="between" align="center" asChild>
           <header>
             <Stack gap={1}>
-              <h1 className="text-3xl font-bold">waldow-ds</h1>
+              <h1 className="text-3xl font-bold">waldow.design</h1>
               <p className="text-muted-foreground">Phase 1 components, built on tokens.</p>
             </Stack>
             <Button variant="outline" onClick={toggleTheme}>

@@ -1,6 +1,6 @@
 # @waldow-ds/tokens
 
-Design tokens for waldow-ds, written in the [W3C Design Tokens (DTCG)](https://www.designtokens.org/tr/drafts/format/) format and built with [Style Dictionary](https://styledictionary.com/) into CSS variables, a typed JS module and nested JSON.
+Design tokens for waldow.design, written in the [W3C Design Tokens (DTCG)](https://www.designtokens.org/tr/drafts/format/) format and built with [Style Dictionary](https://styledictionary.com/) into CSS variables, a typed JS module and nested JSON.
 
 ```bash
 pnpm --filter @waldow-ds/tokens build   # also runs on install (prepare)

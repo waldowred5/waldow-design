@@ -1,5 +1,5 @@
 /*
- * waldow-ds stylesheet. Import once in your app:
+ * waldow.design stylesheet. Import once in your app:
  *   @import "@waldow-ds/ui/styles.css";
  *
  * The Tailwind theme below only references --ds-* token variables. Tailwind's
