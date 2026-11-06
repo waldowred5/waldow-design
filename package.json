@@ -15,7 +15,8 @@
     "storybook": "pnpm --filter @waldow-ds/ui storybook",
     "test": "pnpm -r run test",
     "size": "size-limit",
-    "changeset": "changeset"
+    "changeset": "changeset",
+    "explore": "node scripts/new-exploration.mjs"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",

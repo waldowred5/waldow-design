@@ -10,6 +10,7 @@ A small but real design system: three-tier design tokens, accessible React compo
 | `packages/ui` | `@waldow-ds/ui` | React components (shadcn/ui foundation, see [ADR 001](docs/adr/001-shadcn-ui-component-foundation.md)) |
 | `packages/catalog` | `@waldow-ds/catalog` | Machine-readable component catalog (Phase 2) |
 | `apps/web` | `@waldow-ds/web` | The design system app |
+| `explorations` | `@waldow-ds/explorations` | Throwaway prototype stories, published by Chromatic ([README](explorations/README.md)) |
 
 ## Getting started
 
@@ -43,6 +44,10 @@ Packages are versioned with [changesets](https://github.com/changesets/changeset
 3. Merging that PR creates git tags and GitHub releases (for example `@waldow-ds/ui@0.1.0`).
 
 To publish to npm later: drop `"private": true` from the packages, set `access` in `.changeset/config.json`, add an `NPM_TOKEN` secret, and change the Release workflow's `publish` command to `pnpm changeset publish`.
+
+## Working with Claude
+
+`CLAUDE.md` is the contract for generated UI: design system components and semantic tokens only, the design principles, and accessible by default. `pnpm explore "<idea>"` scaffolds variant stories in `explorations/`.
 
 ## Decisions
 
