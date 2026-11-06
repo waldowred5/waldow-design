@@ -7,6 +7,15 @@ settings:
 importers:
 
   .:
+    devDependencies:
+      oxlint:
+        specifier: ^1.91.0
+        version: 1.91.0
+      typescript:
+        specifier: ~7.0.2
+        version: 7.0.2
+
+  apps/web:
     dependencies:
       react:
         specifier: ^19.3.1
@@ -27,15 +36,15 @@ importers:
       '@vitejs/plugin-react':
         specifier: ^6.1.2
         version: 6.2.1(vite@8.3.6(@types/node@24.19.2))
-      oxlint:
-        specifier: ^1.90.0
-        version: 1.91.0
-      typescript:
-        specifier: ~7.0.2
-        version: 7.0.2
       vite:
         specifier: ^8.3.6
         version: 8.3.6(@types/node@24.19.2)
+
+  packages/catalog: {}
+
+  packages/tokens: {}
+
+  packages/ui: {}
 
 packages:
 

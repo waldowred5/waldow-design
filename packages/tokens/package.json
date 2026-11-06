@@ -1,0 +1,13 @@
+{
+  "name": "@waldow-ds/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Design tokens for waldow-ds, built into CSS variables.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  }
+}

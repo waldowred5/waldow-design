@@ -1,0 +1,13 @@
+{
+  "name": "@waldow-ds/catalog",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Machine-readable catalog of waldow-ds components (A2UI, Phase 2).",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  }
+}
