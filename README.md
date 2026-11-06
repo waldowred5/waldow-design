@@ -18,8 +18,19 @@ Requires Node 22+ (see `.nvmrc`) and pnpm (pinned via `packageManager`, so `core
 ```bash
 pnpm install
 pnpm dev        # run the app
+pnpm storybook  # component workbench on :6006
 pnpm check      # lint, typecheck and build everything
 ```
+
+## Quality gates
+
+| Gate | Where | Blocks on |
+| --- | --- | --- |
+| Lint, tokens-only check, typecheck, build | `ci.yml` | Any failure |
+| Token contrast | token build | A key text/background pair below WCAG AA |
+| Visual regression | `chromatic.yml` (Chromatic "UI Tests" status) | Unreviewed visual changes |
+
+Storybook is published to Chromatic on every PR and on every merge to `main`. The workflow needs a `CHROMATIC_PROJECT_TOKEN` repo secret.
 
 ## Decisions
 

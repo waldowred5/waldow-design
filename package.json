@@ -11,7 +11,8 @@
     "build": "pnpm -r run build",
     "lint": "oxlint && node scripts/check-tokens.mjs",
     "typecheck": "pnpm -r run typecheck",
-    "check": "pnpm lint && pnpm build && pnpm typecheck"
+    "check": "pnpm lint && pnpm build && pnpm typecheck",
+    "storybook": "pnpm --filter @waldow-ds/ui storybook"
   },
   "devDependencies": {
     "oxlint": "^1.91.0",

@@ -1,6 +1,8 @@
 packages:
   - apps/*
   - packages/*
+allowBuilds:
+  esbuild: true
 minimumReleaseAgeExclude:
   - lucide-react@1.70.0
   - tailwindcss@4.3.5

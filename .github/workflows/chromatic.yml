@@ -1,0 +1,42 @@
+name: Chromatic
+
+# Publishes Storybook to Chromatic and runs visual regression on every PR.
+# Chromatic reports a "UI Tests" status; require it on main so unreviewed
+# visual changes can't merge. Pushes to main auto-accept and become the baseline,
+# and each published build is the hosted Storybook.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+concurrency:
+  group: chromatic-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  chromatic:
+    name: Visual tests
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v7
+        with:
+          # TurboSnap needs history to work out which stories changed.
+          fetch-depth: 0
+      - uses: pnpm/action-setup@v6
+      - uses: actions/setup-node@v7
+        with:
+          node-version-file: .nvmrc
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm --filter @waldow-ds/ui build-storybook --stats-json
+      - uses: chromaui/action@latest
+        with:
+          projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
+          workingDir: packages/ui
+          storybookBuildDir: storybook-static
+          storybookBaseDir: packages/ui
+          # TurboSnap: only snapshot stories affected by the change, to stay inside plan limits.
+          onlyChanged: true
+          # Don't fail the job on visual changes; the "UI Tests" status blocks until they're reviewed.
+          exitZeroOnChanges: true
+          autoAcceptChanges: main
