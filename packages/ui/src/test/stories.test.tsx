@@ -8,7 +8,7 @@ import { axeViolations } from './axe'
 
 type StoryModule = Parameters<typeof composeStories>[0]
 type RunnableStory = { run: () => Promise<void> }
-const modules = import.meta.glob<StoryModule>('../components/*.stories.tsx', { eager: true })
+const modules = import.meta.glob<StoryModule>('../**/*.stories.tsx', { eager: true })
 
 for (const [path, mod] of Object.entries(modules)) {
   const name = path.replace(/^.*\/(.*)\.stories\.tsx$/, '$1')

@@ -1,0 +1,16 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+import * as Stories from './visible-labels.stories'
+
+<Meta of={Stories} />
+
+# Labels stay visible
+
+**Rule:** Every form control has a visible label, using `<Field label>`. Placeholder text is never the only label.
+
+**Why:** Placeholders disappear as soon as someone types, have low contrast, and break autofill review. Visible labels help everyone, not only screen reader users.
+
+**How to check:** Every `Input`, `Select` and `Checkbox` sits inside a `Field`. A control with only `aria-label` needs a stated reason, such as a search box with a visible search icon button.
+
+<Canvas of={Stories.DoExample} sourceState="hidden" />
+
+<Canvas of={Stories.DontExample} sourceState="hidden" />

@@ -1,0 +1,16 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+import * as Stories from './keyboard-first.stories'
+
+<Meta of={Stories} />
+
+# Keyboard first
+
+**Rule:** Everything interactive is a real `<button>`, `<a href>` or design system control: reachable with Tab, operable with Enter or Space, with a visible focus ring.
+
+**Why:** Keyboard access is the base that screen readers, switch devices and power users all build on (WCAG 2.1.1, 2.4.7).
+
+**How to check:** Unplug the mouse: Tab through the screen. Every action must be reachable and its focus visible. The story tests run axe on every story in CI.
+
+<Canvas of={Stories.DoExample} sourceState="hidden" />
+
+<Canvas of={Stories.DontExample} sourceState="hidden" />

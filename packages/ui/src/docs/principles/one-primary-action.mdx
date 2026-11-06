@@ -1,0 +1,16 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+import * as Stories from './one-primary-action.stories'
+
+<Meta of={Stories} />
+
+# One primary action per surface
+
+**Rule:** A card, dialog, form or page section has at most one `primary` button. Other actions use `secondary`, `outline` or `ghost`.
+
+**Why:** The primary button answers "what should I do here?" Two answers is no answer.
+
+**How to check:** Count `variant="primary"` buttons (the default) in each surface. More than one is a violation.
+
+<Canvas of={Stories.DoExample} sourceState="hidden" />
+
+<Canvas of={Stories.DontExample} sourceState="hidden" />

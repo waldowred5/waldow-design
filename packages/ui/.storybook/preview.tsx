@@ -18,6 +18,9 @@ const preview: Preview = {
     // Accessibility violations fail story tests (wired into CI in LAB-112).
     a11y: { test: 'error' },
     backgrounds: { disable: true },
+    options: {
+      storySort: { order: ['Introduction', 'Principles', ['Overview', '*'], 'Foundations', 'Components', 'Explorations'] },
+    },
   },
 }
 

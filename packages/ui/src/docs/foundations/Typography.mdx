@@ -1,0 +1,34 @@
+import { Meta, Typeset } from '@storybook/addon-docs/blocks'
+import tokens from '@waldow-ds/tokens/tokens.json'
+
+<Meta title="Foundations/Typography" />
+
+# Typography
+
+One sans family for UI (`--ds-font-body`, Tailwind `font-sans`) and one mono family for code (`--ds-font-code`, `font-mono`). Sizes map to Tailwind's `text-*` utilities.
+
+| Utility | Token | Use for |
+| --- | --- | --- |
+| `text-xs` | `font-size.xs` | Badges, captions |
+| `text-sm` | `font-size.sm` | Controls, table cells, help text (the UI default) |
+| `text-base` | `font-size.md` | Body copy |
+| `text-lg` | `font-size.lg` | Card and dialog titles |
+| `text-xl` – `text-4xl` | `font-size.xl`–`4xl` | Page headings |
+
+## Sans
+
+<Typeset
+  fontFamily="var(--ds-font-body)"
+  fontSizes={Object.values(tokens['font-size'])}
+  fontWeight={400}
+  sampleText="Design systems make the right thing the easy thing."
+/>
+
+## Mono
+
+<Typeset
+  fontFamily="var(--ds-font-code)"
+  fontSizes={[tokens['font-size'].xs, tokens['font-size'].sm, tokens['font-size'].md]}
+  fontWeight={400}
+  sampleText="--ds-color-action-primary-default"
+/>
