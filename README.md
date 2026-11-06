@@ -34,6 +34,16 @@ pnpm check      # lint, typecheck and build everything
 
 Storybook is published to Chromatic on every PR and on every merge to `main`. The workflow needs a `CHROMATIC_PROJECT_TOKEN` repo secret.
 
+## Versioning and releases
+
+Packages are versioned with [changesets](https://github.com/changesets/changesets) and kept **source-only**: they aren't published to npm yet. Apps in this repo install them as `workspace:*`.
+
+1. In a PR that changes a package, run `pnpm changeset` and describe the change (patch, minor or major).
+2. On merge to `main`, the Release workflow opens a **Version Packages** PR that bumps versions and writes each package's `CHANGELOG.md`.
+3. Merging that PR creates git tags and GitHub releases (for example `@waldow-ds/ui@0.1.0`).
+
+To publish to npm later: drop `"private": true` from the packages, set `access` in `.changeset/config.json`, add an `NPM_TOKEN` secret, and change the Release workflow's `publish` command to `pnpm changeset publish`.
+
 ## Decisions
 
 Architecture decisions live in [`docs/adr`](docs/adr).
