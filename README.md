@@ -27,6 +27,8 @@ pnpm check      # lint, typecheck and build everything
 | Gate | Where | Blocks on |
 | --- | --- | --- |
 | Lint, tokens-only check, typecheck, build | `ci.yml` | Any failure |
+| Unit tests and axe on every story | `ci.yml` (`pnpm test`) | A failing test or any axe violation |
+| Bundle-size budget | `ci.yml` (`pnpm size`, `.size-limit.json`) | A bundle over its limit |
 | Token contrast | token build | A key text/background pair below WCAG AA |
 | Visual regression | `chromatic.yml` (Chromatic "UI Tests" status) | Unreviewed visual changes |
 
