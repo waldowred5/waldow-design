@@ -2,6 +2,23 @@ import { cva, type VariantProps } from 'class-variance-authority'
 import { Slot } from 'radix-ui'
 import type { ComponentProps } from 'react'
 import { cn } from '../lib/cn'
+import { variantOptions } from '../lib/variant-options'
+
+const variants = {
+  variant: {
+    primary: 'bg-primary text-primary-foreground hover:bg-primary-hover',
+    secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary-hover',
+    outline: 'border border-border-strong bg-transparent text-foreground hover:bg-background-subtle',
+    ghost: 'bg-transparent text-foreground hover:bg-background-muted',
+    danger: 'bg-danger text-danger-foreground hover:bg-danger-hover',
+  },
+  size: {
+    sm: 'h-control-sm px-control-x-sm text-sm',
+    md: 'h-control-md px-control-x-md text-sm',
+    lg: 'h-control-lg px-control-x-lg text-base',
+    icon: 'size-control-md',
+  },
+}
 
 export const buttonVariants = cva(
   [
@@ -10,25 +27,10 @@ export const buttonVariants = cva(
     'disabled:pointer-events-none disabled:opacity-50',
     '[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
   ],
-  {
-    variants: {
-      variant: {
-        primary: 'bg-primary text-primary-foreground hover:bg-primary-hover',
-        secondary: 'bg-secondary text-secondary-foreground hover:bg-secondary-hover',
-        outline: 'border border-border-strong bg-transparent text-foreground hover:bg-background-subtle',
-        ghost: 'bg-transparent text-foreground hover:bg-background-muted',
-        danger: 'bg-danger text-danger-foreground hover:bg-danger-hover',
-      },
-      size: {
-        sm: 'h-control-sm px-control-x-sm text-sm',
-        md: 'h-control-md px-control-x-md text-sm',
-        lg: 'h-control-lg px-control-x-lg text-base',
-        icon: 'size-control-md',
-      },
-    },
-    defaultVariants: { variant: 'primary', size: 'md' },
-  },
+  { variants, defaultVariants: { variant: 'primary', size: 'md' } },
 )
+
+export const buttonVariantOptions = variantOptions(variants)
 
 export type ButtonProps = ComponentProps<'button'> &
   VariantProps<typeof buttonVariants> & {

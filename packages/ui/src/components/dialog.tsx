@@ -87,7 +87,6 @@ export function DialogHeader({ className, ...props }: ComponentProps<'div'>) {
   return <div data-slot="dialog-header" className={cn('flex flex-col gap-1.5 pr-6', className)} {...props} />
 }
 
-/** The dialog's actions, at the trailing edge with the primary action last (see `ActionBar`). */
 export function DialogFooter({ className, ...props }: ComponentProps<'div'>) {
   return <div data-slot="dialog-footer" className={cn(actionBarClasses, className)} {...props} />
 }

@@ -23,9 +23,9 @@ A brand is a handful of knobs in `src/brand/<name>.json`. Every other token deri
 | Radius | `theme.radius` | `radius.surface` (×1), `radius.control` (×0.75), `radius.inner` (×0.5) |
 | Font | `theme.font.body`, `theme.font.display`, `theme.font.mono` | `font.body`, `font.display`, `font.code` |
 
-Each seed colour becomes an 11-step scale in `palette.ts`. Steps are placed by OKLCH lightness, so a step has about the same contrast whatever the hue: 600 carries white text and 400 carries near-black text. The build and the web app's Theme knobs playground (`apps/web`, `#/theme-knobs`) use the same generator.
+Each seed colour becomes an 11-step scale in `palette.ts`. Steps are placed by OKLCH lightness, so a step has about the same contrast whatever the hue: 600 carries white text and 400 carries near-black text. The seed only sets hue and chroma, so an achromatic seed gives a neutral grey scale.
 
-Brand and mode are separate: any brand works in light or dark mode. Every block in `tokens.css` is also declared on `[data-brand]`, so overriding a knob on any element re-derives the tokens for that subtree. The Theme knobs page in the web app lets you try it live; Storybook's *Foundations / Theme knobs* explains the knobs with fixed examples.
+Brand and mode are separate: any brand works in light or dark mode. The knob defaults and primitives are declared once on `:root`; every derived token is also declared on `[data-brand]`, so a `[data-brand]` element re-derives its subtree from the knobs it inherits. Overriding a knob there themes that subtree, and a nested `[data-brand]` keeps the outer overrides. The web app's Theme knobs page (`apps/web`, `#/theme-knobs`) lets you try it live; Storybook's *Foundations / Theme knobs* shows fixed examples.
 
 ## Two tiers
 
@@ -55,18 +55,6 @@ Token paths are dot-separated, lowercase, kebab-case within a segment. CSS varia
 | Semantic other | `<concept>.<intent>` | `radius.control`, `elevation.overlay`, `motion.duration.fast` |
 | Semantic size / space | `size.<shape>[.<size>]`, `space.<shape>-<axis>[.<size>]`, `space.<shape>-inset` | `size.control.md`, `space.control-x.sm`, `space.surface-inset` |
 
-Sizes and insets use the same shape names as the radii, so a shape's tokens sit together:
-
-| Shape | Radius | Size | Space | Used by |
-| --- | --- | --- | --- | --- |
-| `control` | `radius.control` | `size.control.{sm,md,lg}` | `space.control-x.{sm,md,lg}` | Buttons, inputs, selects (inputs and selects use height md, padding sm) |
-| `control-inner` / `inner` | `radius.inner` | `size.control-inner` | | Checkboxes |
-| `pill` | `radius.pill` | | `space.pill-x` | Badges |
-| `surface` | `radius.surface` | `size.dialog` (max width) | `space.surface-inset` | Cards, dialogs |
-| `cell` | | | `space.cell-x`, `space.cell-y` | Table cells |
-
-In Tailwind these are `h-control-md`, `px-control-x-md`, `size-control-inner`, `px-pill-x`, `p-surface-inset`, `px-cell-x`, `py-cell-y` and `max-w-dialog` (see `packages/ui/src/styles.css`).
-
 Semantic colour roles:
 
 - `background`: page-level fills (`default`, `subtle`, `muted`, `inverse`)
@@ -76,19 +64,34 @@ Semantic colour roles:
 - `action`: `primary`, `secondary`, `danger`, each with `default`, `hover`, `text`
 - `status`: `success`, `warning`, `danger`, `info`, each with `background`, `text`, `border`
 
+## Shapes
+
+Sizes and insets are named for the shape they serve, using the same names as the radii, so a shape's tokens sit together. This is the one reference for which tokens and utilities each component uses. A Tailwind utility (`packages/ui/src/styles.css`) is the token path without its first segment.
+
+| Shape | Tokens | Tailwind | Used by |
+| --- | --- | --- | --- |
+| `control` | `radius.control`, `size.control.{sm,md,lg}`, `space.control-x.{sm,md,lg}` | `rounded-control`, `h-control-{sm,md,lg}`, `px-control-x-{sm,md,lg}` | Buttons use the height and padding that match their size (icon buttons: `size-control-md`). Inputs and selects use `h-control-md` and `px-control-x-sm` |
+| `control-inner` / `inner` | `radius.inner`, `size.control-inner` | `rounded-inner`, `size-control-inner` | Checkboxes |
+| `pill` | `radius.pill`, `space.pill-x` | `rounded-pill`, `px-pill-x` | Badges |
+| `surface` | `radius.surface`, `space.surface-inset`, `size.dialog` (max width) | `rounded-surface`, `p-surface-inset`, `max-w-dialog` | Cards, dialogs |
+| `cell` | `space.cell-x`, `space.cell-y` | `px-cell-x`, `py-cell-y` | Table cells |
+
+The build also writes these names to `dist/utilities.js` (`@waldow-design/tokens/utilities`), which `cn()` in `packages/ui` hands to tailwind-merge.
+
 ## Themes
 
 `tokens.css` declares:
 
-- `:root, [data-brand]`: knobs, primitives, mode-independent semantics and the light mode
-- `[data-theme="dark"]` (and `[data-brand]` inside it): dark overrides
+- `:root`: the knob defaults and primitives (every literal value)
+- `:root, [data-brand]`: every derived token: mode-independent semantics and the light mode
+- `[data-theme="dark"]` (and `[data-brand]` inside it): dark overrides. `light.json` and `dark.json` must declare the same tokens; the build fails otherwise
 - `@media (prefers-color-scheme: dark) :root:not([data-theme="light"])`: the same overrides, so the OS preference applies unless a theme is forced
 
 Set `data-theme="light"` or `data-theme="dark"` on `<html>` to force a theme.
 
 ## Why OKLCH (and where hex remains)
 
-`tokens.css`, and so everything the site renders, writes colours as `oklch()`, to six significant figures (far below a visible difference, without float noise).
+`tokens.css`, and so everything the site renders, writes colours as `oklch()`, to six significant figures (far below a visible difference, without float noise). The generated scales stay in OKLCH from `palette.ts` to the CSS, so every step lands exactly on its lightness (step 50 is `97%`, step 800 is `40%`); only the JS and JSON output is converted to hex.
 
 - **Perceptually uniform lightness.** OKLCH's L tracks how light a colour looks, whatever its hue. A palette step therefore has consistent contrast across hues: 600 carries white text whether the seed is violet, green or orange. That is what makes the colour knobs and the generated scales safe: a brand can pick any seed and the contrast gate still holds.
 - **Modern CSS colour.** `oklch()` is supported in every current browser, can describe colours outside sRGB, and interpolates predictably.

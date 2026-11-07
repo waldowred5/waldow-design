@@ -3,7 +3,7 @@ import { Button } from '../../components/button'
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '../../components/card'
 import { Do, Dont } from '../do-dont'
 
-const meta = { title: 'Principles/Destructive actions explain themselves', tags: ['!autodocs'] } satisfies Meta
+const meta = { title: 'Principles/Destructive actions explain themselves', parameters: { summary: 'Name the object and the action; confirm in a `Dialog`' }, tags: ['!autodocs'] } satisfies Meta
 
 export default meta
 type Story = StoryObj<typeof meta>

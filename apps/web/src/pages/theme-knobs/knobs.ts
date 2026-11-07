@@ -1,54 +1,13 @@
 /**
- * The theme knobs as plain data: defaults, their CSS variables, and how they are saved.
+ * How the theme knobs are saved. The knobs themselves (defaults, fonts, their CSS variables)
+ * are in @waldow-design/tokens/knobs, shared with Storybook.
  *
  * State lives in the hash query (`#/theme-knobs?primary=4c46dc&radius=0.75&font=serif`) so a
  * look can be shared as a link, and in localStorage so coming back to the page without a query
  * restores the last look. The URL wins when both exist.
  */
-import * as t from '@waldow-design/tokens'
-import { scale, steps, toOklch } from '@waldow-design/tokens/palette'
-import type { CSSProperties } from 'react'
-
-export type Role = 'primary' | 'secondary' | 'highlight'
-export const roles: Role[] = ['primary', 'secondary', 'highlight']
-
-export const fonts = {
-  Sans: t.FontFamilySans.join(', '),
-  Serif: '"Iowan Old Style", "Palatino Linotype", Georgia, ui-serif, serif',
-  Mono: t.FontFamilyMono.join(', '),
-} as const
-export type Font = keyof typeof fonts
-
-export const radiusRange = { min: 0, max: 1.5, step: 0.125 } as const
-
-export type Knobs = { seeds: Record<Role, string>; radius: number; font: Font }
-
-/** The waldow.design brand's own seeds. */
-export const brandSeeds: Record<Role, string> = {
-  primary: t.ThemeColorPrimary,
-  secondary: t.ThemeColorSecondary,
-  highlight: t.ThemeColorHighlight,
-}
-/** Start with one colour for all three, so changing each one shows exactly what it drives. */
-export const sameSeeds: Record<Role, string> = {
-  primary: t.ThemeColorPrimary,
-  secondary: t.ThemeColorPrimary,
-  highlight: t.ThemeColorPrimary,
-}
-
-export const defaultKnobs: Knobs = { seeds: sameSeeds, radius: Number.parseFloat(t.ThemeRadius), font: 'Sans' }
-
-/** The CSS variables that override the knobs for a `data-brand` subtree. */
-export function knobStyle({ seeds, radius, font }: Knobs): CSSProperties {
-  const vars: Record<string, string> = { '--ds-theme-radius': `${radius}rem` }
-  for (const role of roles) {
-    const generated = scale(seeds[role])
-    for (const step of steps) vars[`--ds-color-${role}-${step}`] = toOklch(generated[step])
-  }
-  vars['--ds-theme-font-body'] = fonts[font]
-  vars['--ds-theme-font-display'] = fonts[font]
-  return vars as CSSProperties
-}
+import { defaultKnobs, type Font, fonts, type Knobs, radiusRange } from '@waldow-design/tokens/knobs'
+import { roles } from '@waldow-design/tokens/palette'
 
 // Serialisation. Colours drop the leading hash and fonts are lower case, so links stay readable.
 
@@ -62,9 +21,12 @@ export function toParams({ seeds, radius, font }: Knobs): URLSearchParams {
   return params
 }
 
-/** Read whatever valid knobs the params carry; returns undefined when they carry none. */
-export function fromParams(params: URLSearchParams): Knobs | undefined {
-  const knobs: Knobs = { ...defaultKnobs, seeds: { ...defaultKnobs.seeds } }
+/**
+ * Read whatever valid knobs the params carry, on top of `base` (so a link that sets only the font
+ * keeps the other knobs); returns undefined when they carry none.
+ */
+export function fromParams(params: URLSearchParams, base: Knobs = defaultKnobs): Knobs | undefined {
+  const knobs: Knobs = { ...base, seeds: { ...base.seeds } }
   let found = false
   for (const role of roles) {
     const value = params.get(role)

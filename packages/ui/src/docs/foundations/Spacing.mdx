@@ -1,4 +1,5 @@
 import { Meta } from '@storybook/addon-docs/blocks'
+import tokens from '@waldow-design/tokens/tokens.json'
 import { Scale } from './token-docs'
 
 <Meta title="Foundations/Space, radius and elevation" />
@@ -7,15 +8,15 @@ import { Scale } from './token-docs'
 
 ## Space
 
-Tailwind's numeric spacing utilities run on this scale: `--spacing` is `--ds-space-1` (0.25rem), so `gap-4` is `space.4`. Use `Stack` gaps for layout. Arbitrary values (`p-[13px]`) are rejected by `pnpm lint`. {/* tokens-ok: names the rejected pattern */}
+Tailwind's numeric spacing utilities run on this scale: `--spacing` is `--ds-space-1` ({tokens.space['1']}), so `gap-4` is `space.4`. Use `Stack` gaps for layout. Arbitrary values in any utility (`p-[13px]`, `mt-[13px]`) are rejected by `pnpm lint`. {/* tokens-ok: names the rejected pattern */}
 
 <Scale group="space" />
 
-Component sizes are semantic tokens named for the shape they serve, the same names as the radii: `h-control-md` and `px-control-x-md` (buttons, inputs), `size-control-inner` (checkboxes), `px-pill-x` (badges), `p-surface-inset` (cards, dialogs), `px-cell-x` and `py-cell-y` (table cells), `max-w-dialog`. There are no per-component tokens ([ADR 003](https://github.com/waldowred5/waldow-design/blob/main/docs/adr/003-two-token-tiers.md)).
+Component sizes and insets are semantic tokens named for the shape they serve, the same names as the radii: `control`, `control-inner`, `pill`, `surface` and `cell`. Buttons use the control height and padding that match their size (`h-control-sm` with `px-control-x-sm`, and so on); inputs and selects use `h-control-md` with `px-control-x-sm`. Which utility each component uses is in the [shapes table](https://github.com/waldowred5/waldow-design/blob/main/packages/tokens/README.md#shapes). There are no per-component tokens ([ADR 003](https://github.com/waldowred5/waldow-design/blob/main/docs/adr/003-two-token-tiers.md)).
 
 ## Radius
 
-Components use semantic radii, all derived from the one `theme.radius` knob (see Theme knobs): `rounded-surface` (cards, dialogs), `rounded-control` (inputs, buttons), `rounded-inner` (checkboxes, menu items, the dialog close button) and `rounded-pill` (badges).
+Components use semantic radii, all derived from the one `theme.radius` knob (see Theme knobs): `rounded-surface` (cards, dialogs), `rounded-control` (inputs, buttons), `rounded-inner` (checkboxes, menu items, the dialog close button) and `rounded-pill` (badges). The table gives each token's utility.
 
 <Scale group="radius" />
 

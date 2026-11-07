@@ -3,7 +3,7 @@ import { Button } from '../../components/button'
 import { Stack } from '../../components/stack'
 import { Do, Dont } from '../do-dont'
 
-const meta = { title: 'Principles/Keyboard first', tags: ['!autodocs'] } satisfies Meta
+const meta = { title: 'Principles/Keyboard first', parameters: { summary: 'Real buttons and links, reachable and visibly focused' }, tags: ['!autodocs'] } satisfies Meta
 
 export default meta
 type Story = StoryObj<typeof meta>

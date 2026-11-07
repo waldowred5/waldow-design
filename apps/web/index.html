@@ -5,18 +5,6 @@
     <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>waldow.design</title>
-    <script>
-      // Set the mode before first paint so there is no flash of the wrong colours.
-      // Stored choice first, else the system preference. Keep the key in sync with src/theme-mode.ts.
-      ;(function () {
-        var mode
-        try {
-          mode = localStorage.getItem('waldow-design:mode')
-        } catch (e) {}
-        if (mode !== 'light' && mode !== 'dark') mode = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light'
-        document.documentElement.setAttribute('data-theme', mode)
-      })()
-    </script>
   </head>
   <body>
     <div id="root"></div>

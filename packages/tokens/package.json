@@ -11,7 +11,12 @@
     },
     "./tokens.css": "./dist/tokens.css",
     "./tokens.json": "./dist/tokens.json",
-    "./palette": "./palette.ts"
+    "./utilities": {
+      "types": "./dist/utilities.d.ts",
+      "default": "./dist/utilities.js"
+    },
+    "./palette": "./palette.ts",
+    "./knobs": "./knobs.ts"
   },
   "scripts": {
     "build": "node build.ts",
@@ -26,7 +31,8 @@
   "files": [
     "dist",
     "src",
-    "palette.ts"
+    "palette.ts",
+    "knobs.ts"
   ],
   "dependencies": {
     "culori": "^4.0.2"

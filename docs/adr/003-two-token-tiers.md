@@ -21,23 +21,13 @@ Our brands don't. [ADR 002](./002-demo-domains.md) routes all theming through a 
 Two tiers: **primitive** and **semantic**. Components use semantic tokens directly.
 
 - Colour, radius and shadow aliases are gone. Components use the semantic utilities: `bg-surface`, `rounded-surface`, `shadow-raised` for cards; `bg-surface-raised`, `shadow-overlay` for dialogs; `rounded-control`, `border-border-strong` for inputs.
-- Sizing and spacing decisions become semantic tokens in `src/semantic/base.json`, named for the **shape they serve** rather than the component, using the same names as the radii:
-
-| Token | Utility | Used by |
-| --- | --- | --- |
-| `size.control.{sm,md,lg}` | `h-control-md` | Buttons, inputs, selects |
-| `space.control-x.{sm,md,lg}` | `px-control-x-md` | Buttons, inputs, selects |
-| `size.control-inner` | `size-control-inner` | Checkboxes |
-| `space.pill-x` | `px-pill-x` | Badges |
-| `space.surface-inset` | `p-surface-inset` | Cards, dialogs |
-| `space.cell-x`, `space.cell-y` | `px-cell-x`, `py-cell-y` | Table cells |
-| `size.dialog` | `max-w-dialog` | Dialogs |
+- Sizing and spacing decisions become semantic tokens in `src/semantic/base.json`, named for the **shape they serve** rather than the component, using the same names as the radii: `control` (buttons, inputs, selects), `control-inner` (checkboxes), `pill` (badges), `surface` (cards, dialogs) and `cell` (table cells). For example `size.control.md` (`h-control-md`) and `space.surface-inset` (`p-surface-inset`). A shape can offer several sizes: buttons take the control height and padding that match their size, while inputs and selects pair `size.control.md` with `space.control-x.sm`. The full shape → token → utility mapping lives in the [tokens README](../../packages/tokens/README.md#shapes).
 
 Visual output is unchanged: every new token resolves to the value the component token held.
 
 ## Consequences
 
-- One name per value. A new component reuses a shape (`control`, `surface`, `pill`) rather than minting tokens.
+- One name per purpose. Two shapes can resolve to the same step (`space.cell-x` and `space.control-x.sm` are both `space.3`) and still keep separate names, because they change for different reasons. A new component reuses a shape (`control`, `surface`, `pill`) rather than minting tokens.
 - Inputs and md buttons now share `size.control.md` by construction, not by coincidence.
 - A brand can no longer override one component in isolation through tokens. That is intended: it would have to go through a knob or a semantic token, which keeps brands coherent.
 

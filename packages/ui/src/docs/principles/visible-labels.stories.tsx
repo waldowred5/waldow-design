@@ -4,7 +4,7 @@ import { Input } from '../../components/input'
 import { Stack } from '../../components/stack'
 import { Do, Dont } from '../do-dont'
 
-const meta = { title: 'Principles/Labels stay visible', tags: ['!autodocs'] } satisfies Meta
+const meta = { title: 'Principles/Labels stay visible', parameters: { summary: 'Every control has a visible `Field` label, not a placeholder' }, tags: ['!autodocs'] } satisfies Meta
 
 export default meta
 type Story = StoryObj<typeof meta>

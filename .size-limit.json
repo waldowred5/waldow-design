@@ -1,6 +1,6 @@
 [
   {
-    "name": "@waldow-design/ui: all components",
+    "name": "ui: all components",
     "path": "packages/ui/src/index.ts",
     "import": "*",
     "ignore": [
@@ -10,7 +10,7 @@
     "limit": "45 kB"
   },
   {
-    "name": "@waldow-design/ui: Button only (tree-shaking)",
+    "name": "ui: Button only (tree-shaking)",
     "path": "packages/ui/src/index.ts",
     "import": "{ Button }",
     "ignore": [
@@ -20,15 +20,21 @@
     "limit": "11 kB"
   },
   {
-    "name": "@waldow-design/tokens: tokens.css",
+    "name": "tokens: tokens.css",
     "path": "packages/tokens/dist/tokens.css",
     "limit": "3.5 kB",
     "rolldown": false
   },
   {
-    "name": "apps/web: JS",
-    "path": "apps/web/dist/assets/*.js",
+    "name": "apps/web: entry JS",
+    "path": "apps/web/dist/assets/index-*.js",
     "limit": "110 kB",
+    "rolldown": false
+  },
+  {
+    "name": "apps/web: theme knobs chunk (lazy)",
+    "path": "apps/web/dist/assets/theme-knobs-page-*.js",
+    "limit": "10 kB",
     "rolldown": false
   },
   {
