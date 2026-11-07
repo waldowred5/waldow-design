@@ -1,19 +1,20 @@
 /**
- * Builds the three token tiers into CSS variables and a typed JS module.
+ * Builds the two token tiers (primitive, semantic) into CSS variables and a typed JS module.
+ * There is no component tier: components use semantic tokens directly (see docs/adr/003).
  *
  *   src/brand         the theme knobs: seed colours (primary, secondary, highlight), neutral scale,
  *                     radius, font. Each seed becomes an 11-step scale via palette.ts.
  *   src/primitive     raw values (status hues, scales)
- *   src/semantic      intent (base.json is mode-independent; light.json and dark.json are modes)
- *   src/component     per-component decisions, referencing semantic tokens
+ *   src/semantic      intent (base.json is mode-independent: radius, control sizes, insets,
+ *                     fonts, motion; light.json and dark.json are modes)
  *
  * Output (dist/):
- *   tokens.css   :root (knobs + primitives + light + components), then dark overrides for
+ *   tokens.css   :root (knobs + primitives + semantic + light), then dark overrides for
  *                [data-theme="dark"] and prefers-color-scheme: dark. Every block is also
  *                declared on [data-brand], so overriding a knob on any element re-derives
  *                the tokens for that subtree.
- *   tokens.js    flat light-theme values for JS consumers, with tokens.d.ts
- *   tokens.json  nested light-theme values, for docs and tooling
+ *   tokens.js    flat light-theme values for JS consumers, with tokens.d.ts (colours as hex)
+ *   tokens.json  nested light-theme values, for docs and tooling (colours as hex)
  *
  * The build fails if a text/background pair in either theme drops below WCAG AA.
  */
@@ -24,8 +25,9 @@ import type { TransformedToken } from 'style-dictionary/types'
 import { wcagContrast } from 'culori'
 import { scale, toOklch } from './palette.ts'
 
-// CSS gets colours as oklch(), including the colours inside shadows. JS output keeps hex,
-// because tools that read it (Storybook's theming, for one) can't parse oklch().
+// CSS gets colours as oklch(), including the colours inside shadows: everything the site
+// renders is OKLCH. JS/JSON output keeps hex only for compatibility, because tools that read
+// it (Storybook's manager theming, for one) can't parse oklch(). See README "Why OKLCH".
 type ShadowLayer = { color: string } & Record<string, string>
 StyleDictionary.registerTransform({
   name: 'color/oklch',
@@ -50,7 +52,7 @@ const cssTransforms = StyleDictionary.hooks.transformGroups.css!.flatMap((name) 
 const PREFIX = 'ds'
 const DIST = 'dist/'
 const BRAND = 'src/brand/waldow.json'
-const shared = [BRAND, 'src/primitive/**/*.json', 'src/semantic/base.json', 'src/component/**/*.json']
+const shared = [BRAND, 'src/primitive/**/*.json', 'src/semantic/base.json']
 
 // The brand's seed colours become color.primary.*, color.secondary.* and color.highlight.*.
 const seeds = JSON.parse(readFileSync(BRAND, 'utf8')).theme.color as Record<string, { $value: string }>
@@ -86,8 +88,8 @@ const light = new StyleDictionary({
   },
 })
 
-// Dark only re-declares the semantic colour tokens. Component tokens reference
-// semantic variables, so they follow the theme without being re-emitted.
+// Dark only re-declares the semantic colour and elevation tokens. Everything else is
+// mode-independent, or references these variables, so it follows the theme without being re-emitted.
 const isDark = (token: TransformedToken) => token.filePath?.endsWith('semantic/dark.json') ?? false
 
 const dark = new StyleDictionary({

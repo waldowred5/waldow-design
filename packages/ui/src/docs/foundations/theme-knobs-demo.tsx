@@ -58,7 +58,7 @@ export function ThemeKnobsDemo() {
           <h3 className="font-display text-lg font-semibold">Knobs</h3>
           {roles.map((role) => (
             <Field key={role} label={`${role[0]!.toUpperCase()}${role.slice(1)} colour`} id={`knob-${role}`} description={seeds[role]}>
-              <Input type="color" value={seeds[role]} onChange={(e) => setSeeds({ ...seeds, [role]: e.target.value })} className="h-input w-full p-1" />
+              <Input type="color" value={seeds[role]} onChange={(e) => setSeeds({ ...seeds, [role]: e.target.value })} className="h-control-md w-full p-1" />
             </Field>
           ))}
           <Field label="Radius" id="knob-radius" description={`${radius}rem`}>

@@ -11,6 +11,8 @@ Tailwind's numeric spacing utilities run on this scale: `--spacing` is `--ds-spa
 
 <Scale group="space" />
 
+Component sizes are semantic tokens named for the shape they serve, the same names as the radii: `h-control-md` and `px-control-x-md` (buttons, inputs), `size-control-inner` (checkboxes), `px-pill-x` (badges), `p-surface-inset` (cards, dialogs), `px-cell-x` and `py-cell-y` (table cells), `max-w-dialog`. There are no per-component tokens ([ADR 003](https://github.com/waldowred5/waldow-design/blob/main/docs/adr/003-two-token-tiers.md)).
+
 ## Radius
 
 Components use semantic radii, all derived from the one `theme.radius` knob (see Theme knobs): `rounded-surface` (cards, dialogs), `rounded-control` (inputs, buttons), `rounded-inner` (checkboxes, menu items, the dialog close button) and `rounded-pill` (badges).
