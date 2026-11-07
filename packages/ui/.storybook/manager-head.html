@@ -1,6 +1,7 @@
 <style>
-  /* Theme switch: cross-fade the Storybook UI with Tailwind's default transition (150ms),
-     only while switching. Mirrors storybook.css; the class is set by theme-transition.ts. */
+  /* Theme switch: cross-fade the Storybook UI with Tailwind's default transition, only while
+     switching. Mirrors storybook.css; the class is set by theme-transition.ts. This frame can't
+     read the preview's CSS variables, so 150ms is a copy of TRANSITION_MS there: keep them in step. */
   .theme-switching,
   .theme-switching *,
   .theme-switching *::before,
