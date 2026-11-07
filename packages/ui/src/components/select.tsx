@@ -82,7 +82,7 @@ export function SelectItem({ className, children, ...props }: ComponentProps<typ
     <SelectPrimitive.Item
       data-slot="select-item"
       className={cn(
-        'relative flex w-full cursor-default select-none items-center rounded-sm py-1.5 pr-8 pl-2 text-sm outline-none',
+        'relative flex w-full cursor-default select-none items-center rounded-inner py-1.5 pr-8 pl-2 text-sm outline-none',
         'data-highlighted:bg-background-muted data-disabled:pointer-events-none data-disabled:opacity-50',
         className,
       )}

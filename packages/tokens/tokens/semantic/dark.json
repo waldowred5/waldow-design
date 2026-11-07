@@ -135,5 +135,17 @@
         }
       }
     }
+  },
+  "elevation": {
+    "$type": "shadow",
+    "raised": {
+      "$value": "{shadow.dark.sm}"
+    },
+    "floating": {
+      "$value": "{shadow.dark.md}"
+    },
+    "overlay": {
+      "$value": "{shadow.dark.lg}"
+    }
   }
 }

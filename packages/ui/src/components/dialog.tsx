@@ -70,7 +70,7 @@ export function DialogContent({ className, children, showCloseButton = true, ...
         {showCloseButton && (
           <DialogPrimitive.Close
             className={cn(
-              'absolute top-4 right-4 rounded-sm p-1 text-muted-foreground transition-colors hover:text-foreground',
+              'absolute top-4 right-4 rounded-inner p-1 text-muted-foreground transition-colors hover:text-foreground',
               'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
             )}
           >

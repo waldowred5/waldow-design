@@ -35,7 +35,7 @@ Brand and mode are separate: any brand works in light or dark mode. Every block 
 Rules:
 
 1. **Primitives are never used directly** outside the token files. They exist to be referenced.
-2. **Semantic tokens carry intent and mode.** Only `light.json` and `dark.json` differ between modes; `base.json` holds mode-independent intent (radius and fonts derived from the knobs, elevation, motion).
+2. **Semantic tokens carry intent and mode.** Only `light.json` and `dark.json` differ between modes; `base.json` holds mode-independent intent (radius and fonts derived from the knobs, motion). Elevation is per mode: dark mode needs stronger shadows, plus a faint light edge, for depth to read on dark surfaces.
 3. **Component tokens reference semantic tokens** (or primitives for pure sizing), never raw values. Because they're emitted as `var()` references, they follow the active theme without being redeclared.
 
 ## Naming convention
@@ -45,7 +45,7 @@ Token paths are dot-separated, lowercase, kebab-case within a segment. CSS varia
 | Tier | Shape | Examples |
 | --- | --- | --- |
 | Primitive colour | `color.<hue>.<step>` | `color.neutral.200`, `color.red.600` |
-| Primitive scale | `<scale>.<step>` | `space.4`, `radius.md`, `font-size.sm`, `size.9` |
+| Primitive scale | `<scale>.<step>` | `space.4`, `font-size.sm`, `size.9` |
 | Semantic colour | `color.<role>.<variant>[.<state>]` | `color.text.muted`, `color.action.primary.hover`, `color.status.danger.background` |
 | Semantic other | `<concept>.<intent>` | `radius.control`, `elevation.overlay`, `motion.duration.fast` |
 | Component | `<component>.<property>[.<variant>]` | `button.height.md`, `input.border`, `dialog.shadow` |
