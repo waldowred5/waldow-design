@@ -9,7 +9,7 @@
  * #808080) gives the same neutral grey scale.
  *
  * Used by the token build (brand seeds → color.primary/secondary/highlight.*) and by the
- * Theme knobs playground in apps/web (and the Storybook examples), so all produce identical scales.
+ * theme knobs (knobs.ts: the web app's Theme knobs page and Storybook's examples), so all produce identical scales.
  */
 import { type Color, clampChroma, converter, formatHex, modeLrgb, modeOklab, modeOklch, modeRgb, type Oklch, useMode as registerMode } from 'culori/fn'
 

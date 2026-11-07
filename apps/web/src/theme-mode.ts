@@ -1,28 +1,31 @@
 /**
  * Light/dark mode for the app: a tiny external store over `data-theme` on <html>.
  *
- * - The inline script in index.html sets `data-theme` before anything paints (stored choice,
- *   else the system preference), so there is no flash of the wrong mode.
+ * - The pre-paint script (pre-paint.ts, inlined into index.html) sets `data-theme` before
+ *   anything paints (stored choice, else the system preference), so there is no flash of the wrong mode.
  * - Switching writes the attribute synchronously in the event handler. Nothing in React needs
  *   to re-render for the colours to change, so a page below (like the theme knobs playground)
  *   is never remounted and its inline knob variables stay put: one style recalc, one frame.
  * - Until the person picks a mode, the app follows the system preference live.
  */
 import { useSyncExternalStore } from 'react'
+import { MODE_STORAGE_KEY, SYSTEM_DARK_QUERY } from './pre-paint'
 
 export type Mode = 'light' | 'dark'
 
-/** Also read by the inline script in index.html; keep the two in sync. */
-export const MODE_STORAGE_KEY = 'waldow-design:mode'
 /** Matches the `.theme-switching` rule in index.css: the fast motion token, plus a margin. */
 const FADE_MS = 150 + 50
 
 const root = document.documentElement
-const systemDark = matchMedia('(prefers-color-scheme: dark)')
+const systemDark = matchMedia(SYSTEM_DARK_QUERY)
 const reducedMotion = matchMedia('(prefers-reduced-motion: reduce)')
 const listeners = new Set<() => void>()
 
+/** The choice made this session; storage can throw (private mode), and this still remembers it. */
+let chosen: Mode | undefined
+
 function readStored(): Mode | undefined {
+  if (chosen) return chosen
   try {
     const value = localStorage.getItem(MODE_STORAGE_KEY)
     return value === 'light' || value === 'dark' ? value : undefined
@@ -56,6 +59,7 @@ function apply(mode: Mode) {
 
 /** Set and remember the person's choice. */
 export function setMode(mode: Mode) {
+  chosen = mode
   try {
     localStorage.setItem(MODE_STORAGE_KEY, mode)
   } catch {

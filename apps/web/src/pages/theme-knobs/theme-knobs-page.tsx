@@ -1,63 +1,61 @@
 /**
  * A live playground for the theme knobs: three seed colours, the radius and the font.
- * Every change re-derives the tokens for the whole playground, controls included, through the
- * same scale generator the token build uses (@waldow-design/tokens/palette).
+ * Every change re-derives the tokens for the whole playground, controls included
+ * (`knobStyle` from @waldow-design/tokens/knobs).
  *
  * The knobs are inline CSS variables on a `data-brand` element and don't depend on the mode,
  * so switching light/dark only flips `data-theme` on <html>: this component doesn't re-render,
  * and the knobs and the new mode resolve in the same style recalculation.
  */
 import { Button, Field, Input, Select, SelectContent, SelectItem, SelectTrigger, SelectValue, Stack } from '@waldow-design/ui'
-import { useEffect, useMemo, useState } from 'react'
-import { hashParams, replaceHashParams, routes } from '../../hash-route'
+import { brandSeeds, defaultKnobs, type Font, fonts, type Knobs, knobStyle, radiusRange, sameSeeds } from '@waldow-design/tokens/knobs'
+import { roles } from '@waldow-design/tokens/palette'
+import { type CSSProperties, useEffect, useMemo, useRef, useState } from 'react'
+import { currentRoute, hashParams, replaceHashParams, routes } from '../../hash-route'
 import { KnobsGallery } from './gallery'
-import {
-  brandSeeds,
-  defaultKnobs,
-  type Font,
-  fonts,
-  fromParams,
-  type Knobs,
-  knobStyle,
-  loadStoredKnobs,
-  radiusRange,
-  roles,
-  sameSeeds,
-  storeKnobs,
-  toParams,
-} from './knobs'
+import { fromParams, loadStoredKnobs, storeKnobs, toParams } from './knobs'
 
 /** Colour pickers fire on every drag step; save once the knob settles. */
 const SAVE_DELAY_MS = 150
 
 function initialKnobs(): Knobs {
-  return fromParams(hashParams()) ?? loadStoredKnobs() ?? defaultKnobs
+  // A link may set only some knobs: the rest come from the last look, not the brand defaults.
+  const stored = loadStoredKnobs() ?? defaultKnobs
+  return fromParams(hashParams(), stored) ?? stored
 }
 
 export default function ThemeKnobsPage() {
   const [knobs, setKnobs] = useState(initialKnobs)
   const { seeds, radius, font } = knobs
-  const style = useMemo(() => knobStyle(knobs), [knobs])
+  const style = useMemo(() => knobStyle(knobs) as CSSProperties, [knobs])
   const query = useMemo(() => toParams(knobs), [knobs])
 
   // Mirror the knobs into the URL (shareable) and localStorage (restores a bare #/theme-knobs).
+  const latest = useRef(knobs)
   useEffect(() => {
+    latest.current = knobs
     const timer = setTimeout(() => {
       replaceHashParams(query)
       storeKnobs(knobs)
     }, SAVE_DELAY_MS)
     return () => clearTimeout(timer)
   }, [knobs, query])
+  // Leaving the page cancels the pending save above, so save the last edit on the way out.
+  useEffect(() => () => storeKnobs(latest.current), [])
 
-  // A pasted link or back/forward changes the hash while the page is open: follow it.
+  // A pasted link or back/forward changes the hash while the page is open: follow it. A bare
+  // `#/theme-knobs` (the nav link) gets the current knobs written back, so the URL stays shareable.
   useEffect(() => {
     const onHashChange = () => {
-      const fromUrl = fromParams(hashParams())
+      if (currentRoute() !== 'theme-knobs') return
+      const params = hashParams()
+      if (!params.toString()) return replaceHashParams(query)
+      const fromUrl = fromParams(params, knobs)
       if (fromUrl && toParams(fromUrl).toString() !== query.toString()) setKnobs(fromUrl)
     }
     addEventListener('hashchange', onHashChange)
     return () => removeEventListener('hashchange', onHashChange)
-  }, [query])
+  }, [knobs, query])
 
   const update = (patch: Partial<Knobs>) => setKnobs((current) => ({ ...current, ...patch }))
 

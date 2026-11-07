@@ -26,9 +26,15 @@
     "rolldown": false
   },
   {
-    "name": "apps/web: JS",
-    "path": "apps/web/dist/assets/*.js",
+    "name": "apps/web: entry JS",
+    "path": "apps/web/dist/assets/index-*.js",
     "limit": "110 kB",
+    "rolldown": false
+  },
+  {
+    "name": "apps/web: theme knobs chunk (lazy)",
+    "path": "apps/web/dist/assets/theme-knobs-page-*.js",
+    "limit": "10 kB",
     "rolldown": false
   },
   {
