@@ -1,6 +1,7 @@
 @import "../src/styles.css";
 
-/* Prototypes live outside this package; let Tailwind see their classes. */
+/* Prototypes live outside this package; let Tailwind see their classes.
+   Same path as the prototypes glob in main.ts and src/test/stories.test.tsx. */
 @source "../../../prototypes";
 
 /* Docs tables: Storybook's dark theme stripes rows in a mid grey that drops links below AA.

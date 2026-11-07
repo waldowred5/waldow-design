@@ -4,8 +4,13 @@
  * snapshots or accessibility scans. The matching CSS is in storybook.css and manager-head.html.
  */
 
-/** Tailwind's default transition duration (`--default-transition-duration`), plus a small margin. */
-const DURATION_MS = 150 + 50
+/**
+ * Tailwind's default transition duration (`--default-transition-duration`). The manager frame
+ * can't see the preview's CSS variables, so manager-head.html hard-codes this value too.
+ */
+export const TRANSITION_MS = 150
+/** How long the class stays on: the transition plus a small margin. */
+const DURATION_MS = TRANSITION_MS + 50
 /** Give up waiting for the theme attribute after this long. */
 const MAX_WAIT_MS = 1000
 

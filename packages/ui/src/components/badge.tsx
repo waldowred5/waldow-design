@@ -1,23 +1,25 @@
 import { cva, type VariantProps } from 'class-variance-authority'
 import type { ComponentProps } from 'react'
 import { cn } from '../lib/cn'
+import { variantOptions } from '../lib/variant-options'
+
+const variants = {
+  variant: {
+    neutral: 'border-border bg-background-muted text-foreground',
+    primary: 'border-transparent bg-primary text-primary-foreground',
+    success: 'border-success-border bg-success-subtle text-success-text',
+    warning: 'border-warning-border bg-warning-subtle text-warning-text',
+    danger: 'border-danger-border bg-danger-subtle text-danger-text',
+    info: 'border-info-border bg-info-subtle text-info-text',
+  },
+}
 
 export const badgeVariants = cva(
   'inline-flex w-fit shrink-0 items-center gap-1 whitespace-nowrap rounded-badge border px-badge-x py-0.5 text-xs font-medium [&_svg]:size-3',
-  {
-    variants: {
-      variant: {
-        neutral: 'border-border bg-background-muted text-foreground',
-        primary: 'border-transparent bg-primary text-primary-foreground',
-        success: 'border-success-border bg-success-subtle text-success-text',
-        warning: 'border-warning-border bg-warning-subtle text-warning-text',
-        danger: 'border-danger-border bg-danger-subtle text-danger-text',
-        info: 'border-info-border bg-info-subtle text-info-text',
-      },
-    },
-    defaultVariants: { variant: 'neutral' },
-  },
+  { variants, defaultVariants: { variant: 'neutral' } },
 )
+
+export const badgeVariantOptions = variantOptions(variants)
 
 export type BadgeProps = ComponentProps<'span'> & VariantProps<typeof badgeVariants>
 

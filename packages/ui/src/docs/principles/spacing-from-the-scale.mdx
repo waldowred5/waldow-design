@@ -1,4 +1,5 @@
-import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+import { Meta } from '@storybook/addon-docs/blocks'
+import { DocsLink, PrincipleExamples } from '../doc-blocks'
 import * as Stories from './spacing-from-the-scale.stories'
 
 <Meta of={Stories} />
@@ -9,8 +10,6 @@ import * as Stories from './spacing-from-the-scale.stories'
 
 **Why:** A consistent rhythm makes screens feel finished and makes density changes a token edit instead of a hunt.
 
-**How to check:** `pnpm lint` rejects arbitrary values like `mt-[13px]`. In review, look for `m*-` utilities where a `Stack` gap would do. {/* tokens-ok: names the rejected pattern */}
+**How to check:** Lint catches arbitrary values (see <DocsLink to="Foundations/Space, radius and elevation">Space</DocsLink>). In review, look for `m*-` utilities where a `Stack` gap would do.
 
-<Canvas of={Stories.DoExample} sourceState="hidden" />
-
-<Canvas of={Stories.DontExample} sourceState="hidden" />
+<PrincipleExamples of={Stories} />
