@@ -88,7 +88,7 @@ Set `data-theme="light"` or `data-theme="dark"` on `<html>` to force a theme.
 
 ## Why OKLCH (and where hex remains)
 
-`tokens.css`, and so everything the site renders, writes colours as `oklch()`, at full precision.
+`tokens.css`, and so everything the site renders, writes colours as `oklch()`, to six significant figures (far below a visible difference, without float noise).
 
 - **Perceptually uniform lightness.** OKLCH's L tracks how light a colour looks, whatever its hue. A palette step therefore has consistent contrast across hues: 600 carries white text whether the seed is violet, green or orange. That is what makes the colour knobs and the generated scales safe: a brand can pick any seed and the contrast gate still holds.
 - **Modern CSS colour.** `oklch()` is supported in every current browser, can describe colours outside sRGB, and interpolates predictably.

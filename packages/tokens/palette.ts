@@ -39,14 +39,16 @@ export function scale(seed: string): Scale {
   ) as Scale
 }
 
+/** Six significant figures: far below a visible difference, without float noise like 100.00000000000003. */
+const sig = (n: number) => Number(n.toPrecision(6))
+
 /**
- * Any CSS colour as an `oklch()` string at full precision, e.g. `oklch(50.12% 0.2201 276.73)`
- * or `oklch(17.7% 0.011 260.6 / 6%)`. Nothing is rounded, so converting back to sRGB lands on
- * the same colour the generator produced.
+ * Any CSS colour as an `oklch()` string to six significant figures, e.g.
+ * `oklch(54.1082% 0.219336 276.752)` or `oklch(17.6746% 0.0114376 260.635 / 5.88235%)`.
  */
 export function toOklch(colour: string): string {
   const c = oklch(colour)
   if (!c) throw new Error(`Not a colour: ${colour}`)
-  const alpha = c.alpha !== undefined && c.alpha < 1 ? ` / ${c.alpha * 100}%` : ''
-  return `oklch(${c.l * 100}% ${c.c ?? 0} ${c.h ?? 0}${alpha})`
+  const alpha = c.alpha !== undefined && c.alpha < 1 ? ` / ${sig(c.alpha * 100)}%` : ''
+  return `oklch(${sig(c.l * 100)}% ${sig(c.c ?? 0)} ${sig(c.h ?? 0)}${alpha})`
 }
