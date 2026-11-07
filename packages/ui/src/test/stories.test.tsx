@@ -8,10 +8,12 @@ import { axeViolations } from './axe'
 
 type StoryModule = Parameters<typeof composeStories>[0]
 type RunnableStory = { run: () => Promise<void> }
-const modules = import.meta.glob<StoryModule>('../components/*.stories.tsx', { eager: true })
+// Same pattern as `stories` in .storybook/main.ts, relative to src/. import.meta.glob
+// only takes a literal, so keep the two in step.
+const modules = import.meta.glob<StoryModule>('../**/*.stories.{ts,tsx}', { eager: true })
 
 for (const [path, mod] of Object.entries(modules)) {
-  const name = path.replace(/^.*\/(.*)\.stories\.tsx$/, '$1')
+  const name = path.replace(/^\.\.\//, '').replace(/\.stories\.tsx?$/, '')
   describe(name, () => {
     for (const [storyName, Story] of Object.entries(composeStories(mod)) as Array<[string, RunnableStory]>) {
       it(`${storyName} renders without a11y violations`, async () => {
