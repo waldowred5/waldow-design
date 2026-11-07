@@ -13,9 +13,11 @@ The home page hero reads:
 > **Waldow.Design**
 > An exploration into design systems for the age of agents
 
+The generic shell and its pages come first (Phase 2). Domain-specific demo apps (ADR 002) come later and live inside that shell.
+
 ## The UI contract
 
-Any UI you write here (app screens, component stories, prototypes) follows the same contract the runtime agent will (Phase 2, A2UI):
+Any UI you write here (app screens, component stories, prototypes) follows the same contract the runtime agent will (Phase 3, A2UI):
 
 1. **Only design system components.** Import from `@waldow-design/ui`. Don't hand-roll a control that exists (ActionBar, Button, Input, Field, Select, Checkbox, Card, Stack, Badge, Dialog, Table). If something is missing, say so and propose a component rather than inlining one.
 2. **Only semantic tokens.** Style with the token utilities defined in `packages/ui/src/styles.css`: `bg-primary`, `text-muted-foreground`, `border-border-strong`, `rounded-control`, `shadow-raised`, `h-control-md`, `p-surface-inset`, `p-4`, `gap-2`. There are two token tiers, primitive and semantic; there are no component tokens (ADR 003). Never:

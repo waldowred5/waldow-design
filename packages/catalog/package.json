@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Machine-readable catalog of waldow.design components (A2UI, Phase 2).",
+  "description": "Machine-readable catalog of waldow.design components (A2UI, Phase 3).",
   "exports": {
     ".": "./src/index.ts"
   },
