@@ -36,11 +36,11 @@ Storybook is published to Chromatic; [`docs/chromatic.md`](docs/chromatic.md) co
 
 Packages are versioned with [changesets](https://github.com/changesets/changesets) and kept **source-only**: they aren't published to npm yet. Apps in this repo install them as `workspace:*`.
 
-1. In a PR that changes a package, run `pnpm changeset` and describe the change (patch, minor or major).
+1. In a PR that changes a package, run `pnpm changeset` and describe the change (patch, minor or major). For changes that need no release, run `pnpm changeset --empty`.
 2. On merge to `main`, the Release workflow opens a **Version Packages** PR that bumps versions and writes each package's `CHANGELOG.md`.
 3. Merging that PR creates git tags and GitHub releases (for example `@waldow-ds/ui@0.1.0`).
 
-To publish to npm later: drop `"private": true` from the packages, set `access` in `.changeset/config.json`, add an `NPM_TOKEN` secret, and change the Release workflow's `publish` command to `pnpm changeset publish`.
+To publish to npm later: drop `"private": true` from the packages, set `access` in `.changeset/config.json`, add an `NPM_TOKEN` secret, and change the Release workflow's `publish-script` to `pnpm changeset publish`.
 
 ## Decisions
 
