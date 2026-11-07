@@ -35,7 +35,7 @@ const sameSeeds: Record<Role, string> = { primary: t.ThemeColorPrimary, secondar
 function knobStyle(seeds: Record<Role, string>, radius: number, font: Font): CSSProperties {
   const vars: Record<string, string> = { '--ds-theme-radius': `${radius}rem` }
   for (const [role, scale] of Object.entries(paletteTokens(seeds))) {
-    for (const [step, hex] of Object.entries(scale)) vars[`--ds-color-${role}-${step}`] = toOklch(hex)
+    for (const [step, colour] of Object.entries(scale)) vars[`--ds-color-${role}-${step}`] = toOklch(colour)
   }
   vars['--ds-theme-font-body'] = fonts[font]
   vars['--ds-theme-font-display'] = fonts[font]

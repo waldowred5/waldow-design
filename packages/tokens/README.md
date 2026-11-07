@@ -55,18 +55,6 @@ Token paths are dot-separated, lowercase, kebab-case within a segment. CSS varia
 | Semantic other | `<concept>.<intent>` | `radius.control`, `elevation.overlay`, `motion.duration.fast` |
 | Semantic size / space | `size.<shape>[.<size>]`, `space.<shape>-<axis>[.<size>]`, `space.<shape>-inset` | `size.control.md`, `space.control-x.sm`, `space.surface-inset` |
 
-Sizes and insets use the same shape names as the radii, so a shape's tokens sit together:
-
-| Shape | Radius | Size | Space | Used by |
-| --- | --- | --- | --- | --- |
-| `control` | `radius.control` | `size.control.{sm,md,lg}` | `space.control-x.{sm,md,lg}` | Buttons, inputs, selects (inputs and selects use height md, padding sm) |
-| `control-inner` / `inner` | `radius.inner` | `size.control-inner` | | Checkboxes |
-| `pill` | `radius.pill` | | `space.pill-x` | Badges |
-| `surface` | `radius.surface` | `size.dialog` (max width) | `space.surface-inset` | Cards, dialogs |
-| `cell` | | | `space.cell-x`, `space.cell-y` | Table cells |
-
-In Tailwind these are `h-control-md`, `px-control-x-md`, `size-control-inner`, `px-pill-x`, `p-surface-inset`, `px-cell-x`, `py-cell-y` and `max-w-dialog` (see `packages/ui/src/styles.css`).
-
 Semantic colour roles:
 
 - `background`: page-level fills (`default`, `subtle`, `muted`, `inverse`)
@@ -75,6 +63,20 @@ Semantic colour roles:
 - `border`: `default` (decorative), `strong` (input boundaries, meets 3:1), `focus`
 - `action`: `primary`, `secondary`, `danger`, each with `default`, `hover`, `text`
 - `status`: `success`, `warning`, `danger`, `info`, each with `background`, `text`, `border`
+
+## Shapes
+
+Sizes and insets are named for the shape they serve, using the same names as the radii, so a shape's tokens sit together. This is the one reference for which tokens and utilities each component uses. A Tailwind utility (`packages/ui/src/styles.css`) is the token path without its first segment.
+
+| Shape | Tokens | Tailwind | Used by |
+| --- | --- | --- | --- |
+| `control` | `radius.control`, `size.control.{sm,md,lg}`, `space.control-x.{sm,md,lg}` | `rounded-control`, `h-control-{sm,md,lg}`, `px-control-x-{sm,md,lg}` | Buttons use the height and padding that match their size (icon buttons: `size-control-md`). Inputs and selects use `h-control-md` and `px-control-x-sm` |
+| `control-inner` / `inner` | `radius.inner`, `size.control-inner` | `rounded-inner`, `size-control-inner` | Checkboxes |
+| `pill` | `radius.pill`, `space.pill-x` | `rounded-pill`, `px-pill-x` | Badges |
+| `surface` | `radius.surface`, `space.surface-inset`, `size.dialog` (max width) | `rounded-surface`, `p-surface-inset`, `max-w-dialog` | Cards, dialogs |
+| `cell` | `space.cell-x`, `space.cell-y` | `px-cell-x`, `py-cell-y` | Table cells |
+
+The build also writes these names to `dist/utilities.js` (`@waldow-design/tokens/utilities`), which `cn()` in `packages/ui` hands to tailwind-merge.
 
 ## Themes
 
@@ -89,7 +91,7 @@ Set `data-theme="light"` or `data-theme="dark"` on `<html>` to force a theme.
 
 ## Why OKLCH (and where hex remains)
 
-`tokens.css`, and so everything the site renders, writes colours as `oklch()`, to six significant figures (far below a visible difference, without float noise).
+`tokens.css`, and so everything the site renders, writes colours as `oklch()`, to six significant figures (far below a visible difference, without float noise). The generated scales stay in OKLCH from `palette.ts` to the CSS, so every step lands exactly on its lightness (step 50 is `97%`, step 800 is `40%`); only the JS and JSON output is converted to hex.
 
 - **Perceptually uniform lightness.** OKLCH's L tracks how light a colour looks, whatever its hue. A palette step therefore has consistent contrast across hues: 600 carries white text whether the seed is violet, green or orange. That is what makes the colour knobs and the generated scales safe: a brand can pick any seed and the contrast gate still holds.
 - **Modern CSS colour.** `oklch()` is supported in every current browser, can describe colours outside sRGB, and interpolates predictably.

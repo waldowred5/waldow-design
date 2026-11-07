@@ -9,7 +9,7 @@ A small but real design system: tokens → components → Storybook, with Chroma
 Any UI you write here (app screens, component stories, prototypes) follows the same contract the runtime agent will (Phase 2, A2UI):
 
 1. **Only design system components.** Import from `@waldow-design/ui` (list in [`packages/ui/README.md`](packages/ui/README.md#components)). Don't hand-roll a control that exists. If something is missing, say so and propose a component rather than inlining one.
-2. **Only semantic tokens.** Style with the token utilities defined in `packages/ui/src/styles.css`: `bg-primary`, `text-muted-foreground`, `border-border-strong`, `rounded-control`, `shadow-raised`, `h-control-md`, `p-surface-inset`, `p-4`, `gap-2`. There are two token tiers, primitive and semantic; there are no component tokens (ADR 003). Never:
+2. **Only semantic tokens.** Style with the token utilities defined in `packages/ui/src/styles.css`: `bg-primary`, `text-muted-foreground`, `border-border-strong`, `rounded-control`, `shadow-raised`, `h-control-md`, `p-surface-inset`, `p-4`, `gap-2`. There are two token tiers, primitive and semantic, and no component tokens ([ADR 003](docs/adr/003-two-token-tiers.md)). Never:
    - raw colours (`#fff`, `rgb()`, `oklch()`)
    - arbitrary values (`p-[13px]`, `bg-[#...]`)
    - Tailwind's default palette (`bg-blue-500`; it is removed and silently does nothing)
@@ -33,10 +33,10 @@ pnpm check            # lint + tokens check, build, typecheck, tests, size budge
 pnpm changeset        # in a PR that changes a package (see README "Versioning and releases")
 ```
 
-- **Tokens:** edit JSON in `packages/tokens/src/`. A brand is a few knobs in `src/brand/`: primary, secondary and highlight seed colours (`theme.color.*`, expanded into scales by `palette.ts`), neutrals, `theme.radius` and `theme.font.*` (what each one drives: [`packages/tokens/README.md`](packages/tokens/README.md#brand-knobs)); derive from them rather than adding raw values. Change semantic colours in both `light.json` and `dark.json`. Component sizes and insets are semantic tokens in `src/semantic/base.json` named for the shape they serve (`size.control.md`, `space.surface-inset`); reuse one before adding one, and never add a per-component token. The build fails below WCAG AA for the pairs listed in `build.ts`.
-- **Colour format:** `tokens.css` (everything the site renders) is OKLCH, to six significant figures. `tokens.js`/`tokens.json` keep hex only because some tools can't parse `oklch()`, notably Storybook's manager theming (`.storybook/themes.ts`). Hex is the exception; don't add new hex consumers.
-- **Components:** `packages/ui/src/components/<name>.tsx`, with `<name>.stories.tsx` (and `<name>.test.tsx` for behaviour). JSDoc on the component holds usage and accessibility notes. Use `cn()` for class merging, and add new token utility names to `lib/cn.ts`.
-- **New token utility:** map it in `@theme inline` in `styles.css`. Watch for namespace collisions: Tailwind resolves `max-w-*`, `w-*` and `h-*` against `--spacing-*` before `--container-*`.
+- **Tokens:** edit JSON in `packages/tokens/src/`. A brand is a few knobs in `src/brand/`: primary, secondary and highlight seed colours (`theme.color.*`, expanded into scales by `palette.ts`), neutrals, `theme.radius` and `theme.font.*` (what each one drives: [`packages/tokens/README.md`](packages/tokens/README.md#brand-knobs)); derive from them rather than adding raw values. Change semantic colours in both `light.json` and `dark.json`. Component sizes and insets are semantic tokens named for the shape they serve ([shapes and utilities](packages/tokens/README.md#shapes)); reuse one before adding one, and never add a per-component token. The build fails below WCAG AA for the pairs listed in `build.ts`.
+- **Colour format:** `tokens.css` is OKLCH; `tokens.js`/`tokens.json` keep hex for tools that can't parse `oklch()`. Don't add new hex consumers ([why](packages/tokens/README.md#why-oklch-and-where-hex-remains)).
+- **Components:** `packages/ui/src/components/<name>.tsx`, with `<name>.stories.tsx` (and `<name>.test.tsx` for behaviour). JSDoc on the component holds usage and accessibility notes. Use `cn()` for class merging; it learns the token utility names from the token build (`@waldow-design/tokens/utilities`).
+- **New token utility:** map it in `@theme inline` in `styles.css`, named for the token path without its first segment (`size.control.md` → `--spacing-control-md`); that's how `cn()` learns it. Watch for namespace collisions: Tailwind resolves `max-w-*`, `w-*` and `h-*` against `--spacing-*` before `--container-*`.
 - **Decisions:** add an ADR in `docs/adr/` for anything that changes the foundation.
 
 ## Conventions
