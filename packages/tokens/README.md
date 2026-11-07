@@ -14,13 +14,16 @@ pnpm --filter @waldow-design/tokens build   # also runs on install (prepare)
 
 ## Brand knobs
 
-A brand is three knobs in `src/brand/<name>.json`. Every other token derives from them, so a new brand never touches a component.
+A brand is a handful of knobs in `src/brand/<name>.json`. Every other token derives from them, so a new brand never touches a component.
 
 | Knob | Tokens | Derived |
 | --- | --- | --- |
-| Palette | `color.brand.*`, `color.neutral.*` | Every semantic colour, in light and dark mode |
+| Primary, secondary, accent | `theme.color.{primary,secondary,accent}` seeds → `color.{primary,secondary,accent}.50–950` | Primary: primary actions, focus, links. Secondary: secondary actions and badges. Accent: highlights (`color.highlight.*`) |
+| Neutrals | `color.neutral.*` | Backgrounds, surfaces, text, borders |
 | Radius | `theme.radius` | `radius.surface` (×1), `radius.control` (×0.75), `radius.inner` (×0.5) |
 | Font | `theme.font.body`, `theme.font.display`, `theme.font.mono` | `font.body`, `font.display`, `font.code` |
+
+Each seed colour becomes an 11-step scale in `palette.ts`. Steps are placed by OKLCH lightness, so a step has about the same contrast whatever the hue: 600 carries white text and 400 carries near-black text. The build and the Storybook Theme knobs demo use the same generator.
 
 Brand and mode are separate: any brand works in light or dark mode. Every block in `tokens.css` is also declared on `[data-brand]`, so overriding a knob on any element re-derives the tokens for that subtree. The Storybook page *Foundations / Theme knobs* lets you try it.
 
@@ -28,8 +31,8 @@ Brand and mode are separate: any brand works in light or dark mode. Every block 
 
 | Tier | Source | Answers | Example | Who may use it |
 | --- | --- | --- | --- | --- |
-| **Primitive** | `src/brand/*.json` (palette), `src/primitive/*.json` | What values exist? | `color.brand.600` → `#4c46dc` | Semantic tokens only |
-| **Semantic** | `src/semantic/{base,light,dark}.json` | What is this value *for*? | `color.action.primary.default` → `{color.brand.600}` | Components, app code, Tailwind theme |
+| **Primitive** | `src/brand/*.json` (seeds, neutrals), generated scales, `src/primitive/*.json` | What values exist? | `color.primary.600` → `#5654ea` | Semantic tokens only |
+| **Semantic** | `src/semantic/{base,light,dark}.json` | What is this value *for*? | `color.action.primary.default` → `{color.primary.600}` | Components, app code, Tailwind theme |
 | **Component** | `src/component/*.json` | What does this component decide? | `button.height.md` → `{size.9}` | That component |
 
 Rules:

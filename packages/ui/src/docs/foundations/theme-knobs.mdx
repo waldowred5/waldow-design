@@ -1,30 +1,33 @@
-import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks'
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
 import * as Stories from './theme-knobs.stories'
 
 <Meta of={Stories} />
 
 # Theme knobs
 
-A brand is three knobs. Everything else (semantic colours, component radii, type) is derived from them, so a new brand never touches a component.
+A brand is a handful of knobs. Everything else (semantic colours, component radii, type) is derived from them, so a new brand never touches a component.
 
 | Knob | Tokens | What derives from it |
 | --- | --- | --- |
-| **Palette** | `color.brand.*`, `color.neutral.*` | Every semantic colour, in both light and dark mode |
+| **Primary colour** | `theme.color.primary` → `color.primary.50–950` | Primary buttons, focus ring, selected controls, links |
+| **Secondary colour** | `theme.color.secondary` → `color.secondary.50–950` | Secondary buttons and badges, secondary emphasis |
+| **Accent colour** | `theme.color.accent` → `color.accent.50–950` | Accent badges, markers, progress and chart emphasis |
+| **Neutrals** | `color.neutral.*` | Backgrounds, surfaces, text, borders |
 | **Radius** | `theme.radius` | `radius.surface` (×1), `radius.control` (×0.75), `radius.inner` (×0.5) |
 | **Font** | `theme.font.body`, `theme.font.display`, `theme.font.mono` | Body text, titles (`font-display`), code |
 
-The knobs live in `packages/tokens/src/brand/<name>.json`. The build checks WCAG AA contrast for every brand in both modes.
+The knobs live in `packages/tokens/src/brand/<name>.json`.
+
+## From one colour to a scale
+
+Each seed colour becomes an 11-step scale (`packages/tokens/palette.ts`). Steps are placed by **OKLCH lightness**, which tracks how light a colour looks across hues, so a given step has about the same contrast whatever colour you pick: step 600 always carries white text, step 400 always carries near-black text. The seed sets the hue and colourfulness. The token build checks every text/background pair against WCAG AA in both modes, and this demo uses the same generator.
 
 ## Brand and mode are separate
 
-Light and dark are a **mode** (`data-theme`); a **brand** (`data-brand`) sets the knobs. Any brand works in either mode. Setting `data-brand` on any element re-derives the tokens for its subtree, so two brands can sit side by side on one page.
+Light and dark are a **mode** (`data-theme`); a **brand** (`data-brand`) sets the knobs. Any brand works in either mode: switch the toolbar theme while you play. Setting `data-brand` on any element re-derives the tokens for its subtree, which is how this demo themes itself without touching the rest of the page.
 
 ## Try it
 
-<Canvas of={Stories.Playground} sourceState="hidden" />
+All three colours start the same, so changing one shows exactly what it drives.
 
-<Controls of={Stories.Playground} />
-
-<Canvas of={Stories.SquareSerif} sourceState="hidden" />
-
-<Canvas of={Stories.RoundRose} sourceState="hidden" />
+<Canvas of={Stories.Playground} sourceState="none" layout="fullscreen" />

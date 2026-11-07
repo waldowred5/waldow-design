@@ -10,7 +10,8 @@
       "default": "./dist/tokens.js"
     },
     "./tokens.css": "./dist/tokens.css",
-    "./tokens.json": "./dist/tokens.json"
+    "./tokens.json": "./dist/tokens.json",
+    "./palette": "./palette.ts"
   },
   "scripts": {
     "build": "node build.ts",
@@ -18,11 +19,16 @@
     "typecheck": "tsc --noEmit"
   },
   "devDependencies": {
+    "@types/culori": "^4.0.1",
     "@types/node": "^24.19.2",
     "style-dictionary": "^5.8.0"
   },
   "files": [
     "dist",
-    "src"
-  ]
+    "src",
+    "palette.ts"
+  ],
+  "dependencies": {
+    "culori": "^4.0.2"
+  }
 }
