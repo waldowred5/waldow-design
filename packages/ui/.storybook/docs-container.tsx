@@ -7,6 +7,7 @@ import { DocsContainer, type DocsContainerProps } from '@storybook/addon-docs/bl
 import { type PropsWithChildren, useEffect, useSyncExternalStore } from 'react'
 import { GLOBALS_UPDATED, SET_GLOBALS } from 'storybook/internal/core-events'
 import { addons } from 'storybook/preview-api'
+import { startThemeTransition } from './theme-transition'
 import { type Mode, modeFrom, themes } from './themes'
 
 let mode: Mode = 'light'
@@ -17,7 +18,11 @@ const update = ({ globals }: { globals?: Record<string, unknown> }) => {
 }
 const channel = addons.getChannel()
 channel.on(SET_GLOBALS, update)
-channel.on(GLOBALS_UPDATED, update)
+channel.on(GLOBALS_UPDATED, (payload: { globals?: Record<string, unknown> }) => {
+  // Canvas and docs both live in this iframe, so this cross-fades stories as well as docs.
+  if (modeFrom(payload.globals) !== mode) startThemeTransition(document, 'data-theme')
+  update(payload)
+})
 
 const subscribe = (notify: () => void) => {
   listeners.add(notify)
