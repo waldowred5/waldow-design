@@ -4,6 +4,15 @@ A small but real design system: tokens → components → Storybook, with Chroma
 
 **Naming:** the public name is **waldow.design**. Use it in UI copy, docs, titles and anything user-facing. `waldow-design` is the identifier form of the name: the repo slug and the `@waldow-design/*` package scope.
 
+## The showcase app (`apps/web`)
+
+The web app is the public face of the project. It should read like a SaaS developer docs site (think tailwindcss.com): a persistent sidebar grouped by section, an "on this page" outline, search, clean typography, live examples next to copyable code, and light/dark mode. Pages explain and demonstrate the system (foundations, components, theme knobs, token pipeline, quality and bundle budgets, workflow); they aren't marketing pages.
+
+The home page hero reads:
+
+> **Waldow.Design**
+> An exploration into design systems for the age of agents
+
 ## The UI contract
 
 Any UI you write here (app screens, component stories, prototypes) follows the same contract the runtime agent will (Phase 2, A2UI):
