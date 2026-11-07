@@ -1,5 +1,5 @@
 {
-  "$description": "The waldow.design brand: the theme knobs. A brand sets three seed colours (primary, secondary, highlight), a neutral scale, one radius and the font families; every semantic and component token derives from these.",
+  "$description": "The waldow.design brand: the theme knobs. A brand sets three seed colours (primary, secondary, highlight), a neutral scale, one radius and the font families; every semantic token derives from these.",
   "color": {
     "$type": "color",
     "neutral": {

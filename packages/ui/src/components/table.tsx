@@ -51,7 +51,7 @@ export function TableFooter({ className, ...props }: ComponentProps<'tfoot'>) {
 }
 
 export function TableRow({ className, ...props }: ComponentProps<'tr'>) {
-  return <tr data-slot="table-row" className={cn('border-b transition-colors hover:bg-row-hover data-[state=selected]:bg-background-muted', className)} {...props} />
+  return <tr data-slot="table-row" className={cn('border-b transition-colors hover:bg-background-subtle data-[state=selected]:bg-background-muted', className)} {...props} />
 }
 
 export function TableHead({ className, scope = 'col', ...props }: ComponentProps<'th'>) {

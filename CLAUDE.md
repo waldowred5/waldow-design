@@ -9,7 +9,7 @@ A small but real design system: tokens → components → Storybook, with Chroma
 Any UI you write here (app screens, component stories, prototypes) follows the same contract the runtime agent will (Phase 2, A2UI):
 
 1. **Only design system components.** Import from `@waldow-design/ui`. Don't hand-roll a control that exists (ActionBar, Button, Input, Field, Select, Checkbox, Card, Stack, Badge, Dialog, Table). If something is missing, say so and propose a component rather than inlining one.
-2. **Only semantic tokens.** Style with the token utilities defined in `packages/ui/src/styles.css`: `bg-primary`, `text-muted-foreground`, `border-border-strong`, `rounded-control`, `shadow-raised`, `p-4`, `gap-2`. Never:
+2. **Only semantic tokens.** Style with the token utilities defined in `packages/ui/src/styles.css`: `bg-primary`, `text-muted-foreground`, `border-border-strong`, `rounded-control`, `shadow-raised`, `h-control-md`, `p-surface-inset`, `p-4`, `gap-2`. There are two token tiers, primitive and semantic; there are no component tokens (ADR 003). Never:
    - raw colours (`#fff`, `rgb()`, `oklch()`)
    - arbitrary values (`p-[13px]`, `bg-[#...]`)
    - Tailwind's default palette (`bg-blue-500`; it is removed and silently does nothing)
@@ -44,7 +44,8 @@ pnpm check            # lint + tokens check, build, typecheck, tests, size budge
 pnpm changeset        # describe a package change (needed on PRs to main)
 ```
 
-- **Tokens:** edit JSON in `packages/tokens/src/`. A brand is a few knobs in `src/brand/`: primary, secondary and highlight seed colours (`theme.color.*`, expanded into scales by `palette.ts`), neutrals, `theme.radius` and `theme.font.*`; derive from them rather than adding raw values. Change semantic colours in both `light.json` and `dark.json`. The build fails below WCAG AA for the pairs listed in `build.ts`.
+- **Tokens:** edit JSON in `packages/tokens/src/`. A brand is a few knobs in `src/brand/`: primary, secondary and highlight seed colours (`theme.color.*`, expanded into scales by `palette.ts`), neutrals, `theme.radius` and `theme.font.*`; derive from them rather than adding raw values. Change semantic colours in both `light.json` and `dark.json`. Component sizes and insets are semantic tokens in `src/semantic/base.json` named for the shape they serve (`size.control.md`, `space.surface-inset`); reuse one before adding one, and never add a per-component token. The build fails below WCAG AA for the pairs listed in `build.ts`.
+- **Colour format:** `tokens.css` (everything the site renders) is OKLCH, to six significant figures. `tokens.js`/`tokens.json` keep hex only because some tools can't parse `oklch()`, notably Storybook's manager theming (`.storybook/themes.ts`). Hex is the exception; don't add new hex consumers.
 - **Components:** `packages/ui/src/components/<name>.tsx`, with `<name>.stories.tsx` (and `<name>.test.tsx` for behaviour). JSDoc on the component holds usage and accessibility notes. Use `cn()` for class merging, and add new token utility names to `lib/cn.ts`.
 - **New token utility:** map it in `@theme inline` in `styles.css`. Watch for namespace collisions: Tailwind resolves `max-w-*`, `w-*` and `h-*` against `--spacing-*` before `--container-*`.
 - **Decisions:** add an ADR in `docs/adr/` for anything that changes the foundation.

@@ -60,7 +60,7 @@ export function DialogContent({ className, children, showCloseButton = true, ...
         data-slot="dialog-content"
         className={cn(
           'fixed inset-4 z-50 m-auto grid h-fit max-w-dialog gap-4 overflow-y-auto',
-          'rounded-dialog border border-border bg-dialog p-dialog-inset text-foreground shadow-dialog',
+          'rounded-surface border border-border bg-surface-raised p-surface-inset text-foreground shadow-overlay',
           'motion-safe:data-[state=open]:animate-pop-in',
           className,
         )}

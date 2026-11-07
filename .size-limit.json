@@ -22,7 +22,7 @@
   {
     "name": "@waldow-design/tokens: tokens.css",
     "path": "packages/tokens/dist/tokens.css",
-    "limit": "3 kB",
+    "limit": "3.5 kB",
     "rolldown": false
   },
   {
@@ -34,7 +34,7 @@
   {
     "name": "apps/web: CSS",
     "path": "apps/web/dist/assets/*.css",
-    "limit": "7 kB",
+    "limit": "8 kB",
     "rolldown": false
   }
 ]

@@ -37,7 +37,7 @@ export function SelectTrigger({ className, children, ...props }: ComponentProps<
       data-slot="select-trigger"
       className={cn(
         controlStyles,
-        'flex h-input w-full items-center justify-between gap-2 px-input-x text-sm',
+        'flex h-control-md w-full items-center justify-between gap-2 px-control-x-sm text-sm',
         'data-placeholder:text-muted-foreground [&>span]:truncate',
         className,
       )}

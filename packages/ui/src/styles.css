@@ -73,49 +73,35 @@
   --color-info-text: var(--ds-color-status-info-text);
   --color-info-border: var(--ds-color-status-info-border);
 
-  /* Component colours */
-  --color-input: var(--ds-input-background);
-  --color-input-border: var(--ds-input-border);
-  --color-card: var(--ds-card-background);
-  --color-dialog: var(--ds-dialog-background);
-  --color-row-hover: var(--ds-table-row-hover);
-
   /* Spacing: the numeric scale (p-4, gap-2) is the token space scale */
   --spacing: var(--ds-space-1);
-  --spacing-button-sm: var(--ds-button-height-sm);
-  --spacing-button-md: var(--ds-button-height-md);
-  --spacing-button-lg: var(--ds-button-height-lg);
-  --spacing-button-x-sm: var(--ds-button-padding-x-sm);
-  --spacing-button-x-md: var(--ds-button-padding-x-md);
-  --spacing-button-x-lg: var(--ds-button-padding-x-lg);
-  --spacing-input: var(--ds-input-height);
-  --spacing-input-x: var(--ds-input-padding-x);
-  --spacing-checkbox: var(--ds-checkbox-size);
-  --spacing-card-inset: var(--ds-card-padding);
-  --spacing-dialog-inset: var(--ds-dialog-padding);
-  --spacing-badge-x: var(--ds-badge-padding-x);
-  --spacing-cell-x: var(--ds-table-cell-padding-x);
-  --spacing-cell-y: var(--ds-table-cell-padding-y);
-  --container-dialog: var(--ds-dialog-width);
+
+  /* Semantic sizes and insets (packages/tokens src/semantic/base.json). Each is named for
+     the shape it serves, like the radii: control, control-inner, pill, surface, cell. */
+  --spacing-control-sm: var(--ds-size-control-sm);
+  --spacing-control-md: var(--ds-size-control-md);
+  --spacing-control-lg: var(--ds-size-control-lg);
+  --spacing-control-inner: var(--ds-size-control-inner);
+  --spacing-control-x-sm: var(--ds-space-control-x-sm);
+  --spacing-control-x-md: var(--ds-space-control-x-md);
+  --spacing-control-x-lg: var(--ds-space-control-x-lg);
+  --spacing-pill-x: var(--ds-space-pill-x);
+  --spacing-surface-inset: var(--ds-space-surface-inset);
+  --spacing-cell-x: var(--ds-space-cell-x);
+  --spacing-cell-y: var(--ds-space-cell-y);
+  /* max-w-* checks --spacing-* first, so this name must not also exist as --spacing-dialog. */
+  --container-dialog: var(--ds-size-dialog);
 
   /* Radius */
   --radius-inner: var(--ds-radius-inner);
   --radius-control: var(--ds-radius-control);
   --radius-surface: var(--ds-radius-surface);
   --radius-pill: var(--ds-radius-pill);
-  --radius-button: var(--ds-button-radius);
-  --radius-input: var(--ds-input-radius);
-  --radius-checkbox: var(--ds-checkbox-radius);
-  --radius-card: var(--ds-card-radius);
-  --radius-badge: var(--ds-badge-radius);
-  --radius-dialog: var(--ds-dialog-radius);
 
   /* Elevation */
   --shadow-raised: var(--ds-elevation-raised);
   --shadow-floating: var(--ds-elevation-floating);
   --shadow-overlay: var(--ds-elevation-overlay);
-  --shadow-card: var(--ds-card-shadow);
-  --shadow-dialog: var(--ds-dialog-shadow);
 
   /* Typography */
   --font-sans: var(--ds-font-body);

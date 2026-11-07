@@ -16,6 +16,60 @@
       "$description": "Fully rounded ends. A constant, not derived from theme.radius."
     }
   },
+  "size": {
+    "$type": "dimension",
+    "control": {
+      "$description": "Height of interactive controls: buttons, inputs, selects. Inputs and selects use md, so they line up with md buttons.",
+      "sm": {
+        "$value": "{size.8}"
+      },
+      "md": {
+        "$value": "{size.9}"
+      },
+      "lg": {
+        "$value": "{size.11}"
+      }
+    },
+    "control-inner": {
+      "$value": "{size.4}",
+      "$description": "Indicators inside or beside a control, such as the checkbox box. Pairs with radius.inner."
+    },
+    "dialog": {
+      "$value": "{size.md}",
+      "$description": "Maximum width of a dialog."
+    }
+  },
+  "space": {
+    "$type": "dimension",
+    "control-x": {
+      "$description": "Horizontal padding inside controls. Buttons use the size that matches their height; inputs and selects use sm.",
+      "sm": {
+        "$value": "{space.3}"
+      },
+      "md": {
+        "$value": "{space.4}"
+      },
+      "lg": {
+        "$value": "{space.6}"
+      }
+    },
+    "pill-x": {
+      "$value": "{space.2}",
+      "$description": "Horizontal padding inside pill-shaped elements, such as badges. Pairs with radius.pill."
+    },
+    "surface-inset": {
+      "$value": "{space.6}",
+      "$description": "Padding inside surfaces: cards and dialogs. Pairs with radius.surface."
+    },
+    "cell-x": {
+      "$value": "{space.3}",
+      "$description": "Horizontal padding of table cells."
+    },
+    "cell-y": {
+      "$value": "{space.2}",
+      "$description": "Vertical padding of table cells."
+    }
+  },
   "font": {
     "body": {
       "$type": "fontFamily",

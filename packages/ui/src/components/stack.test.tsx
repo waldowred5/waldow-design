@@ -23,9 +23,9 @@ describe('Stack', () => {
 
 describe('cn', () => {
   it('resolves conflicts between token utilities', () => {
-    expect(cn('h-button-md', 'h-button-lg')).toBe('h-button-lg')
+    expect(cn('h-control-md', 'h-control-lg')).toBe('h-control-lg')
     expect(cn('rounded-control', 'rounded-pill')).toBe('rounded-pill')
-    expect(cn('p-card-inset', 'p-4')).toBe('p-4')
+    expect(cn('p-surface-inset', 'p-4')).toBe('p-4')
   })
 
   it('keeps size and colour text utilities together', () => {
