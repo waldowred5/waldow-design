@@ -34,7 +34,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@waldow-ds/ui'
+} from '@waldow-design/ui'
 
 const meta = {
   title: 'Explorations/Invite member',

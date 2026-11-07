@@ -11,7 +11,7 @@ pnpm storybook                 # see it under Explorations/
 
 Explorations follow the same rules as production UI and as the runtime agent (see `CLAUDE.md`):
 
-- Import components only from `@waldow-ds/ui`. No new primitives, no raw HTML controls.
+- Import components only from `@waldow-design/ui`. No new primitives, no raw HTML controls.
 - Style only with token utilities. `pnpm lint` rejects raw colours, arbitrary values and primitive tokens here too.
 - Every story must pass axe: the story tests in CI render explorations as well.
 - One story per variant, named `A: …`, `B: …`, with a one-line JSDoc saying what the variant is betting on.

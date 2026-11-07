@@ -46,7 +46,7 @@ await writeFile(
  * Throwaway: compare in Chromatic, pick one, then build it properly.
  */
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Button, Card, CardContent, CardHeader, CardTitle, Stack } from '@waldow-ds/ui'
+import { Button, Card, CardContent, CardHeader, CardTitle, Stack } from '@waldow-design/ui'
 
 const meta = {
   title: 'Explorations/${title}',

@@ -28,7 +28,7 @@ jobs:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
-      - run: pnpm --filter @waldow-ds/ui build-storybook --stats-json
+      - run: pnpm --filter @waldow-design/ui build-storybook --stats-json
       - uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}

@@ -1,16 +1,16 @@
-# @waldow-ds/ui
+# @waldow-design/ui
 
-Accessible React components for waldow.design. Built from [shadcn/ui](https://ui.shadcn.com) source on [Radix](https://www.radix-ui.com/primitives) primitives, styled with Tailwind CSS mapped to `@waldow-ds/tokens` (see [ADR 001](../../docs/adr/001-shadcn-ui-component-foundation.md)).
+Accessible React components for waldow.design. Built from [shadcn/ui](https://ui.shadcn.com) source on [Radix](https://www.radix-ui.com/primitives) primitives, styled with Tailwind CSS mapped to `@waldow-design/tokens` (see [ADR 001](../../docs/adr/001-shadcn-ui-component-foundation.md)).
 
 ## Use
 
 ```css
 /* your app's CSS entry, processed by Tailwind v4 */
-@import "@waldow-ds/ui/styles.css";
+@import "@waldow-design/ui/styles.css";
 ```
 
 ```tsx
-import { Button, Field, Input } from '@waldow-ds/ui'
+import { Button, Field, Input } from '@waldow-design/ui'
 
 <Field label="Email" error={error}>
   <Input type="email" />

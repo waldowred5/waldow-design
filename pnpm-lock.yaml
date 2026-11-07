@@ -29,10 +29,10 @@ importers:
 
   apps/web:
     dependencies:
-      '@waldow-ds/tokens':
+      '@waldow-design/tokens':
         specifier: workspace:*
         version: link:../../packages/tokens
-      '@waldow-ds/ui':
+      '@waldow-design/ui':
         specifier: workspace:*
         version: link:../../packages/ui
       react:
@@ -66,7 +66,7 @@ importers:
 
   explorations:
     dependencies:
-      '@waldow-ds/ui':
+      '@waldow-design/ui':
         specifier: workspace:*
         version: link:../packages/ui
     devDependencies:
@@ -93,7 +93,7 @@ importers:
 
   packages/ui:
     dependencies:
-      '@waldow-ds/tokens':
+      '@waldow-design/tokens':
         specifier: workspace:*
         version: link:../tokens
       class-variance-authority:
