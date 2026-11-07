@@ -4,7 +4,9 @@
  * Steps are placed by OKLCH lightness, which tracks perceived lightness across hues, so a
  * step has roughly the same contrast whatever the seed's hue: step 600 carries white text
  * and step 400 carries near-black text for any seed. The seed sets hue and chroma; chroma
- * tapers towards the light and dark ends, and is clamped to what sRGB can show.
+ * tapers towards the light and dark ends, and is clamped to what sRGB can show. The seed's own
+ * lightness is ignored: the table below sets every step, so an achromatic seed (#000, #fff,
+ * #808080) gives the same neutral grey scale.
  *
  * Used by the token build (brand seeds → color.primary/secondary/highlight.*) and by the
  * Theme knobs demo, so both produce identical scales.
@@ -15,8 +17,12 @@ export const steps = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as c
 export type Step = (typeof steps)[number]
 export type Scale = Record<Step, string>
 
+/** The seed colours a brand sets; each becomes `color.<role>.50–950`. */
+export const roles = ['primary', 'secondary', 'highlight'] as const
+export type Role = (typeof roles)[number]
+
 const lightness: Record<Step, number> = {
-  50: 0.97, 100: 0.935, 200: 0.88, 300: 0.8, 400: 0.71, 500: 0.62,
+  50: 0.97, 100: 0.94, 200: 0.88, 300: 0.8, 400: 0.71, 500: 0.62,
   600: 0.54, 700: 0.47, 800: 0.4, 900: 0.33, 950: 0.25,
 }
 
@@ -37,6 +43,11 @@ export function scale(seed: string): Scale {
       return [step, formatHex(colour)]
     }),
   ) as Scale
+}
+
+/** Every role's scale from the brand's seeds: role → step → hex (`color.<role>.<step>`). */
+export function paletteTokens(seeds: Record<Role, string>): Record<Role, Scale> {
+  return Object.fromEntries(roles.map((role) => [role, scale(seeds[role])])) as Record<Role, Scale>
 }
 
 const round = (n: number, places: number) => Number(n.toFixed(places))

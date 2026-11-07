@@ -4,7 +4,7 @@
  * scale generator the token build uses (@waldow-design/tokens/palette).
  */
 import * as t from '@waldow-design/tokens'
-import { scale, steps, toOklch } from '@waldow-design/tokens/palette'
+import { paletteTokens, type Role, roles, toOklch } from '@waldow-design/tokens/palette'
 import { type CSSProperties, type ReactNode, useState } from 'react'
 import { ActionBar } from '../../components/action-bar'
 import { Badge } from '../../components/badge'
@@ -16,9 +16,6 @@ import { Input } from '../../components/input'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '../../components/select'
 import { Stack } from '../../components/stack'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/table'
-
-type Role = 'primary' | 'secondary' | 'highlight'
-const roles: Role[] = ['primary', 'secondary', 'highlight']
 
 const fonts = {
   Sans: t.FontFamilySans.join(', '),
@@ -37,9 +34,8 @@ const sameSeeds: Record<Role, string> = { primary: t.ThemeColorPrimary, secondar
 
 function knobStyle(seeds: Record<Role, string>, radius: number, font: Font): CSSProperties {
   const vars: Record<string, string> = { '--ds-theme-radius': `${radius}rem` }
-  for (const role of roles) {
-    const generated = scale(seeds[role])
-    for (const step of steps) vars[`--ds-color-${role}-${step}`] = toOklch(generated[step])
+  for (const [role, scale] of Object.entries(paletteTokens(seeds))) {
+    for (const [step, hex] of Object.entries(scale)) vars[`--ds-color-${role}-${step}`] = toOklch(hex)
   }
   vars['--ds-theme-font-body'] = fonts[font]
   vars['--ds-theme-font-display'] = fonts[font]

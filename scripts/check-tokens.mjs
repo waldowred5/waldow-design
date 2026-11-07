@@ -9,7 +9,7 @@
  *   - Tailwind arbitrary values with raw content, e.g. p-[13px], bg-[#fff]
  *     (CSS-variable shorthand like max-h-(--radix-…) is allowed)
  *   - Tailwind default palette classes, e.g. bg-blue-500
- *   - direct use of primitive token variables, e.g. var(--ds-color-brand-600)
+ *   - direct use of primitive token variables, e.g. var(--ds-color-primary-600)
  *   - in apps/web/src, imports from prototypes/ (nothing there ships to the app)
  *
  * Opt a line out with a trailing `// tokens-ok: <reason>` comment.
@@ -27,7 +27,7 @@ const rules = [
   { name: 'raw colour', re: /#[0-9a-fA-F]{3,8}\b|\b(?:rgba?|hsla?|oklch|oklab)\(/ },
   { name: 'arbitrary value', re: /(?<![\w&\]-])(?!(?:data|aria|group|peer|has|supports|in|not|nth)-)[a-z][\w-]*-\[(?!--)[^\]\s]+\](?!:)/ },
   { name: 'default palette', re: new RegExp(`\\b(?:bg|text|border|ring|outline|fill|stroke|from|to|via|decoration|shadow|accent|caret)-(?:${palette})-\\d{2,3}\\b`) },
-  { name: 'primitive token', re: /--ds-color-(?:neutral|brand|green|amber|red|blue|white|black)\b/ },
+  { name: 'primitive token', re: /--ds-color-(?:primary|secondary|highlight|neutral|green|amber|red|blue|white|black)\b/ },
 ]
 const appOnly = [{ name: 'prototype import', re: /\bfrom\s+['"][^'"]*\bprototypes\b|@waldow-design\/prototypes\b/ }]
 
