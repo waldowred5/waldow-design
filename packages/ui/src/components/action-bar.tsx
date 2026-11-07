@@ -8,9 +8,8 @@ import { cn } from '../lib/cn'
 export const actionBarClasses = 'flex flex-col gap-2 sm:flex-row sm:items-center sm:justify-end'
 
 /**
- * A group of actions that closes a form, page section or panel. The primary action
- * goes **last**, so it sits at the trailing edge: on the right in a row (on the left in
- * right-to-left layouts), at the bottom when the group stacks on narrow screens.
+ * A group of actions that closes a form, page section or panel. Put the primary action
+ * **last**: see Principles/Primary actions sit at the trailing edge.
  *
  * ```tsx
  * <ActionBar>
