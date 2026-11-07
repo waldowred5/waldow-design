@@ -30,7 +30,7 @@ pnpm check      # lint, typecheck and build everything
 | Token contrast | token build | A key text/background pair below WCAG AA |
 | Visual regression | `chromatic.yml` (Chromatic "UI Tests" status) | Unreviewed visual changes |
 
-Storybook is published to Chromatic on every PR and on every merge to `main`. The workflow needs a `CHROMATIC_PROJECT_TOKEN` repo secret.
+Storybook is published to Chromatic; [`docs/chromatic.md`](docs/chromatic.md) covers when a real build runs. The workflow needs a `CHROMATIC_PROJECT_TOKEN` repo secret.
 
 ## Decisions
 
