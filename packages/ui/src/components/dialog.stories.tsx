@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect, userEvent, within } from 'storybook/test'
+import { expect, userEvent, waitFor, within } from 'storybook/test'
 import { Button } from './button'
 import {
   Dialog,
@@ -61,6 +61,7 @@ export const KeyboardFlow: Story = {
     const dialog = await within(document.body).findByRole('dialog', { name: 'Edit profile' })
     await expect(dialog).toContainElement(document.activeElement as HTMLElement)
     await userEvent.keyboard('{Escape}')
-    await expect(trigger).toHaveFocus()
+    // Radix restores focus to the trigger after unmount, on the next tick.
+    await waitFor(() => expect(trigger).toHaveFocus())
   },
 }

@@ -53,7 +53,7 @@ export function CardContent({ className, ...props }: ComponentProps<'div'>) {
   return <div data-slot="card-content" className={cn(className)} {...props} />
 }
 
-/** The card's actions, at the trailing edge with the primary action last (see `ActionBar`). */
+/** Lays out like `ActionBar`: a row from `sm` up, stacked full width below it. */
 export function CardFooter({ className, ...props }: ComponentProps<'div'>) {
   return <div data-slot="card-footer" className={cn(actionBarClasses, className)} {...props} />
 }

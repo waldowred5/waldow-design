@@ -23,9 +23,9 @@ A brand is a handful of knobs in `src/brand/<name>.json`. Every other token deri
 | Radius | `theme.radius` | `radius.surface` (×1), `radius.control` (×0.75), `radius.inner` (×0.5) |
 | Font | `theme.font.body`, `theme.font.display`, `theme.font.mono` | `font.body`, `font.display`, `font.code` |
 
-Each seed colour becomes an 11-step scale in `palette.ts`. Steps are placed by OKLCH lightness, so a step has about the same contrast whatever the hue: 600 carries white text and 400 carries near-black text. The build and the Storybook Theme knobs demo use the same generator.
+Each seed colour becomes an 11-step scale in `palette.ts`. Steps are placed by OKLCH lightness, so a step has about the same contrast whatever the hue: 600 carries white text and 400 carries near-black text. The seed only sets hue and chroma, so an achromatic seed gives a neutral grey scale. The build and the Storybook Theme knobs demo use the same generator.
 
-Brand and mode are separate: any brand works in light or dark mode. Every block in `tokens.css` is also declared on `[data-brand]`, so overriding a knob on any element re-derives the tokens for that subtree. The Storybook page *Foundations / Theme knobs* lets you try it.
+Brand and mode are separate: any brand works in light or dark mode. The knob defaults and primitives are declared once on `:root`; every derived token is also declared on `[data-brand]`, so a `[data-brand]` element re-derives its subtree from the knobs it inherits. Overriding a knob there themes that subtree, and a nested `[data-brand]` keeps the outer overrides. The Storybook page *Foundations / Theme knobs* lets you try it.
 
 ## Three tiers
 
@@ -66,8 +66,9 @@ Semantic colour roles:
 
 `tokens.css` declares:
 
-- `:root, [data-brand]`: knobs, primitives, mode-independent semantics, the light mode and component tokens
-- `[data-theme="dark"]` (and `[data-brand]` inside it): dark overrides
+- `:root`: the knob defaults and primitives (every literal value)
+- `:root, [data-brand]`: every derived token: mode-independent semantics, the light mode and component tokens
+- `[data-theme="dark"]` (and `[data-brand]` inside it): dark overrides. `light.json` and `dark.json` must declare the same tokens; the build fails otherwise
 - `@media (prefers-color-scheme: dark) :root:not([data-theme="light"])`: the same overrides, so the OS preference applies unless a theme is forced
 
 Set `data-theme="light"` or `data-theme="dark"` on `<html>` to force a theme.

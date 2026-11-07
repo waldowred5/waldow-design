@@ -3,7 +3,7 @@ import { Badge } from '../../components/badge'
 import { Stack } from '../../components/stack'
 import { Do, Dont } from '../do-dont'
 
-const meta = { title: 'Principles/Status never relies on colour alone', tags: ['!autodocs'] } satisfies Meta
+const meta = { title: 'Principles/Status never relies on colour alone', parameters: { summary: 'Say the status in words; colour reinforces it' }, tags: ['!autodocs'] } satisfies Meta
 
 export default meta
 type Story = StoryObj<typeof meta>

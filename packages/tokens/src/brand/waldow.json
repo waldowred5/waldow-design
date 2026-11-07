@@ -58,7 +58,7 @@
     "radius": {
       "$type": "dimension",
       "$value": "0.5rem",
-      "$description": "The one radius knob. Surfaces use it as is; controls and inner elements are fractions of it. 0 gives square corners everywhere."
+      "$description": "The one radius knob. Surfaces use it as is; controls and inner elements are fractions of it. 0 gives square corners on surfaces and controls; pills (radius.pill) stay round."
     },
     "font": {
       "$type": "fontFamily",

@@ -1,8 +1,12 @@
+import { composeStories } from '@storybook/react-vite'
 import { render, screen } from '@testing-library/react'
 import { describe, expect, it } from 'vitest'
 import { Checkbox } from './checkbox'
 import { Field } from './field'
+import * as stories from './field.stories'
 import { Input } from './input'
+
+const { WithSelect } = composeStories(stories)
 
 describe('Field', () => {
   it('labels the control', () => {
@@ -30,6 +34,12 @@ describe('Field', () => {
   it('marks required controls without announcing the asterisk', () => {
     render(<Field label="Email" required><Input /></Field>)
     expect(screen.getByRole('textbox', { name: 'Email' })).toHaveAttribute('aria-required', 'true')
+    expect(screen.getByText('*')).toHaveAttribute('aria-hidden', 'true')
+  })
+
+  it('labels a Select trigger', () => {
+    render(<WithSelect />)
+    expect(screen.getByRole('combobox', { name: 'Role' })).toHaveTextContent('Editor')
   })
 
   it('wires checkboxes too', () => {
