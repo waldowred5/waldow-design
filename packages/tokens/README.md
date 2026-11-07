@@ -18,7 +18,7 @@ A brand is a handful of knobs in `src/brand/<name>.json`. Every other token deri
 
 | Knob | Tokens | Derived |
 | --- | --- | --- |
-| Primary, secondary, accent | `theme.color.{primary,secondary,accent}` seeds → `color.{primary,secondary,accent}.50–950` | Primary: primary actions, focus, links. Secondary: secondary actions and badges. Accent: highlights (`color.highlight.*`) |
+| Primary, secondary, highlight | `theme.color.{primary,secondary,highlight}` seeds → `color.{primary,secondary,highlight}.50–950` | Primary: primary actions, focus, links (`color.action.primary.*`). Secondary: secondary actions and badges (`color.action.secondary.*`). Highlight: badges, markers, progress, chart emphasis (`color.emphasis.highlight.*`) |
 | Neutrals | `color.neutral.*` | Backgrounds, surfaces, text, borders |
 | Radius | `theme.radius` | `radius.surface` (×1), `radius.control` (×0.75), `radius.inner` (×0.5) |
 | Font | `theme.font.body`, `theme.font.display`, `theme.font.mono` | `font.body`, `font.display`, `font.code` |
