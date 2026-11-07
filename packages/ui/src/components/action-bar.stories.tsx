@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { withWidth } from '../../.storybook/decorators'
 import { ActionBar } from './action-bar'
 import { Button } from './button'
 
 const meta = {
   title: 'Components/ActionBar',
   component: ActionBar,
-  decorators: [(Story) => <div className="w-96"><Story /></div>],
+  decorators: [withWidth('w-96')],
 } satisfies Meta<typeof ActionBar>
 
 export default meta
@@ -33,12 +34,17 @@ export const WithSecondary: Story = {
 
 /** Right-to-left: `justify-end` follows the writing direction, so the primary action moves to the left. */
 export const RightToLeft: Story = {
+  decorators: [
+    (Story) => (
+      <div dir="rtl">
+        <Story />
+      </div>
+    ),
+  ],
   render: (args) => (
-    <div dir="rtl">
-      <ActionBar {...args}>
-        <Button variant="ghost">إلغاء</Button>
-        <Button>حفظ</Button>
-      </ActionBar>
-    </div>
+    <ActionBar {...args}>
+      <Button variant="ghost">إلغاء</Button>
+      <Button>حفظ</Button>
+    </ActionBar>
   ),
 }

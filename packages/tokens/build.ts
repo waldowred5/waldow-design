@@ -9,21 +9,26 @@
  *                     fonts, motion; light.json and dark.json are modes)
  *
  * Output (dist/):
- *   tokens.css   :root (knobs + primitives + semantic + light), then dark overrides for
- *                [data-theme="dark"] and prefers-color-scheme: dark. Every block is also
- *                declared on [data-brand], so overriding a knob on any element re-derives
- *                the tokens for that subtree.
+ *   tokens.css   the knob defaults and primitives (every literal value) on :root only; then
+ *                every derived token (anything referencing another token) on :root and
+ *                [data-brand]; then dark overrides for [data-theme="dark"] and
+ *                prefers-color-scheme: dark, also repeated for [data-brand]. A [data-brand]
+ *                element re-derives its subtree from the knobs it inherits, so overriding a
+ *                knob there themes the subtree, and a nested [data-brand] keeps the outer
+ *                overrides.
  *   tokens.js    flat light-theme values for JS consumers, with tokens.d.ts (colours as hex)
  *   tokens.json  nested light-theme values, for docs and tooling (colours as hex)
  *
- * The build fails if a text/background pair in either theme drops below WCAG AA.
+ * The build fails if light.json and dark.json declare different tokens, or if a text/background
+ * pair in either theme drops below WCAG AA.
  */
 import { readFileSync } from 'node:fs'
 import { readFile, rm, writeFile } from 'node:fs/promises'
 import StyleDictionary from 'style-dictionary'
 import type { TransformedToken } from 'style-dictionary/types'
+import { usesReferences } from 'style-dictionary/utils'
 import { wcagContrast } from 'culori'
-import { scale, toOklch } from './palette.ts'
+import { paletteTokens, type Role, toOklch } from './palette.ts'
 
 // CSS gets colours as oklch(), including the colours inside shadows: everything the site
 // renders is OKLCH. JS/JSON output keeps hex only for compatibility, because tools that read
@@ -54,16 +59,42 @@ const DIST = 'dist/'
 const BRAND = 'src/brand/waldow.json'
 const shared = [BRAND, 'src/primitive/**/*.json', 'src/semantic/base.json']
 
+const readJson = (path: string) => JSON.parse(readFileSync(path, 'utf8'))
+
 // The brand's seed colours become color.primary.*, color.secondary.* and color.highlight.*.
-const seeds = JSON.parse(readFileSync(BRAND, 'utf8')).theme.color as Record<string, { $value: string }>
+const seedTokens = readJson(BRAND).theme.color as Record<Role, { $value: string }>
+const seeds = Object.fromEntries(Object.entries(seedTokens).map(([role, token]) => [role, token.$value])) as Record<Role, string>
 const palette = {
   color: Object.fromEntries(
-    ['primary', 'secondary', 'highlight'].map((role) => [
+    Object.entries(paletteTokens(seeds)).map(([role, steps]) => [
       role,
-      Object.fromEntries(Object.entries(scale(seeds[role]!.$value)).map(([step, hex]) => [step, { $type: 'color', $value: hex }])),
+      Object.fromEntries(Object.entries(steps).map(([step, hex]) => [step, { $type: 'color', $value: hex }])),
     ]),
   ),
 }
+
+// Light and dark must declare the same tokens, or one mode silently falls back to the other.
+type JsonTree = { [key: string]: unknown }
+const tokenPaths = (tree: JsonTree, prefix = ''): string[] =>
+  '$value' in tree
+    ? [prefix]
+    : Object.entries(tree).flatMap(([key, value]) =>
+        key.startsWith('$') || typeof value !== 'object' || value === null ? [] : tokenPaths(value as JsonTree, prefix ? `${prefix}.${key}` : key),
+      )
+const [lightPaths, darkPaths] = ['src/semantic/light.json', 'src/semantic/dark.json'].map((f) => new Set(tokenPaths(readJson(f))))
+const modeMismatch = [...[...lightPaths!].filter((p) => !darkPaths!.has(p)), ...[...darkPaths!].filter((p) => !lightPaths!.has(p))]
+if (modeMismatch.length) {
+  console.error('light.json and dark.json declare different tokens:\n  ' + modeMismatch.join('\n  '))
+  process.exit(1)
+}
+
+/** A selector plus the same selector scoped to [data-brand] elements, which re-derive their subtree. */
+const withBrand = (sel: string) => `${sel}, ${sel === ':root' ? '' : `${sel} `}[data-brand]`
+
+// Knob defaults (theme.*) and literal values are declared once, on :root, so a [data-brand]
+// subtree inherits whatever its ancestors set. Everything that references another token is
+// re-declared on [data-brand] so it resolves against those inherited values.
+const isDefault = (token: TransformedToken) => token.path[0] === 'theme' || !usesReferences(token.original.$value)
 
 const light = new StyleDictionary({
   tokens: palette,
@@ -74,7 +105,15 @@ const light = new StyleDictionary({
       transforms: cssTransforms,
       prefix: PREFIX,
       buildPath: DIST,
-      files: [{ destination: 'light.css', format: 'css/variables', options: { outputReferences: true, selector: ':root, [data-brand]' } }],
+      files: [
+        { destination: 'defaults.css', format: 'css/variables', filter: isDefault, options: { outputReferences: true, selector: ':root' } },
+        {
+          destination: 'light.css',
+          format: 'css/variables',
+          filter: (token) => !isDefault(token),
+          options: { outputReferences: true, selector: withBrand(':root') },
+        },
+      ],
     },
     js: {
       transformGroup: 'js',
@@ -106,7 +145,7 @@ const dark = new StyleDictionary({
           destination: 'dark-attr.css',
           format: 'css/variables',
           filter: isDark,
-          options: { outputReferences: true, selector: '[data-theme="dark"], [data-theme="dark"] [data-brand]' },
+          options: { outputReferences: true, selector: withBrand('[data-theme="dark"]') },
         },
         {
           destination: 'dark-media.css',
@@ -114,7 +153,7 @@ const dark = new StyleDictionary({
           filter: isDark,
           options: {
             outputReferences: true,
-            selector: ['@media (prefers-color-scheme: dark)', ':root:not([data-theme="light"]), :root:not([data-theme="light"]) [data-brand]'],
+            selector: ['@media (prefers-color-scheme: dark)', withBrand(':root:not([data-theme="light"])')],
           },
         },
       ],
@@ -126,14 +165,14 @@ await rm(DIST, { recursive: true, force: true })
 await light.buildAllPlatforms()
 await dark.buildAllPlatforms()
 
-const parts = await Promise.all(['light.css', 'dark-attr.css', 'dark-media.css'].map((f) => readFile(DIST + f, 'utf8')))
+const parts = await Promise.all(['defaults.css', 'light.css', 'dark-attr.css', 'dark-media.css'].map((f) => readFile(DIST + f, 'utf8')))
 const colorScheme = [
   ':root { color-scheme: light; }',
   '[data-theme="dark"] { color-scheme: dark; }',
   '@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; } }',
 ].join('\n')
 await writeFile(DIST + 'tokens.css', [...parts, colorScheme].join('\n') + '\n')
-await Promise.all(['light.css', 'dark-attr.css', 'dark-media.css'].map((f) => rm(DIST + f)))
+await Promise.all(['defaults.css', 'light.css', 'dark-attr.css', 'dark-media.css'].map((f) => rm(DIST + f)))
 
 // --- Contrast gate ---------------------------------------------------------
 
@@ -144,6 +183,7 @@ const pairs: Array<[fg: string, bg: string, min: number]> = [
   ['color.text.muted', 'color.background.default', 4.5],
   ['color.text.muted', 'color.surface.default', 4.5],
   ['color.text.link', 'color.background.default', 4.5],
+  ['color.text.link', 'color.emphasis.highlight.background', 4.5],
   ['color.text.inverse', 'color.background.inverse', 4.5],
   ['color.action.primary.text', 'color.action.primary.default', 4.5],
   ['color.action.primary.text', 'color.action.primary.hover', 4.5],

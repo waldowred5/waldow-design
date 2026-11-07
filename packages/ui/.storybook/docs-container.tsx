@@ -5,24 +5,21 @@
  */
 import { DocsContainer, type DocsContainerProps } from '@storybook/addon-docs/blocks'
 import { type PropsWithChildren, useEffect, useSyncExternalStore } from 'react'
-import { GLOBALS_UPDATED, SET_GLOBALS } from 'storybook/internal/core-events'
 import { addons } from 'storybook/preview-api'
-import { startThemeTransition } from './theme-transition'
-import { type Mode, modeFrom, themes } from './themes'
+import { type Mode, followTheme, themes } from './themes'
 
 let mode: Mode = 'light'
 const listeners = new Set<() => void>()
-const update = ({ globals }: { globals?: Record<string, unknown> }) => {
-  mode = modeFrom(globals)
-  listeners.forEach((notify) => notify())
-}
-const channel = addons.getChannel()
-channel.on(SET_GLOBALS, update)
-channel.on(GLOBALS_UPDATED, (payload: { globals?: Record<string, unknown> }) => {
-  // Canvas and docs both live in this iframe, so this cross-fades stories as well as docs.
-  if (modeFrom(payload.globals) !== mode) startThemeTransition(document, 'data-theme')
-  update(payload)
-})
+// Canvas and docs both live in this iframe, so the transition cross-fades stories as well as docs.
+const stop = followTheme(
+  addons.getChannel(),
+  (next) => {
+    mode = next
+    listeners.forEach((notify) => notify())
+  },
+  { attribute: 'data-theme' },
+)
+import.meta.hot?.dispose(stop)
 
 const subscribe = (notify: () => void) => {
   listeners.add(notify)
@@ -32,7 +29,9 @@ const subscribe = (notify: () => void) => {
 export function ThemedDocsContainer({ children, context }: PropsWithChildren<DocsContainerProps>) {
   const current = useSyncExternalStore(subscribe, () => mode)
 
-  // MDX pages without stories never run the theme decorator, so set the attribute here too.
+  // withThemeByDataAttribute (preview.tsx) also writes this attribute, and is still needed: it
+  // drives the toolbar and themes the canvas, where this container doesn't render. But MDX pages
+  // without stories never run decorators, so set the attribute here too.
   useEffect(() => {
     document.documentElement.dataset.theme = current
   }, [current])

@@ -27,7 +27,7 @@ Replace the single domain with **four demo apps** that run on the same component
 
 Rules:
 
-1. **A brand changes only the theme knobs** (primary, secondary and accent seed colours, neutrals, `theme.radius`, `theme.font.*`; see LAB-173) plus motion tokens. If a demo seems to need a component change to look right, the component is missing a token. Add the token, not a fork.
+1. **A brand changes only the theme knobs** (primary, secondary and highlight seed colours, neutrals, `theme.radius`, `theme.font.*`; see LAB-173) plus motion tokens. If a demo seems to need a component change to look right, the component is missing a token. Add the token, not a fork.
 2. **Components are generic.** "Itinerary timeline" is a `Timeline`, "crate grid" is a `MediaGrid`, "KPI ring" is a `Stat` with a `Progress` ring. Each demo composes them as **patterns** rather than defining its own components.
 3. **Every brand passes the contrast gate** in each mode it supports. Synthwave and Dark analytics may be dark-only, and say so in their brand file.
 4. **Each demo has one hero flow** the agent can generate and the Workflow journey can record:
@@ -47,7 +47,7 @@ The Workflow journey (LAB-170) records the travel planner's trip itinerary card.
 - The token pipeline must build several brands and run the contrast gate per brand × mode (LAB-145).
 - The showcase can put two or more demos side by side on one page: `data-brand` re-derives tokens per subtree (LAB-173).
 - More components than the invoicing plan needed. The catalog target (about 25) stays, but the mix shifts towards media, data visualisation and motion.
-- Four brands mean four times the visual snapshots. Chromatic runs a subset of brand × mode on PRs and everything on release (LAB-143).
+- Four brands mean four times the visual snapshots. Planned (LAB-143, not set up yet): Chromatic runs a subset of brand × mode on PRs and everything on release.
 
 ## When to revisit
 
