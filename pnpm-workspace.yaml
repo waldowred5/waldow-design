@@ -2,6 +2,12 @@ packages:
   - apps/*
   - packages/*
   - explorations
+# Build tooling shared by apps/web and packages/ui, kept on one version.
+catalog:
+  '@tailwindcss/vite': ^4.3.5
+  '@vitejs/plugin-react': ^6.2.1
+  tailwindcss: ^4.3.5
+  vite: ^8.3.6
 allowBuilds:
   esbuild: true
 minimumReleaseAgeExclude:

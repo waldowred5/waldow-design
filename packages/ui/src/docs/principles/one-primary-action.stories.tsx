@@ -3,7 +3,7 @@ import { Button } from '../../components/button'
 import { Card, CardDescription, CardFooter, CardHeader, CardTitle } from '../../components/card'
 import { Do, Dont } from '../do-dont'
 
-const meta = { title: 'Principles/One primary action', tags: ['!autodocs'] } satisfies Meta
+const meta = { title: 'Principles/One primary action', parameters: { summary: 'At most one `primary` button per card, dialog or section' }, tags: ['!autodocs'] } satisfies Meta
 
 export default meta
 type Story = StoryObj<typeof meta>

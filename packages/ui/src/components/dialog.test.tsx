@@ -1,39 +1,20 @@
+import { composeStories } from '@storybook/react-vite'
 import { render, screen } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { describe, expect, it } from 'vitest'
-import { Button } from './button'
-import { Dialog, DialogContent, DialogDescription, DialogTitle, DialogTrigger } from './dialog'
+import * as stories from './dialog.stories'
 
-function Example() {
-  return (
-    <Dialog>
-      <DialogTrigger asChild>
-        <Button>Open</Button>
-      </DialogTrigger>
-      <DialogContent>
-        <DialogTitle>Rename file</DialogTitle>
-        <DialogDescription>Choose a new name.</DialogDescription>
-      </DialogContent>
-    </Dialog>
-  )
-}
+const { Closed } = composeStories(stories)
 
+// Escape closing the dialog and returning focus is the KeyboardFlow story's play
+// function, which src/test/stories.test.tsx runs.
 describe('Dialog', () => {
   it('opens a named modal dialog and closes with the close button', async () => {
-    render(<Example />)
-    await userEvent.click(screen.getByRole('button', { name: 'Open' }))
-    const dialog = screen.getByRole('dialog', { name: 'Rename file' })
-    expect(dialog).toHaveAccessibleDescription('Choose a new name.')
+    render(<Closed />)
+    await userEvent.click(screen.getByRole('button', { name: 'Edit profile' }))
+    const dialog = screen.getByRole('dialog', { name: 'Edit profile' })
+    expect(dialog).toHaveAccessibleDescription('Changes are saved to your account.')
     await userEvent.click(screen.getByRole('button', { name: 'Close' }))
     expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-  })
-
-  it('returns focus to the trigger on Escape', async () => {
-    render(<Example />)
-    const trigger = screen.getByRole('button', { name: 'Open' })
-    await userEvent.click(trigger)
-    await userEvent.keyboard('{Escape}')
-    expect(screen.queryByRole('dialog')).not.toBeInTheDocument()
-    expect(trigger).toHaveFocus()
   })
 })
