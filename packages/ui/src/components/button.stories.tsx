@@ -1,15 +1,15 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { PlusIcon } from 'lucide-react'
 import { fn } from 'storybook/test'
-import { Button } from './button'
+import { Button, buttonVariantOptions } from './button'
 
 const meta = {
   title: 'Components/Button',
   component: Button,
   args: { children: 'Save changes', onClick: fn() },
   argTypes: {
-    variant: { control: 'inline-radio', options: ['primary', 'secondary', 'outline', 'ghost', 'danger'] },
-    size: { control: 'inline-radio', options: ['sm', 'md', 'lg', 'icon'] },
+    variant: { control: 'inline-radio', options: buttonVariantOptions.variant },
+    size: { control: 'inline-radio', options: buttonVariantOptions.size },
   },
 } satisfies Meta<typeof Button>
 
