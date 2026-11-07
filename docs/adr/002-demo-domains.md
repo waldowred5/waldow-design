@@ -27,7 +27,7 @@ Replace the single domain with **four demo apps** that run on the same component
 
 Rules:
 
-1. **A brand changes only the three theme knobs** (palette, `theme.radius`, `theme.font.*`, see LAB-173) plus motion tokens. If a demo seems to need a component change to look right, the component is missing a token. Add the token, not a fork.
+1. **A brand changes only the theme knobs** (primary, secondary and accent seed colours, neutrals, `theme.radius`, `theme.font.*`; see LAB-173) plus motion tokens. If a demo seems to need a component change to look right, the component is missing a token. Add the token, not a fork.
 2. **Components are generic.** "Itinerary timeline" is a `Timeline`, "crate grid" is a `MediaGrid`, "KPI ring" is a `Stat` with a `Progress` ring. Each demo composes them as **patterns** rather than defining its own components.
 3. **Every brand passes the contrast gate** in each mode it supports. Synthwave and Dark analytics may be dark-only, and say so in their brand file.
 4. **Each demo has one hero flow** the agent can generate and the Workflow journey can record:
@@ -51,5 +51,5 @@ The Workflow journey (LAB-170) records the travel planner's trip itinerary card.
 
 ## When to revisit
 
-- If a demo can't reach its look through the knobs and motion alone, decide whether the knobs need to grow (for example a second accent or a surface texture) or the demo should change.
+- If a demo can't reach its look through the knobs and motion alone, decide whether the knobs need to grow (for example a surface texture or gradient stops) or the demo should change.
 - If snapshot cost or build time grows past budget, drop to three demos.
