@@ -1,10 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { withWidth } from '../../.storybook/decorators'
 import { Select, SelectContent, SelectGroup, SelectItem, SelectLabel, SelectSeparator, SelectTrigger, SelectValue } from './select'
 
 const meta = {
   title: 'Components/Select',
   component: Select,
-  decorators: [(Story) => <div className="w-64"><Story /></div>],
+  decorators: [withWidth('w-64')],
   render: (args) => (
     <Select {...args}>
       <SelectTrigger aria-label="Fruit">

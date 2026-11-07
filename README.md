@@ -19,20 +19,18 @@ Requires Node 22+ (see `.nvmrc`) and pnpm (pinned via `packageManager`, so `core
 pnpm install
 pnpm dev        # run the app
 pnpm storybook  # component workbench on :6006
-pnpm check      # lint, typecheck and build everything
+pnpm check      # every CI gate: lint, build, typecheck, test, size
 ```
 
 ## Quality gates
 
 | Gate | Where | Blocks on |
 | --- | --- | --- |
-| Lint, tokens-only check, typecheck, build | `ci.yml` | Any failure |
-| Unit tests and axe on every story | `ci.yml` (`pnpm test`) | A failing test or any axe violation |
-| Bundle-size budget | `ci.yml` (`pnpm size`, `.size-limit.json`) | A bundle over its limit |
+| `pnpm check`: lint and tokens-only check, build, typecheck, unit tests and axe on every story, bundle-size budget (`.size-limit.json`) | `ci.yml` | Any failure, axe violation or bundle over its limit |
 | Token contrast | token build | A key text/background pair below WCAG AA |
 | Visual regression | `chromatic.yml` (Chromatic "UI Tests" status) | Unreviewed visual changes |
 
-Storybook is published to Chromatic on every PR and on every merge to `main`. The workflow needs a `CHROMATIC_PROJECT_TOKEN` repo secret.
+Storybook is published to Chromatic; [`docs/chromatic.md`](docs/chromatic.md) covers when a real build runs. The workflow needs a `CHROMATIC_PROJECT_TOKEN` repo secret.
 
 ## Versioning and releases
 
