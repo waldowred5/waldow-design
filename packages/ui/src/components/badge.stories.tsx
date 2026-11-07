@@ -1,11 +1,11 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Badge } from './badge'
+import { Badge, badgeVariantOptions } from './badge'
 
 const meta = {
   title: 'Components/Badge',
   component: Badge,
   args: { children: 'Active' },
-  argTypes: { variant: { control: 'inline-radio', options: ['neutral', 'primary', 'success', 'warning', 'danger', 'info'] } },
+  argTypes: { variant: { control: 'inline-radio', options: badgeVariantOptions.variant } },
 } satisfies Meta<typeof Badge>
 
 export default meta

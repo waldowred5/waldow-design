@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { withWidth } from '../../.storybook/decorators'
 import { Button } from './button'
 import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './card'
 
 const meta = {
   title: 'Components/Card',
   component: Card,
-  decorators: [(Story) => <div className="w-96"><Story /></div>],
+  decorators: [withWidth('w-96')],
 } satisfies Meta<typeof Card>
 
 export default meta
