@@ -37,7 +37,7 @@ shadcn/ui is not a dependency: its CLI (or its published source) copies componen
 
 ## How tokens map into the Tailwind theme
 
-Tokens are built in three tiers (primitive → semantic → component) into CSS variables. The Tailwind theme only references **semantic** variables, never primitives or raw values:
+Tokens are built in two tiers (primitive → semantic; see [ADR 003](./003-two-token-tiers.md)) into CSS variables. The Tailwind theme only references **semantic** variables, never primitives or raw values:
 
 ```css
 @import "tailwindcss";

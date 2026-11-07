@@ -5,7 +5,7 @@ import { cn } from '../lib/cn'
 
 export const buttonVariants = cva(
   [
-    'inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-button font-medium transition-colors',
+    'inline-flex shrink-0 items-center justify-center gap-2 whitespace-nowrap rounded-control font-medium transition-colors',
     'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
     'disabled:pointer-events-none disabled:opacity-50',
     '[&_svg]:pointer-events-none [&_svg]:size-4 [&_svg]:shrink-0',
@@ -20,10 +20,10 @@ export const buttonVariants = cva(
         danger: 'bg-danger text-danger-foreground hover:bg-danger-hover',
       },
       size: {
-        sm: 'h-button-sm px-button-x-sm text-sm',
-        md: 'h-button-md px-button-x-md text-sm',
-        lg: 'h-button-lg px-button-x-lg text-base',
-        icon: 'size-button-md',
+        sm: 'h-control-sm px-control-x-sm text-sm',
+        md: 'h-control-md px-control-x-md text-sm',
+        lg: 'h-control-lg px-control-x-lg text-base',
+        icon: 'size-control-md',
       },
     },
     defaultVariants: { variant: 'primary', size: 'md' },

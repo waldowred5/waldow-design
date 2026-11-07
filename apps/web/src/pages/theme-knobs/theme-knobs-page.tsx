@@ -83,7 +83,7 @@ export default function ThemeKnobsPage() {
                   type="color"
                   value={seeds[role]}
                   onChange={(e) => update({ seeds: { ...seeds, [role]: e.target.value } })}
-                  className="h-input w-full p-1"
+                  className="h-control-md w-full p-1"
                 />
               </Field>
             ))}
