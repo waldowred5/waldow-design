@@ -7,16 +7,7 @@ import * as Stories from './theme-knobs.stories'
 
 A brand is a handful of knobs. Everything else (semantic colours, component radii, type) is derived from them, so a new brand never touches a component.
 
-| Knob | Tokens | What derives from it |
-| --- | --- | --- |
-| **Primary colour** | `theme.color.primary` → `color.primary.50–950` | Primary buttons, focus ring, selected controls, links |
-| **Secondary colour** | `theme.color.secondary` → `color.secondary.50–950` | Secondary buttons and badges, secondary emphasis |
-| **Highlight colour** | `theme.color.highlight` → `color.highlight.50–950` | Highlight badges, markers, progress and chart emphasis (`color.emphasis.highlight.*`, Tailwind `bg-highlight`, `bg-highlight-subtle`…) |
-| **Neutrals** | `color.neutral.*` | Backgrounds, surfaces, text, borders |
-| **Radius** | `theme.radius` | `radius.surface` (×1), `radius.control` (×0.75), `radius.inner` (×0.5) |
-| **Font** | `theme.font.body`, `theme.font.display`, `theme.font.mono` | Body text, titles (`font-display`), code |
-
-The knobs live in `packages/tokens/src/brand/<name>.json`.
+The knobs are three seed colours (primary, secondary, highlight), the neutral scale, one radius and the font families. They live in `packages/tokens/src/brand/<name>.json`; the table of which tokens each one drives is in the [tokens README](https://github.com/waldowred5/waldow-design/blob/main/packages/tokens/README.md#brand-knobs).
 
 ## From one colour to a scale
 

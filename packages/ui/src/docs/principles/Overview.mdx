@@ -1,4 +1,5 @@
 import { Meta } from '@storybook/addon-docs/blocks'
+import { PrincipleIndex } from '../doc-blocks'
 
 <Meta title="Principles/Overview" />
 
@@ -6,16 +7,8 @@ import { Meta } from '@storybook/addon-docs/blocks'
 
 Short rules that every screen should pass. Each one is testable: it says how to check it, and has a **do** and a **don't** example. Link to a principle by its page when critiquing work, rather than restating it.
 
-| Principle | In one line |
-| --- | --- |
-| [One primary action per surface](?path=/docs/principles-one-primary-action--docs) | At most one `primary` button per card, dialog or section |
-| [Primary actions sit at the trailing edge](?path=/docs/principles-primary-actions-sit-at-the-trailing-edge--docs) | Primary action last in every action group, via `CardFooter`, `DialogFooter` or `ActionBar` |
-| [Labels stay visible](?path=/docs/principles-labels-stay-visible--docs) | Every control has a visible `Field` label, not a placeholder |
-| [Status never relies on colour alone](?path=/docs/principles-status-never-relies-on-colour-alone--docs) | Say the status in words; colour reinforces it |
-| [Spacing comes from the scale](?path=/docs/principles-spacing-comes-from-the-scale--docs) | `Stack` gaps from the token scale, no arbitrary values |
-| [Destructive actions explain themselves](?path=/docs/principles-destructive-actions-explain-themselves--docs) | Name the object and the action; confirm in a `Dialog` |
-| [Keyboard first](?path=/docs/principles-keyboard-first--docs) | Real buttons and links, reachable and visibly focused |
+<PrincipleIndex />
 
 ## Adding a principle
 
-A principle earns a page when it has come up in at least two critiques. Write it as a rule that can be checked, add `principles/<name>.stories.tsx` with `DoExample` and `DontExample` stories, and an MDX page in the same shape as the others. Don't stories still have to pass axe: show the design mistake, not an accessibility violation the tests would reject.
+A principle earns a page when it has come up in at least two critiques. Write it as a rule that can be checked, add `principles/<name>.stories.tsx` with `DoExample` and `DontExample` stories and a one-line `parameters.summary` (it feeds the table above), and an MDX page in the same shape as the others. Don't stories still have to pass axe: show the design mistake, not an accessibility violation the tests would reject.

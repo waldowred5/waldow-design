@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Throwaway prototype stories. Published by Chromatic, never shipped.",
+  "description": "Prototype stories, published by Chromatic. Disposable by default, kept when tagged showcase. Never shipped to the app.",
   "scripts": {
     "typecheck": "tsc --noEmit"
   },
@@ -11,8 +11,8 @@
     "@waldow-design/ui": "workspace:*"
   },
   "devDependencies": {
-    "@storybook/react-vite": "^10.6.6",
-    "@types/react": "^19.3.0",
-    "react": "^19.3.1"
+    "@storybook/react-vite": "catalog:",
+    "@types/react": "catalog:",
+    "react": "catalog:"
   }
 }

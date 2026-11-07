@@ -9,25 +9,29 @@
  *                     fonts, motion; light.json and dark.json are modes)
  *
  * Output (dist/):
- *   tokens.css   :root (knobs + primitives + semantic + light), then dark overrides for
- *                [data-theme="dark"] and prefers-color-scheme: dark. Every block is also
- *                declared on [data-brand], so overriding a knob on any element re-derives
- *                the tokens for that subtree.
+ *   tokens.css   the knob defaults and primitives (every literal value) on :root only; then
+ *                every derived token (anything referencing another token) on :root and
+ *                [data-brand]; then dark overrides for [data-theme="dark"] and
+ *                prefers-color-scheme: dark, also repeated for [data-brand]. A [data-brand]
+ *                element re-derives its subtree from the knobs it inherits, so overriding a
+ *                knob there themes the subtree, and a nested [data-brand] keeps the outer
+ *                overrides.
  *   tokens.js    flat light-theme values for JS consumers, with tokens.d.ts (colours as hex)
  *   tokens.json  nested light-theme values, for docs and tooling (colours as hex)
  *
- * The build fails if a text/background pair in either theme drops below WCAG AA.
+ * The build fails if light.json and dark.json declare different tokens, or if a text/background
+ * pair in either theme drops below WCAG AA.
  */
 import { readFileSync } from 'node:fs'
 import { readFile, rm, writeFile } from 'node:fs/promises'
 import StyleDictionary from 'style-dictionary'
 import type { TransformedToken } from 'style-dictionary/types'
+import { usesReferences } from 'style-dictionary/utils'
 import { wcagContrast } from 'culori'
-import { scale, toOklch } from './palette.ts'
+import { paletteTokens, type Role, toHex, toOklch } from './palette.ts'
 
-// CSS gets colours as oklch(), including the colours inside shadows: everything the site
-// renders is OKLCH. JS/JSON output keeps hex only for compatibility, because tools that read
-// it (Storybook's manager theming, for one) can't parse oklch(). See README "Why OKLCH".
+// CSS gets colours as oklch(), including the colours inside shadows; JS/JSON output gets hex.
+// Why: README, "Why OKLCH (and where hex remains)".
 type ShadowLayer = { color: string } & Record<string, string>
 StyleDictionary.registerTransform({
   name: 'color/oklch',
@@ -48,22 +52,57 @@ StyleDictionary.registerTransform({
 const cssTransforms = StyleDictionary.hooks.transformGroups.css!.flatMap((name) =>
   name === 'color/css' ? ['color/oklch'] : name === 'shadow/css/shorthand' ? ['shadow/oklch', name] : [name],
 )
+// Style Dictionary's own color/hex can't parse oklch(), which the generated scales are written in.
+StyleDictionary.registerTransform({
+  name: 'color/hex-culori',
+  type: 'value',
+  filter: (token) => token.$type === 'color',
+  transform: (token) => toHex(String(token.$value)),
+})
+const jsTransforms = StyleDictionary.hooks.transformGroups.js!.map((name) => (name === 'color/hex' ? 'color/hex-culori' : name))
 
 const PREFIX = 'ds'
 const DIST = 'dist/'
 const BRAND = 'src/brand/waldow.json'
 const shared = [BRAND, 'src/primitive/**/*.json', 'src/semantic/base.json']
 
-// The brand's seed colours become color.primary.*, color.secondary.* and color.highlight.*.
-const seeds = JSON.parse(readFileSync(BRAND, 'utf8')).theme.color as Record<string, { $value: string }>
+const readJson = (path: string) => JSON.parse(readFileSync(path, 'utf8'))
+
+// The brand's seed colours become color.primary.*, color.secondary.* and color.highlight.*,
+// written at full OKLCH precision so each step keeps its exact lightness (hex only for JS).
+const seedTokens = readJson(BRAND).theme.color as Record<Role, { $value: string }>
+const seeds = Object.fromEntries(Object.entries(seedTokens).map(([role, token]) => [role, token.$value])) as Record<Role, string>
 const palette = {
   color: Object.fromEntries(
-    ['primary', 'secondary', 'highlight'].map((role) => [
+    Object.entries(paletteTokens(seeds)).map(([role, steps]) => [
       role,
-      Object.fromEntries(Object.entries(scale(seeds[role]!.$value)).map(([step, hex]) => [step, { $type: 'color', $value: hex }])),
+      Object.fromEntries(Object.entries(steps).map(([step, colour]) => [step, { $type: 'color', $value: toOklch(colour) }])),
     ]),
   ),
 }
+
+// Light and dark must declare the same tokens, or one mode silently falls back to the other.
+type JsonTree = { [key: string]: unknown }
+const tokenPaths = (tree: JsonTree, prefix = ''): string[] =>
+  '$value' in tree
+    ? [prefix]
+    : Object.entries(tree).flatMap(([key, value]) =>
+        key.startsWith('$') || typeof value !== 'object' || value === null ? [] : tokenPaths(value as JsonTree, prefix ? `${prefix}.${key}` : key),
+      )
+const [lightPaths, darkPaths] = ['src/semantic/light.json', 'src/semantic/dark.json'].map((f) => new Set(tokenPaths(readJson(f))))
+const modeMismatch = [...[...lightPaths!].filter((p) => !darkPaths!.has(p)), ...[...darkPaths!].filter((p) => !lightPaths!.has(p))]
+if (modeMismatch.length) {
+  console.error('light.json and dark.json declare different tokens:\n  ' + modeMismatch.join('\n  '))
+  process.exit(1)
+}
+
+/** A selector plus the same selector scoped to [data-brand] elements, which re-derive their subtree. */
+const withBrand = (sel: string) => `${sel}, ${sel === ':root' ? '' : `${sel} `}[data-brand]`
+
+// Knob defaults (theme.*) and literal values are declared once, on :root, so a [data-brand]
+// subtree inherits whatever its ancestors set. Everything that references another token is
+// re-declared on [data-brand] so it resolves against those inherited values.
+const isDefault = (token: TransformedToken) => token.path[0] === 'theme' || !usesReferences(token.original.$value)
 
 const light = new StyleDictionary({
   tokens: palette,
@@ -74,10 +113,18 @@ const light = new StyleDictionary({
       transforms: cssTransforms,
       prefix: PREFIX,
       buildPath: DIST,
-      files: [{ destination: 'light.css', format: 'css/variables', options: { outputReferences: true, selector: ':root, [data-brand]' } }],
+      files: [
+        { destination: 'defaults.css', format: 'css/variables', filter: isDefault, options: { outputReferences: true, selector: ':root' } },
+        {
+          destination: 'light.css',
+          format: 'css/variables',
+          filter: (token) => !isDefault(token),
+          options: { outputReferences: true, selector: withBrand(':root') },
+        },
+      ],
     },
     js: {
-      transformGroup: 'js',
+      transforms: jsTransforms,
       buildPath: DIST,
       files: [
         { destination: 'tokens.js', format: 'javascript/es6' },
@@ -106,7 +153,7 @@ const dark = new StyleDictionary({
           destination: 'dark-attr.css',
           format: 'css/variables',
           filter: isDark,
-          options: { outputReferences: true, selector: '[data-theme="dark"], [data-theme="dark"] [data-brand]' },
+          options: { outputReferences: true, selector: withBrand('[data-theme="dark"]') },
         },
         {
           destination: 'dark-media.css',
@@ -114,7 +161,7 @@ const dark = new StyleDictionary({
           filter: isDark,
           options: {
             outputReferences: true,
-            selector: ['@media (prefers-color-scheme: dark)', ':root:not([data-theme="light"]), :root:not([data-theme="light"]) [data-brand]'],
+            selector: ['@media (prefers-color-scheme: dark)', withBrand(':root:not([data-theme="light"])')],
           },
         },
       ],
@@ -126,14 +173,39 @@ await rm(DIST, { recursive: true, force: true })
 await light.buildAllPlatforms()
 await dark.buildAllPlatforms()
 
-const parts = await Promise.all(['light.css', 'dark-attr.css', 'dark-media.css'].map((f) => readFile(DIST + f, 'utf8')))
+const parts = await Promise.all(['defaults.css', 'light.css', 'dark-attr.css', 'dark-media.css'].map((f) => readFile(DIST + f, 'utf8')))
 const colorScheme = [
   ':root { color-scheme: light; }',
   '[data-theme="dark"] { color-scheme: dark; }',
   '@media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) { color-scheme: dark; } }',
 ].join('\n')
 await writeFile(DIST + 'tokens.css', [...parts, colorScheme].join('\n') + '\n')
-await Promise.all(['light.css', 'dark-attr.css', 'dark-media.css'].map((f) => rm(DIST + f)))
+await Promise.all(['defaults.css', 'light.css', 'dark-attr.css', 'dark-media.css'].map((f) => rm(DIST + f)))
+
+// --- Utility names -----------------------------------------------------------
+
+// The Tailwind utility names packages/ui/src/styles.css maps from semantic tokens: the token path
+// without its first segment (size.control.md → h-control-md, radius.surface → rounded-surface).
+// Control sizes and every space.* token are spacing; other size.* tokens are container widths
+// (max-w-dialog). Exported so tailwind-merge in packages/ui doesn't restate them by hand.
+const semantic = (await light.getPlatformTokens('css')).allTokens.filter((t) => t.filePath?.includes('src/semantic/'))
+const utility = (t: TransformedToken) => t.path.slice(1).join('-')
+const group = (match: (t: TransformedToken) => boolean) => semantic.filter(match).map(utility)
+const utilities = {
+  spacing: group((t) => t.path[0] === 'space' || (t.path[0] === 'size' && t.path[1]!.startsWith('control'))),
+  container: group((t) => t.path[0] === 'size' && !t.path[1]!.startsWith('control')),
+  radius: group((t) => t.path[0] === 'radius'),
+  shadow: group((t) => t.path[0] === 'elevation'),
+}
+const banner = '/** Tailwind utility names for the semantic tokens. Generated by build.ts. */\n'
+await writeFile(
+  DIST + 'utilities.js',
+  banner + Object.entries(utilities).map(([k, v]) => `export const ${k} = ${JSON.stringify(v)}`).join('\n') + '\n',
+)
+await writeFile(
+  DIST + 'utilities.d.ts',
+  banner + Object.keys(utilities).map((k) => `export declare const ${k}: string[]`).join('\n') + '\n',
+)
 
 // --- Contrast gate ---------------------------------------------------------
 
@@ -144,6 +216,7 @@ const pairs: Array<[fg: string, bg: string, min: number]> = [
   ['color.text.muted', 'color.background.default', 4.5],
   ['color.text.muted', 'color.surface.default', 4.5],
   ['color.text.link', 'color.background.default', 4.5],
+  ['color.text.link', 'color.emphasis.highlight.background', 4.5],
   ['color.text.inverse', 'color.background.inverse', 4.5],
   ['color.action.primary.text', 'color.action.primary.default', 4.5],
   ['color.action.primary.text', 'color.action.primary.hover', 4.5],
