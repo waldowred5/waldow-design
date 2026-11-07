@@ -1,6 +1,6 @@
 # Prototypes
 
-Disposable feature variants, written as Storybook stories. Chromatic publishes them on PRs into `main` or labelled `visual-test` (see [`docs/chromatic.md`](../docs/chromatic.md)), so variants can be compared side by side and shared by link. Nothing here ships to the app: once a direction is chosen, build it properly in `apps/web` (or as a component in `packages/ui`).
+Disposable feature variants, written as Storybook stories. Chromatic publishes them on PRs into `main` or labelled `visual-test` (see [`docs/chromatic.md`](../docs/chromatic.md)), so variants can be compared side by side and shared by link. Nothing here ships to the app: once a direction is chosen, build it properly in `apps/web` (or as a component in `packages/ui`). `pnpm lint` fails if `apps/web/src` imports from here.
 
 This file is the prototypes contract. `CLAUDE.md` and the root README point here.
 
@@ -15,6 +15,8 @@ Prototypes are disposable by default: delete one once its direction is built. Ke
 
 - add `tags: ['showcase']` to the story meta
 - say in the top JSDoc which variant won and why
+
+The tag is a marker for readers, not a filter: every prototype is built into Storybook and published by Chromatic, tagged or not.
 
 Kept prototypes stay under the same contract and CI checks as everything else.
 

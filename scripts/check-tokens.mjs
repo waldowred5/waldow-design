@@ -10,12 +10,14 @@
  *     (CSS-variable shorthand like max-h-(--radix-…) is allowed)
  *   - Tailwind default palette classes, e.g. bg-blue-500
  *   - direct use of primitive token variables, e.g. var(--ds-color-brand-600)
+ *   - in apps/web/src, imports from prototypes/ (nothing there ships to the app)
  *
  * Opt a line out with a trailing `// tokens-ok: <reason>` comment.
  */
 import { readdir, readFile } from 'node:fs/promises'
 import { join, relative } from 'node:path'
 
+// The prototypes path is also hard-coded in packages/ui/.storybook/main.ts.
 const roots = ['packages/ui/src', 'apps/web/src', 'prototypes']
 const exts = /\.(tsx?|mdx)$/
 const skip = /(\.test\.|node_modules|dist)/
@@ -27,6 +29,7 @@ const rules = [
   { name: 'default palette', re: new RegExp(`\\b(?:bg|text|border|ring|outline|fill|stroke|from|to|via|decoration|shadow|accent|caret)-(?:${palette})-\\d{2,3}\\b`) },
   { name: 'primitive token', re: /--ds-color-(?:neutral|brand|green|amber|red|blue|white|black)\b/ },
 ]
+const appOnly = [{ name: 'prototype import', re: /\bfrom\s+['"][^'"]*\bprototypes\b|@waldow-design\/prototypes\b/ }]
 
 async function* walk(dir) {
   let entries
@@ -47,9 +50,10 @@ const problems = []
 for (const root of roots) {
   for await (const file of walk(root)) {
     const lines = (await readFile(file, 'utf8')).split('\n')
+    const checks = root === 'apps/web/src' ? [...rules, ...appOnly] : rules
     lines.forEach((line, i) => {
       if (line.includes('tokens-ok:')) return
-      for (const { name, re } of rules) {
+      for (const { name, re } of checks) {
         const match = line.match(re)
         if (match) problems.push(`${relative('.', file)}:${i + 1}  ${name}: ${match[0]}`)
       }

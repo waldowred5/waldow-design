@@ -1,6 +1,10 @@
 /**
  * Prototype: inviting a team member. Three directions for the same task.
- * Kept as a showcase example of the prototype workflow; no direction has been built yet.
+ * Kept as a showcase example of the prototype workflow.
+ *
+ * Winner: B (dialog). It best follows the one-primary-action and action-placement principles:
+ * one primary (Send invite) beside a ghost Cancel, both on the trailing edge of the footer.
+ * A puts its action on the leading edge of the card, and C adds a primary button to the table.
  */
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import {
