@@ -3,7 +3,7 @@
   "baseBranch": "main",
   "access": "restricted",
   "format": "auto",
-  "changelog": ["@changesets/changelog-github", { "repo": "waldowred5/waldow-ds" }],
+  "changelog": ["@changesets/changelog-github", { "repo": "waldowred5/waldow-design" }],
   "commit": false,
   "privatePackages": { "version": true, "tag": true },
   "ignore": ["@waldow-ds/web"],

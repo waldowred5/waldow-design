@@ -1,11 +1,12 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { withWidth } from '../../.storybook/decorators'
 import { Input } from './input'
 
 const meta = {
   title: 'Components/Input',
   component: Input,
   args: { 'aria-label': 'Name', placeholder: 'Ada Lovelace' },
-  decorators: [(Story) => <div className="w-80"><Story /></div>],
+  decorators: [withWidth('w-80')],
 } satisfies Meta<typeof Input>
 
 export default meta

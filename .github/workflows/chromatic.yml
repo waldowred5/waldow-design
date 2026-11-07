@@ -2,21 +2,19 @@ name: Chromatic
 
 # Publishes Storybook to Chromatic and runs visual regression.
 #
-# Chromatic's free plan is 5,000 billed snapshots a month, and work lands as
-# stacked PRs where one push gets merged up through every branch above it. So a
-# real build runs only when it matters (see docs/chromatic.md):
-#   - pushes to main (auto-accepted: they become the baselines)
-#   - PRs whose base is main, including a stacked PR retargeted onto main
-#   - PRs labelled `visual-test`, on any base
-#   - manual runs (workflow_dispatch)
-# Every other PR run calls Chromatic with `skip`, which bills no snapshots but
-# still marks the commit as passing, so the required "UI Tests" status reports.
+# Chromatic's free plan is 5,000 billed snapshots a month, so a real build runs
+# only when it matters. docs/chromatic.md lists which events run a real build and
+# which are skipped. A skipped run still calls Chromatic with `skip`, which bills no
+# snapshots but marks the commit as passing, so the required "UI Tests" status reports.
 on:
   pull_request:
     types: [opened, synchronize, reopened, ready_for_review, labeled, edited]
   push:
     branches: [main]
   workflow_dispatch:
+
+permissions:
+  contents: read
 
 jobs:
   chromatic:
@@ -34,8 +32,9 @@ jobs:
       group: chromatic-${{ github.event.pull_request.number || github.ref }}
       cancel-in-progress: ${{ github.event_name == 'pull_request' }}
     steps:
-      - uses: actions/checkout@v7
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
         with:
+          persist-credentials: false
           # TurboSnap needs history to work out which stories changed.
           fetch-depth: 0
 
@@ -58,9 +57,8 @@ jobs:
           [ "$HAS_LABEL" = "true" ] && decide run "visual-test label"
           [ "$DRAFT" = "true" ] && decide skip "draft PR; runs when marked ready or labelled visual-test"
           [ "$BASE_REF" != "main" ] && decide skip "stacked PR on $BASE_REF; runs once it targets main, or label it visual-test"
-          # Changes that can't affect a story: docs, ADRs, changesets, Claude config,
-          # and CI config other than this workflow. MDX is Storybook content, so .mdx
-          # never matches here.
+          # Paths that can't affect a story (see docs/chromatic.md). MDX is Storybook
+          # content, so .mdx never matches here.
           changed="$(git diff --name-only "$BASE_SHA...$HEAD_SHA")"
           relevant="$(grep -vE '^(docs/|\.changeset/|\.claude/|\.github/|LICENSE$)|\.md$' <<< "$changed" || true)"
           if [ -n "$relevant" ] || grep -qx '\.github/workflows/chromatic\.yml' <<< "$changed"; then
@@ -68,9 +66,9 @@ jobs:
           fi
           decide skip "docs-only change"
 
-      - uses: pnpm/action-setup@v6
+      - uses: pnpm/action-setup@73e46992e05b19abd31f2f3c20e0e7370d762115 # v6.1.1
         if: steps.decide.outputs.mode == 'run'
-      - uses: actions/setup-node@v7
+      - uses: actions/setup-node@949feb2413d6458794dcd2491c4babbbce0c15c1 # v7.1.0
         if: steps.decide.outputs.mode == 'run'
         with:
           node-version-file: .nvmrc
@@ -80,7 +78,7 @@ jobs:
       - run: pnpm --filter @waldow-ds/ui build-storybook --stats-json
         if: steps.decide.outputs.mode == 'run'
 
-      - uses: chromaui/action@latest
+      - uses: chromaui/action@6ac4c49524e1b1358b8c593c5eea877604228268 # v18.14.2
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           workingDir: packages/ui

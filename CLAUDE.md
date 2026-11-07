@@ -8,7 +8,7 @@ A small but real design system: tokens → components → Storybook, with Chroma
 
 Any UI you write here (app screens, component stories, explorations) follows the same contract the runtime agent will (Phase 2, A2UI):
 
-1. **Only design system components.** Import from `@waldow-ds/ui`. Don't hand-roll a control that exists (Button, Input, Field, Select, Checkbox, Card, Stack, Badge, Dialog, Table). If something is missing, say so and propose a component rather than inlining one.
+1. **Only design system components.** Import from `@waldow-ds/ui` (list in [`packages/ui/README.md`](packages/ui/README.md#components)). Don't hand-roll a control that exists. If something is missing, say so and propose a component rather than inlining one.
 2. **Only semantic tokens.** Style with the token utilities defined in `packages/ui/src/styles.css`: `bg-primary`, `text-muted-foreground`, `border-border-strong`, `rounded-control`, `shadow-raised`, `p-4`, `gap-2`. Never:
    - raw colours (`#fff`, `rgb()`, `oklch()`)
    - arbitrary values (`p-[13px]`, `bg-[#...]`)
@@ -16,22 +16,12 @@ Any UI you write here (app screens, component stories, explorations) follows the
    - primitive tokens (`var(--ds-color-brand-600)`)
 
    `pnpm lint` enforces this (`scripts/check-tokens.mjs`).
-3. **Follow the principles** in `packages/ui/src/docs/principles/`: one primary action per surface, visible labels via `Field`, status in words (not colour alone), spacing from `Stack` gaps, destructive actions that name the object and the action, keyboard first.
+3. **Follow the design principles.** Start at [`Overview.mdx`](packages/ui/src/docs/principles/Overview.mdx) (Storybook: Principles/Overview); each principle has its own page with examples.
 4. **Accessible by default.** Every control has a label. Icon-only buttons have `aria-label`. Dialogs have a `DialogTitle`. Every story must pass axe: the story tests render all of them in CI.
 
 ## Prototyping: explorations
 
-When asked to explore or prototype UI, generate **several variants as stories** rather than one finished screen:
-
-```bash
-pnpm explore "invite member"   # scaffolds explorations/invite-member/invite-member.stories.tsx
-```
-
-- One story per variant (`A: …`, `B: …`, `C: …`), each with a one-line JSDoc stating what it bets on.
-- Same contract as above. Explorations are linted, typechecked and axe-tested.
-- Chromatic publishes them on the PR so variants can be compared by link. Nothing in `explorations/` ships; when a direction is picked, build it properly and delete the exploration.
-
-See `explorations/invite-member/` for the shape.
+When asked to explore or prototype UI, generate **several variants as stories** with `pnpm explore "<idea>"` rather than one finished screen. The rules (one story per variant, same contract as above, Chromatic on PRs into `main` or labelled `visual-test`, nothing ships) live in [`explorations/README.md`](explorations/README.md).
 
 ## Working in the repo
 
@@ -40,7 +30,7 @@ pnpm install          # also builds tokens
 pnpm dev              # apps/web
 pnpm storybook        # :6006
 pnpm check            # lint + tokens check, build, typecheck, tests, size budgets (what CI runs)
-pnpm changeset        # describe a package change (needed on PRs to main)
+pnpm changeset        # in a PR that changes a package (see README "Versioning and releases")
 ```
 
 - **Tokens:** edit JSON in `packages/tokens/src/`. Change semantic colours in both `light.json` and `dark.json`. The build fails below WCAG AA for the pairs listed in `build.ts`.

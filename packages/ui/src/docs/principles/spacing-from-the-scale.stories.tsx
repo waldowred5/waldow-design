@@ -5,7 +5,7 @@ import { Input } from '../../components/input'
 import { Stack } from '../../components/stack'
 import { Do, Dont } from '../do-dont'
 
-const meta = { title: 'Principles/Spacing comes from the scale', tags: ['!autodocs'] } satisfies Meta
+const meta = { title: 'Principles/Spacing comes from the scale', parameters: { summary: '`Stack` gaps from the token scale, no arbitrary values' }, tags: ['!autodocs'] } satisfies Meta
 
 export default meta
 type Story = StoryObj<typeof meta>
