@@ -1,32 +1,26 @@
-# React + TypeScript + Vite
+# waldow-ds
 
-This template provides a minimal setup to get React working in Vite with HMR and some Oxlint rules.
+A small but real design system: three-tier design tokens, accessible React components, Storybook and Chromatic visual regression from the first commit.
 
-Currently, two official plugins are available:
+## Workspace
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Oxc](https://oxc.rs)
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/)
+| Path | Package | What it is |
+| --- | --- | --- |
+| `packages/tokens` | `@waldow-ds/tokens` | Design tokens, built into CSS variables |
+| `packages/ui` | `@waldow-ds/ui` | React components (shadcn/ui foundation, see [ADR 001](docs/adr/001-shadcn-ui-component-foundation.md)) |
+| `packages/catalog` | `@waldow-ds/catalog` | Machine-readable component catalog (Phase 2) |
+| `apps/web` | `@waldow-ds/web` | The design system app |
 
-## React Compiler
+## Getting started
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+Requires Node 22+ (see `.nvmrc`) and pnpm (pinned via `packageManager`, so `corepack enable` is enough).
 
-## Expanding the Oxlint configuration
-
-If you are developing a production application, we recommend enabling type-aware lint rules by installing `oxlint-tsgolint` and editing `.oxlintrc.json`:
-
-```json
-{
-  "$schema": "./node_modules/oxlint/configuration_schema.json",
-  "plugins": ["react", "typescript", "oxc"],
-  "options": {
-    "typeAware": true
-  },
-  "rules": {
-    "react/rules-of-hooks": "error",
-    "react/only-export-components": ["warn", { "allowConstantExport": true }]
-  }
-}
+```bash
+pnpm install
+pnpm dev        # run the app
+pnpm check      # lint, typecheck and build everything
 ```
 
-See the [Oxlint rules documentation](https://oxc.rs/docs/guide/usage/linter/rules) for the full list of rules and categories.
+## Decisions
+
+Architecture decisions live in [`docs/adr`](docs/adr).

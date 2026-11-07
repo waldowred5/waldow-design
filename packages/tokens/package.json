@@ -1,0 +1,28 @@
+{
+  "name": "@waldow-ds/tokens",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "Design tokens for waldow-ds, built into CSS variables.",
+  "exports": {
+    ".": {
+      "types": "./dist/tokens.d.ts",
+      "default": "./dist/tokens.js"
+    },
+    "./tokens.css": "./dist/tokens.css",
+    "./tokens.json": "./dist/tokens.json"
+  },
+  "scripts": {
+    "build": "node build.ts",
+    "prepare": "node build.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "devDependencies": {
+    "@types/node": "^24.19.2",
+    "style-dictionary": "^5.8.0"
+  },
+  "files": [
+    "dist",
+    "src"
+  ]
+}

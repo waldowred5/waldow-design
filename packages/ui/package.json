@@ -1,0 +1,13 @@
+{
+  "name": "@waldow-ds/ui",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "description": "React components for waldow-ds.",
+  "exports": {
+    ".": "./src/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc --noEmit"
+  }
+}
