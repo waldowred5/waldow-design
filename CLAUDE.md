@@ -8,7 +8,7 @@ A small but real design system: tokens → components → Storybook, with Chroma
 
 Any UI you write here (app screens, component stories, prototypes) follows the same contract the runtime agent will (Phase 2, A2UI):
 
-1. **Only design system components.** Import from `@waldow-design/ui`. Don't hand-roll a control that exists (Button, Input, Field, Select, Checkbox, Card, Stack, Badge, Dialog, Table). If something is missing, say so and propose a component rather than inlining one.
+1. **Only design system components.** Import from `@waldow-design/ui`. Don't hand-roll a control that exists (ActionBar, Button, Input, Field, Select, Checkbox, Card, Stack, Badge, Dialog, Table). If something is missing, say so and propose a component rather than inlining one.
 2. **Only semantic tokens.** Style with the token utilities defined in `packages/ui/src/styles.css`: `bg-primary`, `text-muted-foreground`, `border-border-strong`, `rounded-control`, `shadow-raised`, `p-4`, `gap-2`. Never:
    - raw colours (`#fff`, `rgb()`, `oklch()`)
    - arbitrary values (`p-[13px]`, `bg-[#...]`)
@@ -16,7 +16,7 @@ Any UI you write here (app screens, component stories, prototypes) follows the s
    - primitive tokens (`var(--ds-color-brand-600)`)
 
    `pnpm lint` enforces this (`scripts/check-tokens.mjs`).
-3. **Follow the principles** in `packages/ui/src/docs/principles/`: one primary action per surface, visible labels via `Field`, status in words (not colour alone), spacing from `Stack` gaps, destructive actions that name the object and the action, keyboard first.
+3. **Follow the principles** in `packages/ui/src/docs/principles/`: one primary action per surface, primary actions at the trailing edge (last in `CardFooter`, `DialogFooter` or `ActionBar`), visible labels via `Field`, status in words (not colour alone), spacing from `Stack` gaps, destructive actions that name the object and the action, keyboard first.
 4. **Accessible by default.** Every control has a label. Icon-only buttons have `aria-label`. Dialogs have a `DialogTitle`. Every story must pass axe: the story tests render all of them in CI.
 
 ## Prototypes

@@ -18,8 +18,8 @@ export const DoExample: Story = {
           <CardDescription>Your edits go live for everyone.</CardDescription>
         </CardHeader>
         <CardFooter>
-          <Button>Publish</Button>
           <Button variant="ghost">Save draft</Button>
+          <Button>Publish</Button>
         </CardFooter>
       </Card>
     </Do>
@@ -36,9 +36,9 @@ export const DontExample: Story = {
           <CardDescription>Your edits go live for everyone.</CardDescription>
         </CardHeader>
         <CardFooter>
-          <Button>Publish</Button>
-          <Button>Save draft</Button>
           <Button>Preview</Button>
+          <Button>Save draft</Button>
+          <Button>Publish</Button>
         </CardFooter>
       </Card>
     </Dont>

@@ -1,0 +1,16 @@
+import { Canvas, Meta } from '@storybook/addon-docs/blocks'
+import * as Stories from './action-placement.stories'
+
+<Meta of={Stories} />
+
+# Primary actions sit at the trailing edge
+
+**Rule:** In any group of actions (card footer, dialog footer, form, panel), the primary action comes **last** and sits at the trailing edge: on the right in left-to-right layouts, on the left in right-to-left ones, and at the bottom when the group stacks on narrow screens. Lesser actions come before it. Use `CardFooter`, `DialogFooter` or `ActionBar`, which all share this layout.
+
+**Why:** The trailing edge is where reading ends, so it's where the next step belongs. Most systems agree on this for dialogs, wizards and multi-step flows (Apple, Material, Atlassian). Some left-align in-page forms (Carbon, GOV.UK); we use the trailing edge everywhere so every surface behaves the same.
+
+**How to check:** In each action group, the primary button is the last child, and the group is a `CardFooter`, `DialogFooter` or `ActionBar`, not a hand-built row. Nothing reorders buttons with CSS, so Tab order matches what's seen.
+
+<Canvas of={Stories.DoExample} sourceState="hidden" />
+
+<Canvas of={Stories.DontExample} sourceState="hidden" />

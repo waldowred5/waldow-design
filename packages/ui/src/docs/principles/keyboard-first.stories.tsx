@@ -13,10 +13,10 @@ export const DoExample: Story = {
   render: () => (
     <Do caption="Real buttons and links: reachable with Tab, activated with Enter or Space, with a visible focus ring.">
       <Stack direction="horizontal" gap={2}>
-        <Button>Save</Button>
         <Button variant="outline" asChild>
           <a href="#history">View history</a>
         </Button>
+        <Button>Save</Button>
       </Stack>
     </Do>
   ),

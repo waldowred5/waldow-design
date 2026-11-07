@@ -2,6 +2,7 @@ import { XIcon } from 'lucide-react'
 import { Dialog as DialogPrimitive } from 'radix-ui'
 import type { ComponentProps } from 'react'
 import { cn } from '../lib/cn'
+import { actionBarClasses } from './action-bar'
 
 /**
  * A modal window that interrupts the page for a focused task or decision.
@@ -86,8 +87,9 @@ export function DialogHeader({ className, ...props }: ComponentProps<'div'>) {
   return <div data-slot="dialog-header" className={cn('flex flex-col gap-1.5 pr-6', className)} {...props} />
 }
 
+/** The dialog's actions, at the trailing edge with the primary action last (see `ActionBar`). */
 export function DialogFooter({ className, ...props }: ComponentProps<'div'>) {
-  return <div data-slot="dialog-footer" className={cn('flex flex-col-reverse gap-2 sm:flex-row sm:justify-end', className)} {...props} />
+  return <div data-slot="dialog-footer" className={cn(actionBarClasses, className)} {...props} />
 }
 
 export function DialogTitle({ className, ...props }: ComponentProps<typeof DialogPrimitive.Title>) {
