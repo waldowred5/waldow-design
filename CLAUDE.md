@@ -29,7 +29,7 @@ pnpm prototype "invite member"   # scaffolds prototypes/invite-member/invite-mem
 
 - One story per variant (`A: …`, `B: …`, `C: …`), each with a one-line JSDoc stating what it bets on.
 - Same contract as above. Prototypes are linted, typechecked and axe-tested.
-- Chromatic publishes them on the PR so variants can be compared by link. Nothing in `prototypes/` ships to the app; when a direction is picked, build it properly in `apps/web` or `packages/ui`.
+- Chromatic publishes them on the PR so variants can be compared by link. On a stacked PR, label it `visual-test` to get a build (see `docs/chromatic.md`). Nothing in `prototypes/` ships to the app; when a direction is picked, build it properly in `apps/web` or `packages/ui`.
 - **Disposable by default, kept as showcase examples when useful.** Delete a prototype once its direction is built, unless it's a good example of the workflow. Then keep it committed: add `tags: ['showcase']` to its meta and note in the top JSDoc which variant won and why.
 
 See `prototypes/invite-member/` for the shape (a showcase example).
