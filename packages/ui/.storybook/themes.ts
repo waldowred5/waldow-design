@@ -1,6 +1,6 @@
 /**
  * Storybook UI themes (sidebar, toolbar, addon panel and docs pages), one per colour mode.
- * Values come from the same primitives as tokens/semantic/light.json and dark.json, so the
+ * Values come from the same primitives as src/semantic/light.json and dark.json, so the
  * Storybook chrome matches the components it frames.
  */
 import * as t from '@waldow-design/tokens'
