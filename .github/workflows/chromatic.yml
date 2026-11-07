@@ -1,41 +1,96 @@
 name: Chromatic
 
-# Publishes Storybook to Chromatic and runs visual regression on every PR.
-# Chromatic reports a "UI Tests" status; require it on main so unreviewed
-# visual changes can't merge. Pushes to main auto-accept and become the baseline,
-# and each published build is the hosted Storybook.
+# Publishes Storybook to Chromatic and runs visual regression.
+#
+# Chromatic's free plan is 5,000 billed snapshots a month, and work lands as
+# stacked PRs where one push gets merged up through every branch above it. So a
+# real build runs only when it matters (see docs/chromatic.md):
+#   - pushes to main (auto-accepted: they become the baselines)
+#   - PRs whose base is main, including a stacked PR retargeted onto main
+#   - PRs labelled `visual-test`, on any base
+#   - manual runs (workflow_dispatch)
+# Every other PR run calls Chromatic with `skip`, which bills no snapshots but
+# still marks the commit as passing, so the required "UI Tests" status reports.
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review, labeled, edited]
   push:
     branches: [main]
-
-concurrency:
-  group: chromatic-${{ github.ref }}
-  cancel-in-progress: true
+  workflow_dispatch:
 
 jobs:
   chromatic:
     name: Visual tests
+    # `labeled` only matters for the visual-test label, and `edited` only when the
+    # base branch changed (a stacked PR retargeted onto main). Title or body edits
+    # and other labels don't run the job at all.
+    if: >-
+      (github.event.action != 'labeled' || github.event.label.name == 'visual-test') &&
+      (github.event.action != 'edited' || github.event.changes.base != null)
     runs-on: ubuntu-latest
+    # Job-level, so runs whose job is skipped above don't cancel a real build.
+    # Superseded PR runs are cancelled; main runs queue so every baseline lands.
+    concurrency:
+      group: chromatic-${{ github.event.pull_request.number || github.ref }}
+      cancel-in-progress: ${{ github.event_name == 'pull_request' }}
     steps:
       - uses: actions/checkout@v7
         with:
           # TurboSnap needs history to work out which stories changed.
           fetch-depth: 0
+
+      - name: Decide whether to run visual tests
+        id: decide
+        env:
+          EVENT: ${{ github.event_name }}
+          BASE_REF: ${{ github.event.pull_request.base.ref }}
+          BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          DRAFT: ${{ github.event.pull_request.draft }}
+          HAS_LABEL: ${{ contains(github.event.pull_request.labels.*.name, 'visual-test') }}
+        run: |
+          decide() {
+            echo "mode=$1" >> "$GITHUB_OUTPUT"
+            echo "Visual tests: $1 ($2)" | tee -a "$GITHUB_STEP_SUMMARY"
+            exit 0
+          }
+          [ "$EVENT" != "pull_request" ] && decide run "$EVENT"
+          [ "$HAS_LABEL" = "true" ] && decide run "visual-test label"
+          [ "$DRAFT" = "true" ] && decide skip "draft PR; runs when marked ready or labelled visual-test"
+          [ "$BASE_REF" != "main" ] && decide skip "stacked PR on $BASE_REF; runs once it targets main, or label it visual-test"
+          # Changes that can't affect a story: docs, ADRs, changesets, Claude config,
+          # and CI config other than this workflow. MDX is Storybook content, so .mdx
+          # never matches here.
+          changed="$(git diff --name-only "$BASE_SHA...$HEAD_SHA")"
+          relevant="$(grep -vE '^(docs/|\.changeset/|\.claude/|\.github/|LICENSE$)|\.md$' <<< "$changed" || true)"
+          if [ -n "$relevant" ] || grep -qx '\.github/workflows/chromatic\.yml' <<< "$changed"; then
+            decide run "PR into main"
+          fi
+          decide skip "docs-only change"
+
       - uses: pnpm/action-setup@v6
+        if: steps.decide.outputs.mode == 'run'
       - uses: actions/setup-node@v7
+        if: steps.decide.outputs.mode == 'run'
         with:
           node-version-file: .nvmrc
           cache: pnpm
       - run: pnpm install --frozen-lockfile
+        if: steps.decide.outputs.mode == 'run'
       - run: pnpm --filter @waldow-design/ui build-storybook --stats-json
+        if: steps.decide.outputs.mode == 'run'
+
       - uses: chromaui/action@latest
         with:
           projectToken: ${{ secrets.CHROMATIC_PROJECT_TOKEN }}
           workingDir: packages/ui
           storybookBuildDir: storybook-static
           storybookBaseDir: packages/ui
-          # TurboSnap: only snapshot stories affected by the change, to stay inside plan limits.
+          # Skip: no snapshots, no Storybook upload, but the commit is marked as
+          # passing so the required "UI Tests" status still reports.
+          skip: ${{ steps.decide.outputs.mode == 'skip' }}
+          # TurboSnap: only snapshot stories affected by the change. Unaffected
+          # stories are copied at 0.2 of a snapshot each, not free.
           onlyChanged: true
           # Don't fail the job on visual changes; the "UI Tests" status blocks until they're reviewed.
           exitZeroOnChanges: true
