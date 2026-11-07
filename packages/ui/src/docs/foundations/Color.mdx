@@ -7,7 +7,7 @@ import { PrimitiveColors, SemanticColors } from './token-docs'
 
 Use **semantic** colours. They describe intent (`text.muted`, `action.primary.hover`) and switch with the theme. Use the toolbar's theme switcher to see both. In components these are Tailwind utilities such as `bg-primary`, `text-muted-foreground` and `border-border-strong`. The full mapping is in `packages/ui/src/styles.css`.
 
-Every text/background pair below is checked against WCAG AA when the tokens build, in both themes.
+The tokens build fails if a core pair drops below WCAG AA in either theme: default and muted text on the page background and surface, link text on the page background, inverse text on the inverse background, each action's text on its fill, each status's text on its background, and focus and strong borders on the page background (3:1). The list is `pairs` in `packages/tokens/build.ts`. Other combinations shown here aren't gated, so check them before relying on them.
 
 ## Semantic
 

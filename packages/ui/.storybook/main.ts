@@ -3,7 +3,8 @@ import type { StorybookConfig } from '@storybook/react-vite'
 
 const config: StorybookConfig = {
   framework: '@storybook/react-vite',
-  stories: ['../src/**/*.mdx', '../src/**/*.stories.@(ts|tsx)', '../../../prototypes/**/*.stories.@(ts|tsx)'],
+  // The prototypes glob is mirrored in src/test/stories.test.tsx and .storybook/storybook.css.
+  stories: ['../src/**/*.mdx', '../src/**/*.stories.{ts,tsx}', '../../../prototypes/**/*.stories.{ts,tsx}'],
   addons: ['@storybook/addon-docs', '@storybook/addon-a11y', '@storybook/addon-themes'],
   core: { disableTelemetry: true },
   async viteFinal(viteConfig) {

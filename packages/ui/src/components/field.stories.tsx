@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
+import { withWidth } from '../../.storybook/decorators'
 import { Checkbox } from './checkbox'
 import { Field } from './field'
 import { Input } from './input'
@@ -8,7 +9,7 @@ const meta = {
   title: 'Components/Field',
   component: Field,
   args: { label: 'Email', children: <Input type="email" /> },
-  decorators: [(Story) => <div className="w-80"><Story /></div>],
+  decorators: [withWidth('w-80')],
 } satisfies Meta<typeof Field>
 
 export default meta
