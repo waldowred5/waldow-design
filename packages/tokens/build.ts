@@ -1,13 +1,16 @@
 /**
  * Builds the three token tiers into CSS variables and a typed JS module.
  *
- *   tokens/primitive  raw values (palette, scales)
- *   tokens/semantic   intent (base.json is theme-independent; light.json and dark.json are themes)
+ *   tokens/brand      the three theme knobs: palette (neutral and brand scales), radius, font
+ *   tokens/primitive  raw values (status hues, scales)
+ *   tokens/semantic   intent (base.json is mode-independent; light.json and dark.json are modes)
  *   tokens/component  per-component decisions, referencing semantic tokens
  *
  * Output (dist/):
- *   tokens.css   :root (primitives + light + components), then dark overrides for
- *                [data-theme="dark"] and prefers-color-scheme: dark
+ *   tokens.css   :root (knobs + primitives + light + components), then dark overrides for
+ *                [data-theme="dark"] and prefers-color-scheme: dark. Every block is also
+ *                declared on [data-brand], so overriding a knob on any element re-derives
+ *                the tokens for that subtree.
  *   tokens.js    flat light-theme values for JS consumers, with tokens.d.ts
  *   tokens.json  nested light-theme values, for docs and tooling
  *
@@ -19,7 +22,7 @@ import type { TransformedToken } from 'style-dictionary/types'
 
 const PREFIX = 'ds'
 const DIST = 'dist/'
-const shared = ['tokens/primitive/**/*.json', 'tokens/semantic/base.json', 'tokens/component/**/*.json']
+const shared = ['tokens/brand/waldow.json', 'tokens/primitive/**/*.json', 'tokens/semantic/base.json', 'tokens/component/**/*.json']
 
 const light = new StyleDictionary({
   source: [...shared, 'tokens/semantic/light.json'],
@@ -29,7 +32,7 @@ const light = new StyleDictionary({
       transformGroup: 'css',
       prefix: PREFIX,
       buildPath: DIST,
-      files: [{ destination: 'light.css', format: 'css/variables', options: { outputReferences: true } }],
+      files: [{ destination: 'light.css', format: 'css/variables', options: { outputReferences: true, selector: ':root, [data-brand]' } }],
     },
     js: {
       transformGroup: 'js',
@@ -60,7 +63,7 @@ const dark = new StyleDictionary({
           destination: 'dark-attr.css',
           format: 'css/variables',
           filter: isDark,
-          options: { outputReferences: true, selector: '[data-theme="dark"]' },
+          options: { outputReferences: true, selector: '[data-theme="dark"], [data-theme="dark"] [data-brand]' },
         },
         {
           destination: 'dark-media.css',
@@ -68,7 +71,7 @@ const dark = new StyleDictionary({
           filter: isDark,
           options: {
             outputReferences: true,
-            selector: ['@media (prefers-color-scheme: dark)', ':root:not([data-theme="light"])'],
+            selector: ['@media (prefers-color-scheme: dark)', ':root:not([data-theme="light"]), :root:not([data-theme="light"]) [data-brand]'],
           },
         },
       ],

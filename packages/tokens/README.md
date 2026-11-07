@@ -12,18 +12,30 @@ pnpm --filter @waldow-design/tokens build   # also runs on install (prepare)
 .thing { color: var(--ds-color-text-default); }
 ```
 
+## Brand knobs
+
+A brand is three knobs in `tokens/brand/<name>.json`. Every other token derives from them, so a new brand never touches a component.
+
+| Knob | Tokens | Derived |
+| --- | --- | --- |
+| Palette | `color.brand.*`, `color.neutral.*` | Every semantic colour, in light and dark mode |
+| Radius | `theme.radius` | `radius.surface` (×1), `radius.control` (×0.75), `radius.inner` (×0.5) |
+| Font | `theme.font.body`, `theme.font.display`, `theme.font.mono` | `font.body`, `font.display`, `font.code` |
+
+Brand and mode are separate: any brand works in light or dark mode. Every block in `tokens.css` is also declared on `[data-brand]`, so overriding a knob on any element re-derives the tokens for that subtree. The Storybook page *Foundations / Theme knobs* lets you try it.
+
 ## Three tiers
 
 | Tier | Source | Answers | Example | Who may use it |
 | --- | --- | --- | --- | --- |
-| **Primitive** | `tokens/primitive/*.json` | What values exist? | `color.brand.600` → `#4c46dc` | Semantic tokens only |
+| **Primitive** | `tokens/brand/*.json` (palette), `tokens/primitive/*.json` | What values exist? | `color.brand.600` → `#4c46dc` | Semantic tokens only |
 | **Semantic** | `tokens/semantic/{base,light,dark}.json` | What is this value *for*? | `color.action.primary.default` → `{color.brand.600}` | Components, app code, Tailwind theme |
 | **Component** | `tokens/component/*.json` | What does this component decide? | `button.height.md` → `{size.9}` | That component |
 
 Rules:
 
 1. **Primitives are never used directly** outside the token files. They exist to be referenced.
-2. **Semantic tokens carry intent and theme.** Only `light.json` and `dark.json` differ between themes; `base.json` holds theme-independent intent (radius, elevation, motion, fonts).
+2. **Semantic tokens carry intent and mode.** Only `light.json` and `dark.json` differ between modes; `base.json` holds mode-independent intent (radius and fonts derived from the knobs, elevation, motion).
 3. **Component tokens reference semantic tokens** (or primitives for pure sizing), never raw values. Because they're emitted as `var()` references, they follow the active theme without being redeclared.
 
 ## Naming convention
@@ -51,8 +63,8 @@ Semantic colour roles:
 
 `tokens.css` declares:
 
-- `:root`: primitives, theme-independent semantics, the light theme and component tokens
-- `[data-theme="dark"]`: dark overrides
+- `:root, [data-brand]`: knobs, primitives, mode-independent semantics, the light mode and component tokens
+- `[data-theme="dark"]` (and `[data-brand]` inside it): dark overrides
 - `@media (prefers-color-scheme: dark) :root:not([data-theme="light"])`: the same overrides, so the OS preference applies unless a theme is forced
 
 Set `data-theme="light"` or `data-theme="dark"` on `<html>` to force a theme.

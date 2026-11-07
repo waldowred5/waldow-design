@@ -58,7 +58,7 @@
     },
     "radius": {
       "$type": "dimension",
-      "$value": "{radius.sm}"
+      "$value": "{radius.inner}"
     }
   },
   "card": {

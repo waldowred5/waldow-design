@@ -113,6 +113,7 @@
 
   /* Typography */
   --font-sans: var(--ds-font-body);
+  --font-display: var(--ds-font-display);
   --font-mono: var(--ds-font-code);
   --text-xs: var(--ds-font-size-xs);
   --text-sm: var(--ds-font-size-sm);
@@ -151,5 +152,12 @@
     font-family: var(--font-sans);
     line-height: var(--ds-line-height-normal);
     -webkit-font-smoothing: antialiased;
+  }
+
+  /* An element with data-brand re-derives the tokens for its subtree (see packages/tokens),
+     so it also re-applies the inherited text styles that read them. */
+  [data-brand] {
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
   }
 }

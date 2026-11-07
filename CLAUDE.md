@@ -44,7 +44,7 @@ pnpm check            # lint + tokens check, build, typecheck, tests, size budge
 pnpm changeset        # describe a package change (needed on PRs to main)
 ```
 
-- **Tokens:** edit JSON in `packages/tokens/tokens/`. Change semantic colours in both `light.json` and `dark.json`. The build fails below WCAG AA for the pairs listed in `build.ts`.
+- **Tokens:** edit JSON in `packages/tokens/tokens/`. A brand is three knobs (palette, `theme.radius`, `theme.font.*`) in `tokens/brand/`; derive from them rather than adding raw values. Change semantic colours in both `light.json` and `dark.json`. The build fails below WCAG AA for the pairs listed in `build.ts`.
 - **Components:** `packages/ui/src/components/<name>.tsx`, with `<name>.stories.tsx` (and `<name>.test.tsx` for behaviour). JSDoc on the component holds usage and accessibility notes. Use `cn()` for class merging, and add new token utility names to `lib/cn.ts`.
 - **New token utility:** map it in `@theme inline` in `styles.css`. Watch for namespace collisions: Tailwind resolves `max-w-*`, `w-*` and `h-*` against `--spacing-*` before `--container-*`.
 - **Decisions:** add an ADR in `docs/adr/` for anything that changes the foundation.

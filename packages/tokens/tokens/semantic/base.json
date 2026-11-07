@@ -1,11 +1,15 @@
 {
   "radius": {
     "$type": "dimension",
+    "inner": {
+      "$value": "calc({theme.radius} * 0.5)",
+      "$description": "Small elements inside controls, such as checkboxes."
+    },
     "control": {
-      "$value": "{radius.md}"
+      "$value": "calc({theme.radius} * 0.75)"
     },
     "surface": {
-      "$value": "{radius.lg}"
+      "$value": "{theme.radius}"
     },
     "pill": {
       "$value": "{radius.full}"
@@ -14,11 +18,15 @@
   "font": {
     "body": {
       "$type": "fontFamily",
-      "$value": "{font-family.sans}"
+      "$value": "{theme.font.body}"
+    },
+    "display": {
+      "$type": "fontFamily",
+      "$value": "{theme.font.display}"
     },
     "code": {
       "$type": "fontFamily",
-      "$value": "{font-family.mono}"
+      "$value": "{theme.font.mono}"
     }
   },
   "elevation": {

@@ -1,0 +1,30 @@
+import { Canvas, Controls, Meta } from '@storybook/addon-docs/blocks'
+import * as Stories from './theme-knobs.stories'
+
+<Meta of={Stories} />
+
+# Theme knobs
+
+A brand is three knobs. Everything else (semantic colours, component radii, type) is derived from them, so a new brand never touches a component.
+
+| Knob | Tokens | What derives from it |
+| --- | --- | --- |
+| **Palette** | `color.brand.*`, `color.neutral.*` | Every semantic colour, in both light and dark mode |
+| **Radius** | `theme.radius` | `radius.surface` (×1), `radius.control` (×0.75), `radius.inner` (×0.5) |
+| **Font** | `theme.font.body`, `theme.font.display`, `theme.font.mono` | Body text, titles (`font-display`), code |
+
+The knobs live in `packages/tokens/tokens/brand/<name>.json`. The build checks WCAG AA contrast for every brand in both modes.
+
+## Brand and mode are separate
+
+Light and dark are a **mode** (`data-theme`); a **brand** (`data-brand`) sets the knobs. Any brand works in either mode. Setting `data-brand` on any element re-derives the tokens for its subtree, so two brands can sit side by side on one page.
+
+## Try it
+
+<Canvas of={Stories.Playground} sourceState="hidden" />
+
+<Controls of={Stories.Playground} />
+
+<Canvas of={Stories.SquareSerif} sourceState="hidden" />
+
+<Canvas of={Stories.RoundRose} sourceState="hidden" />
