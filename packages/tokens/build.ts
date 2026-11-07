@@ -1,7 +1,7 @@
 /**
  * Builds the three token tiers into CSS variables and a typed JS module.
  *
- *   src/brand         the theme knobs: seed colours (primary, secondary, accent), neutral scale,
+ *   src/brand         the theme knobs: seed colours (primary, secondary, highlight), neutral scale,
  *                     radius, font. Each seed becomes an 11-step scale via palette.ts.
  *   src/primitive     raw values (status hues, scales)
  *   src/semantic      intent (base.json is mode-independent; light.json and dark.json are modes)
@@ -52,11 +52,11 @@ const DIST = 'dist/'
 const BRAND = 'src/brand/waldow.json'
 const shared = [BRAND, 'src/primitive/**/*.json', 'src/semantic/base.json', 'src/component/**/*.json']
 
-// The brand's seed colours become color.primary.*, color.secondary.* and color.accent.*.
+// The brand's seed colours become color.primary.*, color.secondary.* and color.highlight.*.
 const seeds = JSON.parse(readFileSync(BRAND, 'utf8')).theme.color as Record<string, { $value: string }>
 const palette = {
   color: Object.fromEntries(
-    ['primary', 'secondary', 'accent'].map((role) => [
+    ['primary', 'secondary', 'highlight'].map((role) => [
       role,
       Object.fromEntries(Object.entries(scale(seeds[role]!.$value)).map(([step, hex]) => [step, { $type: 'color', $value: hex }])),
     ]),
@@ -147,8 +147,8 @@ const pairs: Array<[fg: string, bg: string, min: number]> = [
   ['color.action.primary.text', 'color.action.primary.hover', 4.5],
   ['color.action.secondary.text', 'color.action.secondary.default', 4.5],
   ['color.action.secondary.text', 'color.action.secondary.hover', 4.5],
-  ['color.highlight.on-solid', 'color.highlight.solid', 4.5],
-  ['color.highlight.text', 'color.highlight.background', 4.5],
+  ['color.emphasis.highlight.on-solid', 'color.emphasis.highlight.solid', 4.5],
+  ['color.emphasis.highlight.text', 'color.emphasis.highlight.background', 4.5],
   ['color.action.danger.text', 'color.action.danger.default', 4.5],
   ['color.status.success.text', 'color.status.success.background', 4.5],
   ['color.status.warning.text', 'color.status.warning.background', 4.5],

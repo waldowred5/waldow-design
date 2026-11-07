@@ -89,25 +89,27 @@
         }
       }
     },
-    "highlight": {
-      "solid": {
-        "$value": "{color.accent.600}",
-        "$description": "Filled accent: markers, progress, chart emphasis."
-      },
-      "solid-hover": {
-        "$value": "{color.accent.700}"
-      },
-      "on-solid": {
-        "$value": "{color.white}"
-      },
-      "background": {
-        "$value": "{color.accent.100}"
-      },
-      "text": {
-        "$value": "{color.accent.800}"
-      },
-      "border": {
-        "$value": "{color.accent.300}"
+    "emphasis": {
+      "highlight": {
+        "solid": {
+          "$value": "{color.highlight.600}",
+          "$description": "Filled highlight: markers, progress, chart emphasis."
+        },
+        "solid-hover": {
+          "$value": "{color.highlight.700}"
+        },
+        "on-solid": {
+          "$value": "{color.white}"
+        },
+        "background": {
+          "$value": "{color.highlight.100}"
+        },
+        "text": {
+          "$value": "{color.highlight.800}"
+        },
+        "border": {
+          "$value": "{color.highlight.300}"
+        }
       }
     },
     "status": {

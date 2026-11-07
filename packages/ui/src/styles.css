@@ -49,12 +49,12 @@
   --color-secondary: var(--ds-color-action-secondary-default);
   --color-secondary-hover: var(--ds-color-action-secondary-hover);
   --color-secondary-foreground: var(--ds-color-action-secondary-text);
-  --color-accent: var(--ds-color-highlight-solid);
-  --color-accent-hover: var(--ds-color-highlight-solid-hover);
-  --color-accent-foreground: var(--ds-color-highlight-on-solid);
-  --color-accent-subtle: var(--ds-color-highlight-background);
-  --color-accent-text: var(--ds-color-highlight-text);
-  --color-accent-border: var(--ds-color-highlight-border);
+  --color-highlight: var(--ds-color-emphasis-highlight-solid);
+  --color-highlight-hover: var(--ds-color-emphasis-highlight-solid-hover);
+  --color-highlight-foreground: var(--ds-color-emphasis-highlight-on-solid);
+  --color-highlight-subtle: var(--ds-color-emphasis-highlight-background);
+  --color-highlight-text: var(--ds-color-emphasis-highlight-text);
+  --color-highlight-border: var(--ds-color-emphasis-highlight-border);
   --color-danger: var(--ds-color-action-danger-default);
   --color-danger-hover: var(--ds-color-action-danger-hover);
   --color-danger-foreground: var(--ds-color-action-danger-text);

@@ -17,8 +17,8 @@ import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '.
 import { Stack } from '../../components/stack'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '../../components/table'
 
-type Role = 'primary' | 'secondary' | 'accent'
-const roles: Role[] = ['primary', 'secondary', 'accent']
+type Role = 'primary' | 'secondary' | 'highlight'
+const roles: Role[] = ['primary', 'secondary', 'highlight']
 
 const fonts = {
   Sans: t.FontFamilySans.join(', '),
@@ -30,10 +30,10 @@ type Font = keyof typeof fonts
 const brandSeeds: Record<Role, string> = {
   primary: t.ThemeColorPrimary,
   secondary: t.ThemeColorSecondary,
-  accent: t.ThemeColorAccent,
+  highlight: t.ThemeColorHighlight,
 }
 /** Start with one colour for all three, so changing each one shows exactly what it drives. */
-const sameSeeds: Record<Role, string> = { primary: t.ThemeColorPrimary, secondary: t.ThemeColorPrimary, accent: t.ThemeColorPrimary }
+const sameSeeds: Record<Role, string> = { primary: t.ThemeColorPrimary, secondary: t.ThemeColorPrimary, highlight: t.ThemeColorPrimary }
 
 function knobStyle(seeds: Record<Role, string>, radius: number, font: Font): CSSProperties {
   const vars: Record<string, string> = { '--ds-theme-radius': `${radius}rem` }
@@ -111,11 +111,11 @@ export function ThemeKnobsDemo() {
           </p>
         </Tile>
 
-        <Tile title="Badges" uses="primary · secondary · accent">
+        <Tile title="Badges" uses="primary · secondary · highlight">
           <Stack direction="horizontal" gap={2} wrap>
             <Badge variant="primary">Primary</Badge>
             <Badge variant="secondary">Secondary</Badge>
-            <Badge variant="accent">Accent</Badge>
+            <Badge variant="highlight">Highlight</Badge>
             <Badge>Neutral</Badge>
             <Badge variant="success">Confirmed</Badge>
           </Stack>
@@ -142,13 +142,13 @@ export function ThemeKnobsDemo() {
           </CardFooter>
         </Card>
 
-        <Tile title="This week" uses="primary · accent">
+        <Tile title="This week" uses="primary · highlight">
           <Meter label="Bookings" value={72} fill="bg-primary" />
-          <Meter label="Saved places" value={45} fill="bg-accent" />
+          <Meter label="Saved places" value={45} fill="bg-highlight" />
           <Meter label="Budget used" value={88} fill="bg-primary" />
         </Tile>
 
-        <Tile title="Travellers" uses="secondary · accent">
+        <Tile title="Travellers" uses="secondary · highlight">
           <Stack gap={3} asChild>
             <ul>
               {[
@@ -164,18 +164,18 @@ export function ThemeKnobsDemo() {
                     <span className="block text-sm font-medium">{name}</span>
                     <span className="block text-sm text-muted-foreground">{note}</span>
                   </span>
-                  {isNew && <Badge variant="accent">New</Badge>}
+                  {isNew && <Badge variant="highlight">New</Badge>}
                 </li>
               ))}
             </ul>
           </Stack>
         </Tile>
 
-        <Tile title="Itinerary" uses="primary · accent">
+        <Tile title="Itinerary" uses="primary · highlight">
           <ol className="flex flex-col gap-3 border-l-2 border-border pl-4">
             {[
               ['Fri 18:40', 'Land at LIS', 'bg-primary'],
-              ['Sat 10:00', 'Tram 28 and Alfama', 'bg-accent'],
+              ['Sat 10:00', 'Tram 28 and Alfama', 'bg-highlight'],
               ['Sun 13:00', 'Lunch in Belém', 'bg-primary'],
             ].map(([time, what, dot]) => (
               <li key={time} className="relative text-sm">
@@ -208,7 +208,7 @@ export function ThemeKnobsDemo() {
                 <TableCell>Hotel Lumiares</TableCell>
                 <TableCell>2</TableCell>
                 <TableCell>
-                  <Badge variant="accent">Shortlisted</Badge>
+                  <Badge variant="highlight">Shortlisted</Badge>
                 </TableCell>
               </TableRow>
             </TableBody>

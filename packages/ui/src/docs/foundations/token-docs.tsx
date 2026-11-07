@@ -23,7 +23,7 @@ function shadowEntries(tree: Record<string, Shadow | Shadow[]>): Array<[string[]
   })
 }
 
-const semanticColorGroups = ['background', 'surface', 'text', 'border', 'action', 'highlight', 'status'] as const
+const semanticColorGroups = ['background', 'surface', 'text', 'border', 'action', 'emphasis', 'status'] as const
 
 /**
  * Semantic colour swatches. Swatches use the live CSS variables, so the theme
@@ -37,7 +37,7 @@ export function SemanticColors() {
         const groupTree = color[group] as TokenTree
         // Split action and status into one row per intent so rows stay readable.
         const rows: Array<[string[], TokenTree]> =
-          group === 'action' || group === 'status'
+          group === 'action' || group === 'emphasis' || group === 'status'
             ? Object.entries(groupTree).map(([intent, sub]) => [['color', group, intent], sub as TokenTree])
             : [[['color', group], groupTree]]
         return rows.map(([path, sub]) => (
@@ -53,7 +53,7 @@ export function SemanticColors() {
   )
 }
 
-const hues = ['primary', 'secondary', 'accent', 'neutral', 'green', 'amber', 'red', 'blue'] as const
+const hues = ['primary', 'secondary', 'highlight', 'neutral', 'green', 'amber', 'red', 'blue'] as const
 
 /** Primitive palette. For reference only: components never use these directly. */
 export function PrimitiveColors() {

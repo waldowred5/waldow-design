@@ -24,7 +24,7 @@ export const All: Story = {
       <Badge>Draft</Badge>
       <Badge variant="primary">New</Badge>
       <Badge variant="secondary">Shared</Badge>
-      <Badge variant="accent">Featured</Badge>
+      <Badge variant="highlight">Featured</Badge>
       <Badge variant="success">Active</Badge>
       <Badge variant="warning">Pending</Badge>
       <Badge variant="danger">Failed</Badge>

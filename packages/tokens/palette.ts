@@ -6,7 +6,7 @@
  * and step 400 carries near-black text for any seed. The seed sets hue and chroma; chroma
  * tapers towards the light and dark ends, and is clamped to what sRGB can show.
  *
- * Used by the token build (brand seeds → color.primary/secondary/accent.*) and by the
+ * Used by the token build (brand seeds → color.primary/secondary/highlight.*) and by the
  * Theme knobs demo, so both produce identical scales.
  */
 import { clampChroma, formatHex, oklch } from 'culori'
