@@ -15,7 +15,7 @@ const modules = import.meta.glob<StoryModule>(['../**/*.stories.{ts,tsx}', '../.
 })
 
 for (const [path, mod] of Object.entries(modules)) {
-  const name = path.replace(/^\.\.\//, '').replace(/\.stories\.tsx?$/, '')
+  const name = path.replace(/^(\.\.\/)+/, '').replace(/\.stories\.tsx?$/, '')
   describe(name, () => {
     for (const [storyName, Story] of Object.entries(composeStories(mod)) as Array<[string, RunnableStory]>) {
       it(`${storyName} renders without a11y violations`, async () => {

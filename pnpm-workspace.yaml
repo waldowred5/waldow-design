@@ -2,10 +2,13 @@ packages:
   - apps/*
   - packages/*
   - explorations
-# Build tooling shared by apps/web and packages/ui, kept on one version.
+# Versions shared by more than one workspace, kept in one place.
 catalog:
+  '@storybook/react-vite': ^10.6.6
   '@tailwindcss/vite': ^4.3.5
+  '@types/react': ^19.3.0
   '@vitejs/plugin-react': ^6.2.1
+  react: ^19.3.1
   tailwindcss: ^4.3.5
   vite: ^8.3.6
 allowBuilds:

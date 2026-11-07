@@ -6,12 +6,21 @@ settings:
 
 catalogs:
   default:
+    '@storybook/react-vite':
+      specifier: ^10.6.6
+      version: 10.6.6
     '@tailwindcss/vite':
       specifier: ^4.3.5
       version: 4.3.5
+    '@types/react':
+      specifier: ^19.3.0
+      version: 19.3.0
     '@vitejs/plugin-react':
       specifier: ^6.2.1
       version: 6.2.1
+    react:
+      specifier: ^19.3.1
+      version: 19.3.1
     tailwindcss:
       specifier: ^4.3.5
       version: 4.3.5
@@ -51,7 +60,7 @@ importers:
         specifier: workspace:*
         version: link:../../packages/ui
       react:
-        specifier: ^19.3.1
+        specifier: 'catalog:'
         version: 19.3.1
       react-dom:
         specifier: ^19.3.1
@@ -64,7 +73,7 @@ importers:
         specifier: ^24.19.2
         version: 24.19.2
       '@types/react':
-        specifier: ^19.3.0
+        specifier: 'catalog:'
         version: 19.3.0
       '@types/react-dom':
         specifier: ^19.3.0
@@ -86,13 +95,13 @@ importers:
         version: link:../packages/ui
     devDependencies:
       '@storybook/react-vite':
-        specifier: ^10.6.6
+        specifier: 'catalog:'
         version: 10.6.6(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(storybook@10.6.6(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1))(typescript@7.0.2)(vite@8.3.6(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
       '@types/react':
-        specifier: ^19.3.0
+        specifier: 'catalog:'
         version: 19.3.0
       react:
-        specifier: ^19.3.1
+        specifier: 'catalog:'
         version: 19.3.1
 
   packages/catalog: {}
@@ -137,7 +146,7 @@ importers:
         specifier: ^10.6.6
         version: 10.6.6(storybook@10.6.6(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1))
       '@storybook/react-vite':
-        specifier: ^10.6.6
+        specifier: 'catalog:'
         version: 10.6.6(@types/react-dom@19.3.0(@types/react@19.3.0))(@types/react@19.3.0)(react-dom@19.3.1(react@19.3.1))(react@19.3.1)(storybook@10.6.6(@types/react@19.3.0)(prettier@3.9.10)(react@19.3.1))(typescript@7.0.2)(vite@8.3.6(@types/node@24.19.2)(esbuild@0.28.2)(jiti@2.7.0)(yaml@2.9.1))
       '@tailwindcss/vite':
         specifier: 'catalog:'
@@ -152,7 +161,7 @@ importers:
         specifier: ^14.6.8
         version: 14.6.8(@testing-library/dom@10.4.2)
       '@types/react':
-        specifier: ^19.3.0
+        specifier: 'catalog:'
         version: 19.3.0
       '@types/react-dom':
         specifier: ^19.3.0
@@ -167,7 +176,7 @@ importers:
         specifier: ^31.0.0
         version: 31.0.0
       react:
-        specifier: ^19.3.1
+        specifier: 'catalog:'
         version: 19.3.1
       react-dom:
         specifier: ^19.3.1

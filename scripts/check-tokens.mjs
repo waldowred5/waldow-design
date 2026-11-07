@@ -3,7 +3,8 @@
  * Tokens-only guard. Fails if component or app source uses raw design values
  * instead of tokens. See ADR 001 and packages/tokens/README.md.
  *
- * Flags, in .ts/.tsx under the checked roots:
+ * Flags, in .ts/.tsx/.mdx under the checked roots (stories included, so explorations
+ * are held to the same rules):
  *   - hex / rgb() / hsl() / oklch() colours
  *   - Tailwind arbitrary values with raw content, e.g. p-[13px], bg-[#fff]
  *     (CSS-variable shorthand like max-h-(--radix-…) is allowed)
@@ -17,7 +18,7 @@ import { join, relative } from 'node:path'
 
 const roots = ['packages/ui/src', 'apps/web/src', 'explorations']
 const exts = /\.(tsx?|mdx)$/
-const skip = /(\.test\.|\.stories\.|node_modules|dist)/
+const skip = /(\.test\.|node_modules|dist)/
 
 const palette = 'slate|gray|zinc|neutral|stone|red|orange|amber|yellow|lime|green|emerald|teal|cyan|sky|blue|indigo|violet|purple|fuchsia|pink|rose'
 const rules = [

@@ -59,24 +59,34 @@ function RoleSelect() {
   )
 }
 
+/** The fields every variant shares, so the variants differ only in where the form lives. */
+function InviteFields() {
+  return (
+    <Stack gap={4}>
+      <Field label="Email">
+        <Input type="email" />
+      </Field>
+      <Field label="Role">
+        <RoleSelect />
+      </Field>
+    </Stack>
+  )
+}
+
+const heading = 'Invite a team member'
+const description = "They'll get an email with a link to join."
+
 /** A: inline form card at the top of the members page. Fast for repeat invites. */
 export const A_InlineCard: Story = {
   name: 'A: inline card',
   render: () => (
     <Card className="max-w-dialog">
       <CardHeader>
-        <CardTitle>Invite a team member</CardTitle>
-        <CardDescription>They'll get an email with a link to join.</CardDescription>
+        <CardTitle>{heading}</CardTitle>
+        <CardDescription>{description}</CardDescription>
       </CardHeader>
       <CardContent>
-        <Stack gap={4}>
-          <Field label="Email">
-            <Input type="email" />
-          </Field>
-          <Field label="Role">
-            <RoleSelect />
-          </Field>
-        </Stack>
+        <InviteFields />
       </CardContent>
       <CardFooter>
         <Button>Send invite</Button>
@@ -95,17 +105,10 @@ export const B_Dialog: Story = {
       </DialogTrigger>
       <DialogContent>
         <DialogHeader>
-          <DialogTitle>Invite a team member</DialogTitle>
-          <DialogDescription>They'll get an email with a link to join.</DialogDescription>
+          <DialogTitle>{heading}</DialogTitle>
+          <DialogDescription>{description}</DialogDescription>
         </DialogHeader>
-        <Stack gap={4}>
-          <Field label="Email">
-            <Input type="email" />
-          </Field>
-          <Field label="Role">
-            <RoleSelect />
-          </Field>
-        </Stack>
+        <InviteFields />
         <DialogFooter>
           <DialogClose asChild>
             <Button variant="ghost">Cancel</Button>

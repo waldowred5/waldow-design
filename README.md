@@ -45,7 +45,7 @@ To publish to npm later: drop `"private": true` from the packages, set `access` 
 
 ## Working with Claude
 
-`CLAUDE.md` is the contract for generated UI: design system components and semantic tokens only, the design principles, and accessible by default. `pnpm explore "<idea>"` scaffolds variant stories in `explorations/`.
+`CLAUDE.md` is the contract for generated UI: design system components and semantic tokens only, the design principles, and accessible by default. For prototyping, see [`explorations/README.md`](explorations/README.md).
 
 ## Decisions
 
