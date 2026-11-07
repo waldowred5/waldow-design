@@ -1,6 +1,10 @@
 {
   "name": "waldow-design-monorepo",
   "private": true,
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/waldowred5/waldow-design"
+  },
   "type": "module",
   "packageManager": "pnpm@11.5.1",
   "engines": {
@@ -15,7 +19,6 @@
     "storybook": "pnpm --filter @waldow-design/ui storybook",
     "test": "pnpm -r run test",
     "size": "size-limit",
-    "changeset": "changeset",
     "explore": "node scripts/new-exploration.mjs"
   },
   "devDependencies": {

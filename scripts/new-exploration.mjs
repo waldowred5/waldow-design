@@ -11,8 +11,20 @@ if (!name) {
 
 const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 const title = name.charAt(0).toUpperCase() + name.slice(1)
+// The explorations path is also hard-coded in packages/ui/.storybook/main.ts.
 const dir = `explorations/${slug}`
 const file = `${dir}/${slug}.stories.tsx`
+
+if (!slug) {
+  console.error('The name needs at least one letter or digit')
+  process.exit(1)
+}
+
+// The name is free text, so it never goes into source raw: string literals and JSX
+// text go through JSON.stringify, and the comment line drops anything that could close it.
+const titleLiteral = JSON.stringify(title)
+const metaTitleLiteral = JSON.stringify(`Explorations/${title}`)
+const comment = name.replace(/\*\//g, '* /').replace(/[\r\n]+/g, ' ')
 
 if (existsSync(file)) {
   console.error(`${file} already exists`)
@@ -26,7 +38,7 @@ export const ${letter}: Story = {
   render: () => (
     <Card>
       <CardHeader>
-        <CardTitle>${title}</CardTitle>
+        <CardTitle>{${titleLiteral}}</CardTitle>
       </CardHeader>
       <CardContent>
         <Stack gap={4}>
@@ -42,14 +54,14 @@ await mkdir(dir, { recursive: true })
 await writeFile(
   file,
   `/**
- * Exploration: ${name}.
+ * Exploration: ${comment}.
  * Throwaway: compare in Chromatic, pick one, then build it properly.
  */
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button, Card, CardContent, CardHeader, CardTitle, Stack } from '@waldow-design/ui'
 
 const meta = {
-  title: 'Explorations/${title}',
+  title: ${metaTitleLiteral},
   parameters: { layout: 'padded' },
 } satisfies Meta
 

@@ -1,5 +1,6 @@
 import { Meta, Typeset } from '@storybook/addon-docs/blocks'
 import tokens from '@waldow-design/tokens/tokens.json'
+import { FontSizes } from './token-docs'
 
 <Meta title="Foundations/Typography" />
 
@@ -7,13 +8,15 @@ import tokens from '@waldow-design/tokens/tokens.json'
 
 One sans family for UI (`--ds-font-body`, Tailwind `font-sans`) and one mono family for code (`--ds-font-code`, `font-mono`). Sizes map to Tailwind's `text-*` utilities.
 
-| Utility | Token | Use for |
-| --- | --- | --- |
-| `text-xs` | `font-size.xs` | Badges, captions |
-| `text-sm` | `font-size.sm` | Controls, table cells, help text (the UI default) |
-| `text-base` | `font-size.md` | Body copy |
-| `text-lg` | `font-size.lg` | Card and dialog titles |
-| `text-xl` – `text-4xl` | `font-size.xl`–`4xl` | Page headings |
+<FontSizes
+  uses={{
+    xs: 'Badges, captions',
+    sm: 'Controls, table cells, help text (the UI default)',
+    md: 'Body copy',
+    lg: 'Card and dialog titles',
+  }}
+  fallback="Page headings"
+/>
 
 ## Sans
 
