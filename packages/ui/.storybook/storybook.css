@@ -2,3 +2,9 @@
 
 /* Prototypes live outside this package; let Tailwind see their classes. */
 @source "../../../prototypes";
+
+/* Docs tables: Storybook's dark theme stripes rows in a mid grey that drops links below AA.
+   Stripe with the subtle background token instead (the extra class outranks Storybook's rule). */
+.sbdocs-wrapper .sbdocs-content tr:nth-of-type(2n) {
+  background-color: var(--ds-color-background-subtle);
+}
