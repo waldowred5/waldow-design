@@ -12,7 +12,8 @@
       "$value": "{theme.radius}"
     },
     "pill": {
-      "$value": "{radius.full}"
+      "$value": "9999px",
+      "$description": "Fully rounded ends. A constant, not derived from theme.radius."
     }
   },
   "font": {
@@ -27,18 +28,6 @@
     "code": {
       "$type": "fontFamily",
       "$value": "{theme.font.mono}"
-    }
-  },
-  "elevation": {
-    "$type": "shadow",
-    "raised": {
-      "$value": "{shadow.sm}"
-    },
-    "floating": {
-      "$value": "{shadow.md}"
-    },
-    "overlay": {
-      "$value": "{shadow.lg}"
     }
   },
   "focus-ring": {

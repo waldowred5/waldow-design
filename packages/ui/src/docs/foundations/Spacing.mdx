@@ -13,12 +13,12 @@ Tailwind's numeric spacing utilities run on this scale: `--spacing` is `--ds-spa
 
 ## Radius
 
-Components use semantic radii, all derived from the one `theme.radius` knob (see Theme knobs): `rounded-surface` (cards, dialogs), `rounded-control` (inputs, buttons), `rounded-checkbox` (inner elements) and `rounded-pill` (badges).
+Components use semantic radii, all derived from the one `theme.radius` knob (see Theme knobs): `rounded-surface` (cards, dialogs), `rounded-control` (inputs, buttons), `rounded-inner` (checkboxes, menu items, the dialog close button) and `rounded-pill` (badges).
 
 <Scale group="radius" />
 
 ## Elevation
 
-`shadow-raised` for cards, `shadow-floating` for menus and popovers, `shadow-overlay` for dialogs.
+`shadow-raised` for cards, `shadow-floating` for menus and popovers, `shadow-overlay` for dialogs. Dark mode uses its own, stronger shadows with a faint light edge, so depth still reads on dark surfaces.
 
 <Scale group="elevation" />

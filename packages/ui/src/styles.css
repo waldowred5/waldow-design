@@ -93,7 +93,7 @@
   --container-dialog: var(--ds-dialog-width);
 
   /* Radius */
-  --radius-sm: var(--ds-radius-sm);
+  --radius-inner: var(--ds-radius-inner);
   --radius-control: var(--ds-radius-control);
   --radius-surface: var(--ds-radius-surface);
   --radius-pill: var(--ds-radius-pill);

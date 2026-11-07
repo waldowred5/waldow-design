@@ -45,6 +45,77 @@
           "color": "#0e11161a"
         }
       ]
+    },
+    "dark": {
+      "$description": "Shadows for dark mode: near-black at 6-20% disappears on dark surfaces.",
+      "sm": {
+        "$value": [
+          {
+            "offsetX": "0px",
+            "offsetY": "1px",
+            "blur": "2px",
+            "spread": "0px",
+            "color": "#00000080"
+          },
+          {
+            "offsetX": "0px",
+            "offsetY": "0px",
+            "blur": "0px",
+            "spread": "1px",
+            "color": "#ffffff0f"
+          }
+        ]
+      },
+      "md": {
+        "$value": [
+          {
+            "offsetX": "0px",
+            "offsetY": "4px",
+            "blur": "8px",
+            "spread": "-2px",
+            "color": "#00000099"
+          },
+          {
+            "offsetX": "0px",
+            "offsetY": "2px",
+            "blur": "4px",
+            "spread": "-2px",
+            "color": "#00000080"
+          },
+          {
+            "offsetX": "0px",
+            "offsetY": "0px",
+            "blur": "0px",
+            "spread": "1px",
+            "color": "#ffffff14"
+          }
+        ]
+      },
+      "lg": {
+        "$value": [
+          {
+            "offsetX": "0px",
+            "offsetY": "16px",
+            "blur": "32px",
+            "spread": "-8px",
+            "color": "#000000b3"
+          },
+          {
+            "offsetX": "0px",
+            "offsetY": "4px",
+            "blur": "8px",
+            "spread": "-4px",
+            "color": "#00000099"
+          },
+          {
+            "offsetX": "0px",
+            "offsetY": "0px",
+            "blur": "0px",
+            "spread": "1px",
+            "color": "#ffffff1a"
+          }
+        ]
+      }
     }
   },
   "duration": {

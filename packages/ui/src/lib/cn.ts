@@ -7,7 +7,7 @@ const twMerge = extendTailwindMerge({
   extend: {
     theme: {
       spacing: ['button-sm', 'button-md', 'button-lg', 'button-x-sm', 'button-x-md', 'button-x-lg', 'input', 'input-x', 'checkbox', 'card-inset', 'dialog-inset', 'badge-x', 'cell-x', 'cell-y'],
-      radius: ['control', 'surface', 'pill', 'button', 'input', 'checkbox', 'card', 'badge', 'dialog'],
+      radius: ['inner', 'control', 'surface', 'pill', 'button', 'input', 'checkbox', 'card', 'badge', 'dialog'],
       shadow: ['raised', 'floating', 'overlay', 'card', 'dialog'],
     },
   },
