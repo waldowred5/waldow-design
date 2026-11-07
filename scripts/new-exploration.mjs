@@ -1,7 +1,12 @@
 #!/usr/bin/env node
 /** Scaffold explorations/<slug>/<slug>.stories.tsx with three variant stubs. */
 import { existsSync } from 'node:fs'
-import { mkdir, writeFile } from 'node:fs/promises'
+import { mkdir, readFile, writeFile } from 'node:fs/promises'
+
+// Read the scope from the package so a rename doesn't need an edit here.
+const { name: uiPackage } = JSON.parse(
+  await readFile(new URL('../packages/ui/package.json', import.meta.url), 'utf8'),
+)
 
 const name = process.argv.slice(2).join(' ').trim()
 if (!name) {
@@ -58,7 +63,7 @@ await writeFile(
  * Throwaway: compare in Chromatic, pick one, then build it properly.
  */
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { Button, Card, CardContent, CardHeader, CardTitle, Stack } from '@waldow-design/ui'
+import { Button, Card, CardContent, CardHeader, CardTitle, Stack } from '${uiPackage}'
 
 const meta = {
   title: ${metaTitleLiteral},
