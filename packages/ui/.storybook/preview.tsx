@@ -19,7 +19,7 @@ const preview: Preview = {
     a11y: { test: 'error' },
     backgrounds: { disable: true },
     options: {
-      storySort: { order: ['Introduction', 'Principles', ['Overview', '*'], 'Foundations', 'Components', 'Explorations'] },
+      storySort: { order: ['Introduction', 'Principles', ['Overview', '*'], 'Foundations', 'Components', 'Prototypes'] },
     },
   },
 }

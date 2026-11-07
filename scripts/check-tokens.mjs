@@ -15,7 +15,7 @@
 import { readdir, readFile } from 'node:fs/promises'
 import { join, relative } from 'node:path'
 
-const roots = ['packages/ui/src', 'apps/web/src', 'explorations']
+const roots = ['packages/ui/src', 'apps/web/src', 'prototypes']
 const exts = /\.(tsx?|mdx)$/
 const skip = /(\.test\.|\.stories\.|node_modules|dist)/
 

@@ -8,7 +8,7 @@ import { axeViolations } from './axe'
 
 type StoryModule = Parameters<typeof composeStories>[0]
 type RunnableStory = { run: () => Promise<void> }
-const modules = import.meta.glob<StoryModule>(['../**/*.stories.tsx', '../../../../explorations/**/*.stories.tsx'], {
+const modules = import.meta.glob<StoryModule>(['../**/*.stories.tsx', '../../../../prototypes/**/*.stories.tsx'], {
   eager: true,
 })
 

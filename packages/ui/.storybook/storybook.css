@@ -1,4 +1,4 @@
 @import "../src/styles.css";
 
-/* Explorations live outside this package; let Tailwind see their classes. */
-@source "../../../explorations";
+/* Prototypes live outside this package; let Tailwind see their classes. */
+@source "../../../prototypes";

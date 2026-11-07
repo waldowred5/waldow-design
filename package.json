@@ -16,7 +16,7 @@
     "test": "pnpm -r run test",
     "size": "size-limit",
     "changeset": "changeset",
-    "explore": "node scripts/new-exploration.mjs"
+    "prototype": "node scripts/new-prototype.mjs"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",

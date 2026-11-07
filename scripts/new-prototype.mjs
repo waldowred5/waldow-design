@@ -1,17 +1,17 @@
 #!/usr/bin/env node
-/** Scaffold explorations/<slug>/<slug>.stories.tsx with three variant stubs. */
+/** Scaffold prototypes/<slug>/<slug>.stories.tsx with three variant stubs. */
 import { existsSync } from 'node:fs'
 import { mkdir, writeFile } from 'node:fs/promises'
 
 const name = process.argv.slice(2).join(' ').trim()
 if (!name) {
-  console.error('Usage: pnpm explore "<what you are exploring>"')
+  console.error('Usage: pnpm prototype "<what you are prototyping>"')
   process.exit(1)
 }
 
 const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 const title = name.charAt(0).toUpperCase() + name.slice(1)
-const dir = `explorations/${slug}`
+const dir = `prototypes/${slug}`
 const file = `${dir}/${slug}.stories.tsx`
 
 if (existsSync(file)) {
@@ -42,14 +42,15 @@ await mkdir(dir, { recursive: true })
 await writeFile(
   file,
   `/**
- * Exploration: ${name}.
- * Throwaway: compare in Chromatic, pick one, then build it properly.
+ * Prototype: ${name}.
+ * Disposable: compare in Chromatic, pick one, build it properly, then delete this
+ * (or keep it as a showcase example: add tags: ['showcase'] and note which variant won).
  */
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button, Card, CardContent, CardHeader, CardTitle, Stack } from '@waldow-design/ui'
 
 const meta = {
-  title: 'Explorations/${title}',
+  title: 'Prototypes/${title}',
   parameters: { layout: 'padded' },
 } satisfies Meta
 

@@ -1,6 +1,6 @@
 /**
- * Exploration: inviting a team member. Three directions for the same task.
- * Throwaway: compare in Chromatic, pick one, then build it properly in the app.
+ * Prototype: inviting a team member. Three directions for the same task.
+ * Kept as a showcase example of the prototype workflow; no direction has been built yet.
  */
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import {
@@ -37,7 +37,8 @@ import {
 } from '@waldow-design/ui'
 
 const meta = {
-  title: 'Explorations/Invite member',
+  title: 'Prototypes/Invite member',
+  tags: ['showcase'],
   parameters: { layout: 'padded' },
 } satisfies Meta
 

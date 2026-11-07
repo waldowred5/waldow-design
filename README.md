@@ -10,7 +10,7 @@ A small but real design system: three-tier design tokens, accessible React compo
 | `packages/ui` | `@waldow-design/ui` | React components (shadcn/ui foundation, see [ADR 001](docs/adr/001-shadcn-ui-component-foundation.md)) |
 | `packages/catalog` | `@waldow-design/catalog` | Machine-readable component catalog (Phase 2) |
 | `apps/web` | `@waldow-design/web` | The design system app |
-| `explorations` | `@waldow-design/explorations` | Throwaway prototype stories, published by Chromatic ([README](explorations/README.md)) |
+| `prototypes` | `@waldow-design/prototypes` | Prototype stories, published by Chromatic; disposable, or kept as showcase examples ([README](prototypes/README.md)) |
 
 ## Getting started
 
@@ -47,7 +47,7 @@ To publish to npm later: drop `"private": true` from the packages, set `access` 
 
 ## Working with Claude
 
-`CLAUDE.md` is the contract for generated UI: design system components and semantic tokens only, the design principles, and accessible by default. `pnpm explore "<idea>"` scaffolds variant stories in `explorations/`.
+`CLAUDE.md` is the contract for generated UI: design system components and semantic tokens only, the design principles, and accessible by default. `pnpm prototype "<idea>"` scaffolds variant stories in `prototypes/`.
 
 ## Decisions
 
