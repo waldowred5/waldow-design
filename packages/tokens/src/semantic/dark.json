@@ -40,7 +40,7 @@
         "$value": "{color.neutral.900}"
       },
       "link": {
-        "$value": "{color.brand.300}"
+        "$value": "{color.primary.300}"
       }
     },
     "border": {
@@ -51,16 +51,16 @@
         "$value": "{color.neutral.500}"
       },
       "focus": {
-        "$value": "{color.brand.400}"
+        "$value": "{color.primary.400}"
       }
     },
     "action": {
       "primary": {
         "default": {
-          "$value": "{color.brand.400}"
+          "$value": "{color.primary.400}"
         },
         "hover": {
-          "$value": "{color.brand.300}"
+          "$value": "{color.primary.300}"
         },
         "text": {
           "$value": "{color.neutral.950}"
@@ -68,13 +68,13 @@
       },
       "secondary": {
         "default": {
-          "$value": "{color.neutral.800}"
+          "$value": "{color.secondary.900}"
         },
         "hover": {
-          "$value": "{color.neutral.700}"
+          "$value": "{color.secondary.800}"
         },
         "text": {
-          "$value": "{color.neutral.50}"
+          "$value": "{color.secondary.100}"
         }
       },
       "danger": {
@@ -87,6 +87,27 @@
         "text": {
           "$value": "{color.neutral.950}"
         }
+      }
+    },
+    "highlight": {
+      "solid": {
+        "$value": "{color.accent.400}",
+        "$description": "Filled accent: markers, progress, chart emphasis."
+      },
+      "solid-hover": {
+        "$value": "{color.accent.300}"
+      },
+      "on-solid": {
+        "$value": "{color.neutral.950}"
+      },
+      "background": {
+        "$value": "{color.accent.900}"
+      },
+      "text": {
+        "$value": "{color.accent.200}"
+      },
+      "border": {
+        "$value": "{color.accent.700}"
       }
     },
     "status": {

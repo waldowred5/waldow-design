@@ -23,7 +23,7 @@ function shadowEntries(tree: Record<string, Shadow | Shadow[]>): Array<[string[]
   })
 }
 
-const semanticColorGroups = ['background', 'surface', 'text', 'border', 'action', 'status'] as const
+const semanticColorGroups = ['background', 'surface', 'text', 'border', 'action', 'highlight', 'status'] as const
 
 /**
  * Semantic colour swatches. Swatches use the live CSS variables, so the theme
@@ -53,7 +53,7 @@ export function SemanticColors() {
   )
 }
 
-const hues = ['neutral', 'brand', 'green', 'amber', 'red', 'blue'] as const
+const hues = ['primary', 'secondary', 'accent', 'neutral', 'green', 'amber', 'red', 'blue'] as const
 
 /** Primitive palette. For reference only: components never use these directly. */
 export function PrimitiveColors() {

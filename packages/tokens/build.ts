@@ -1,7 +1,8 @@
 /**
  * Builds the three token tiers into CSS variables and a typed JS module.
  *
- *   src/brand         the three theme knobs: palette (neutral and brand scales), radius, font
+ *   src/brand         the theme knobs: seed colours (primary, secondary, accent), neutral scale,
+ *                     radius, font. Each seed becomes an 11-step scale via palette.ts.
  *   src/primitive     raw values (status hues, scales)
  *   src/semantic      intent (base.json is mode-independent; light.json and dark.json are modes)
  *   src/component     per-component decisions, referencing semantic tokens
@@ -16,15 +17,30 @@
  *
  * The build fails if a text/background pair in either theme drops below WCAG AA.
  */
+import { readFileSync } from 'node:fs'
 import { readFile, rm, writeFile } from 'node:fs/promises'
 import StyleDictionary from 'style-dictionary'
 import type { TransformedToken } from 'style-dictionary/types'
+import { scale } from './palette.ts'
 
 const PREFIX = 'ds'
 const DIST = 'dist/'
-const shared = ['src/brand/waldow.json', 'src/primitive/**/*.json', 'src/semantic/base.json', 'src/component/**/*.json']
+const BRAND = 'src/brand/waldow.json'
+const shared = [BRAND, 'src/primitive/**/*.json', 'src/semantic/base.json', 'src/component/**/*.json']
+
+// The brand's seed colours become color.primary.*, color.secondary.* and color.accent.*.
+const seeds = JSON.parse(readFileSync(BRAND, 'utf8')).theme.color as Record<string, { $value: string }>
+const palette = {
+  color: Object.fromEntries(
+    ['primary', 'secondary', 'accent'].map((role) => [
+      role,
+      Object.fromEntries(Object.entries(scale(seeds[role]!.$value)).map(([step, hex]) => [step, { $type: 'color', $value: hex }])),
+    ]),
+  ),
+}
 
 const light = new StyleDictionary({
+  tokens: palette,
   source: [...shared, 'src/semantic/light.json'],
   log: { verbosity: 'silent' },
   platforms: {
@@ -48,9 +64,10 @@ const light = new StyleDictionary({
 
 // Dark only re-declares the semantic colour tokens. Component tokens reference
 // semantic variables, so they follow the theme without being re-emitted.
-const isDark = (token: TransformedToken) => token.filePath.endsWith('semantic/dark.json')
+const isDark = (token: TransformedToken) => token.filePath?.endsWith('semantic/dark.json') ?? false
 
 const dark = new StyleDictionary({
+  tokens: palette,
   source: [...shared, 'src/semantic/dark.json'],
   log: { verbosity: 'silent' },
   platforms: {
@@ -105,6 +122,9 @@ const pairs: Array<[fg: string, bg: string, min: number]> = [
   ['color.action.primary.text', 'color.action.primary.default', 4.5],
   ['color.action.primary.text', 'color.action.primary.hover', 4.5],
   ['color.action.secondary.text', 'color.action.secondary.default', 4.5],
+  ['color.action.secondary.text', 'color.action.secondary.hover', 4.5],
+  ['color.highlight.on-solid', 'color.highlight.solid', 4.5],
+  ['color.highlight.text', 'color.highlight.background', 4.5],
   ['color.action.danger.text', 'color.action.danger.default', 4.5],
   ['color.status.success.text', 'color.status.success.background', 4.5],
   ['color.status.warning.text', 'color.status.warning.background', 4.5],

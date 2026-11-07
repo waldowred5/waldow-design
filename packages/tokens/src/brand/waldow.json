@@ -1,5 +1,5 @@
 {
-  "$description": "The waldow.design brand: the three theme knobs. A brand file sets the palette (neutral and brand scales), one radius and the font families; every semantic and component token derives from these.",
+  "$description": "The waldow.design brand: the theme knobs. A brand sets three seed colours (primary, secondary, accent), a neutral scale, one radius and the font families; every semantic and component token derives from these.",
   "color": {
     "$type": "color",
     "neutral": {
@@ -36,44 +36,25 @@
       "950": {
         "$value": "#0e1116"
       }
-    },
-    "brand": {
-      "50": {
-        "$value": "#eef1ff"
-      },
-      "100": {
-        "$value": "#dfe4ff"
-      },
-      "200": {
-        "$value": "#c3cbff"
-      },
-      "300": {
-        "$value": "#9faafc"
-      },
-      "400": {
-        "$value": "#7d84f6"
-      },
-      "500": {
-        "$value": "#5f60ec"
-      },
-      "600": {
-        "$value": "#4c46dc"
-      },
-      "700": {
-        "$value": "#3f38bf"
-      },
-      "800": {
-        "$value": "#33309a"
-      },
-      "900": {
-        "$value": "#2d2c79"
-      },
-      "950": {
-        "$value": "#1b1946"
-      }
     }
   },
   "theme": {
+    "color": {
+      "$type": "color",
+      "$description": "Seed colours. The build generates color.primary/secondary/accent.50-950 from each (see palette.ts).",
+      "primary": {
+        "$value": "#4c46dc",
+        "$description": "Primary actions, focus, selection, links."
+      },
+      "secondary": {
+        "$value": "#0d9488",
+        "$description": "Secondary actions and secondary emphasis."
+      },
+      "accent": {
+        "$value": "#d97706",
+        "$description": "Highlights: accent badges, markers, chart emphasis."
+      }
+    },
     "radius": {
       "$type": "dimension",
       "$value": "0.5rem",
