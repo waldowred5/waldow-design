@@ -1,10 +1,13 @@
 /**
  * Storybook UI themes (sidebar, toolbar, addon panel and docs pages), one per colour mode.
  * Values come from the same primitives as src/semantic/light.json and dark.json, so the
- * Storybook chrome matches the components it frames.
+ * Storybook chrome matches the components it frames. They are picked by hand because
+ * @waldow-design/tokens only exports light-mode semantic values to JS.
  */
 import * as t from '@waldow-design/tokens'
+import { GLOBALS_UPDATED, SET_GLOBALS } from 'storybook/internal/core-events'
 import { create } from 'storybook/theming'
+import { startThemeTransition } from './theme-transition'
 
 export type Mode = 'light' | 'dark'
 
@@ -63,3 +66,39 @@ export const themes = {
 
 /** The `theme` global set by the toolbar (addon-themes), defaulting to light. */
 export const modeFrom = (globals: Record<string, unknown> | undefined): Mode => (globals?.theme === 'dark' ? 'dark' : 'light')
+
+type GlobalsPayload = { globals?: Record<string, unknown> }
+type Channel = {
+  on(event: string, listener: (payload: GlobalsPayload) => void): void
+  off(event: string, listener: (payload: GlobalsPayload) => void): void
+}
+
+/**
+ * Follow the theme toolbar over a Storybook channel, in the manager or the preview. `apply`
+ * runs once per actual mode change. Changes after the first (GLOBALS_UPDATED) cross-fade
+ * through `startThemeTransition(doc, attribute)`. `initial` seeds the mode for globals that
+ * were announced before this subscribed. Returns a function that unsubscribes.
+ */
+export function followTheme(
+  channel: Channel | null | undefined,
+  apply: (mode: Mode) => void,
+  { initial, doc, attribute }: { initial?: GlobalsPayload; doc?: Document; attribute?: string } = {},
+) {
+  let current: Mode | undefined
+  const set = ({ globals }: GlobalsPayload, animate: boolean) => {
+    const next = modeFrom(globals)
+    if (next === current) return
+    if (animate && current) startThemeTransition(doc, attribute)
+    current = next
+    apply(next)
+  }
+  const onSet = (payload: GlobalsPayload) => set(payload, false)
+  const onUpdate = (payload: GlobalsPayload) => set(payload, true)
+  channel?.on(SET_GLOBALS, onSet)
+  channel?.on(GLOBALS_UPDATED, onUpdate)
+  if (initial) set(initial, false)
+  return () => {
+    channel?.off(SET_GLOBALS, onSet)
+    channel?.off(GLOBALS_UPDATED, onUpdate)
+  }
+}
