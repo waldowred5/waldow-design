@@ -1,9 +1,9 @@
 /**
  * Builds the three token tiers into CSS variables and a typed JS module.
  *
- *   tokens/primitive  raw values (palette, scales)
- *   tokens/semantic   intent (base.json is theme-independent; light.json and dark.json are themes)
- *   tokens/component  per-component decisions, referencing semantic tokens
+ *   src/primitive     raw values (palette, scales)
+ *   src/semantic      intent (base.json is theme-independent; light.json and dark.json are themes)
+ *   src/component     per-component decisions, referencing semantic tokens
  *
  * Output (dist/):
  *   tokens.css   :root (primitives + light + components), then dark overrides for
@@ -19,10 +19,10 @@ import type { TransformedToken } from 'style-dictionary/types'
 
 const PREFIX = 'ds'
 const DIST = 'dist/'
-const shared = ['tokens/primitive/**/*.json', 'tokens/semantic/base.json', 'tokens/component/**/*.json']
+const shared = ['src/primitive/**/*.json', 'src/semantic/base.json', 'src/component/**/*.json']
 
 const light = new StyleDictionary({
-  source: [...shared, 'tokens/semantic/light.json'],
+  source: [...shared, 'src/semantic/light.json'],
   log: { verbosity: 'silent' },
   platforms: {
     css: {
@@ -48,7 +48,7 @@ const light = new StyleDictionary({
 const isDark = (token: TransformedToken) => token.filePath.endsWith('semantic/dark.json')
 
 const dark = new StyleDictionary({
-  source: [...shared, 'tokens/semantic/dark.json'],
+  source: [...shared, 'src/semantic/dark.json'],
   log: { verbosity: 'silent' },
   platforms: {
     css: {
