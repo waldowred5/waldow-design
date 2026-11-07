@@ -5,7 +5,7 @@ addons.setConfig({
   theme: create({
     base: 'light',
     brandTitle: 'waldow.design',
-    brandUrl: 'https://github.com/waldowred5/waldow-ds',
+    brandUrl: 'https://github.com/waldowred5/waldow-design',
     brandTarget: '_blank',
   }),
 })
