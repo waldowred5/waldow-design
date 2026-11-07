@@ -16,9 +16,9 @@ pnpm --filter @waldow-design/tokens build   # also runs on install (prepare)
 
 | Tier | Source | Answers | Example | Who may use it |
 | --- | --- | --- | --- | --- |
-| **Primitive** | `tokens/primitive/*.json` | What values exist? | `color.brand.600` → `#4c46dc` | Semantic tokens only |
-| **Semantic** | `tokens/semantic/{base,light,dark}.json` | What is this value *for*? | `color.action.primary.default` → `{color.brand.600}` | Components, app code, Tailwind theme |
-| **Component** | `tokens/component/*.json` | What does this component decide? | `button.height.md` → `{size.9}` | That component |
+| **Primitive** | `src/primitive/*.json` | What values exist? | `color.brand.600` → `#4c46dc` | Semantic tokens only |
+| **Semantic** | `src/semantic/{base,light,dark}.json` | What is this value *for*? | `color.action.primary.default` → `{color.brand.600}` | Components, app code, Tailwind theme |
+| **Component** | `src/component/*.json` | What does this component decide? | `button.height.md` → `{size.9}` | That component |
 
 Rules:
 
