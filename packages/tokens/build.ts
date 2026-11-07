@@ -21,7 +21,31 @@ import { readFileSync } from 'node:fs'
 import { readFile, rm, writeFile } from 'node:fs/promises'
 import StyleDictionary from 'style-dictionary'
 import type { TransformedToken } from 'style-dictionary/types'
-import { scale } from './palette.ts'
+import { wcagContrast } from 'culori'
+import { scale, toOklch } from './palette.ts'
+
+// CSS gets colours as oklch(), including the colours inside shadows. JS output keeps hex,
+// because tools that read it (Storybook's theming, for one) can't parse oklch().
+type ShadowLayer = { color: string } & Record<string, string>
+StyleDictionary.registerTransform({
+  name: 'color/oklch',
+  type: 'value',
+  filter: (token) => token.$type === 'color',
+  transform: (token) => toOklch(String(token.$value)),
+})
+StyleDictionary.registerTransform({
+  name: 'shadow/oklch',
+  type: 'value',
+  filter: (token) => token.$type === 'shadow',
+  transform: (token) => {
+    const layer = (l: ShadowLayer) => ({ ...l, color: toOklch(l.color) })
+    const value = token.$value as ShadowLayer | ShadowLayer[]
+    return Array.isArray(value) ? value.map(layer) : layer(value)
+  },
+})
+const cssTransforms = StyleDictionary.hooks.transformGroups.css!.flatMap((name) =>
+  name === 'color/css' ? ['color/oklch'] : name === 'shadow/css/shorthand' ? ['shadow/oklch', name] : [name],
+)
 
 const PREFIX = 'ds'
 const DIST = 'dist/'
@@ -45,7 +69,7 @@ const light = new StyleDictionary({
   log: { verbosity: 'silent' },
   platforms: {
     css: {
-      transformGroup: 'css',
+      transforms: cssTransforms,
       prefix: PREFIX,
       buildPath: DIST,
       files: [{ destination: 'light.css', format: 'css/variables', options: { outputReferences: true, selector: ':root, [data-brand]' } }],
@@ -72,7 +96,7 @@ const dark = new StyleDictionary({
   log: { verbosity: 'silent' },
   platforms: {
     css: {
-      transformGroup: 'css',
+      transforms: cssTransforms,
       prefix: PREFIX,
       buildPath: DIST,
       files: [
@@ -134,17 +158,7 @@ const pairs: Array<[fg: string, bg: string, min: number]> = [
   ['color.border.strong', 'color.background.default', 3],
 ]
 
-const luminance = (hex: string) => {
-  const [r, g, b] = [1, 3, 5].map((i) => {
-    const c = parseInt(hex.slice(i, i + 2), 16) / 255
-    return c <= 0.04045 ? c / 12.92 : ((c + 0.055) / 1.055) ** 2.4
-  }) as [number, number, number]
-  return 0.2126 * r + 0.7152 * g + 0.0722 * b
-}
-const contrast = (a: string, b: string) => {
-  const [hi, lo] = [luminance(a), luminance(b)].sort((x, y) => y - x) as [number, number]
-  return (hi + 0.05) / (lo + 0.05)
-}
+const contrast = (a: string, b: string) => wcagContrast(a, b)
 
 const failures: string[] = []
 for (const [name, sd] of [['light', light], ['dark', dark]] as const) {
