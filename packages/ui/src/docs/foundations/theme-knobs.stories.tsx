@@ -9,7 +9,7 @@ import { Input } from '../../components/input'
 import { Stack } from '../../components/stack'
 
 /**
- * Sample values for the knobs. A real brand sets these in packages/tokens/tokens/brand/<name>.json,
+ * Sample values for the knobs. A real brand sets these in packages/tokens/src/brand/<name>.json,
  * where the build checks their contrast; here they are inline so the controls can swap them.
  */
 const palettes = {

@@ -14,7 +14,7 @@ pnpm --filter @waldow-design/tokens build   # also runs on install (prepare)
 
 ## Brand knobs
 
-A brand is three knobs in `tokens/brand/<name>.json`. Every other token derives from them, so a new brand never touches a component.
+A brand is three knobs in `src/brand/<name>.json`. Every other token derives from them, so a new brand never touches a component.
 
 | Knob | Tokens | Derived |
 | --- | --- | --- |
@@ -28,9 +28,9 @@ Brand and mode are separate: any brand works in light or dark mode. Every block 
 
 | Tier | Source | Answers | Example | Who may use it |
 | --- | --- | --- | --- | --- |
-| **Primitive** | `tokens/brand/*.json` (palette), `tokens/primitive/*.json` | What values exist? | `color.brand.600` → `#4c46dc` | Semantic tokens only |
-| **Semantic** | `tokens/semantic/{base,light,dark}.json` | What is this value *for*? | `color.action.primary.default` → `{color.brand.600}` | Components, app code, Tailwind theme |
-| **Component** | `tokens/component/*.json` | What does this component decide? | `button.height.md` → `{size.9}` | That component |
+| **Primitive** | `src/brand/*.json` (palette), `src/primitive/*.json` | What values exist? | `color.brand.600` → `#4c46dc` | Semantic tokens only |
+| **Semantic** | `src/semantic/{base,light,dark}.json` | What is this value *for*? | `color.action.primary.default` → `{color.brand.600}` | Components, app code, Tailwind theme |
+| **Component** | `src/component/*.json` | What does this component decide? | `button.height.md` → `{size.9}` | That component |
 
 Rules:
 
