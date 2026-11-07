@@ -7,9 +7,18 @@
  * tapers towards the light and dark ends, and is clamped to what sRGB can show.
  *
  * Used by the token build (brand seeds → color.primary/secondary/highlight.*) and by the
- * Theme knobs demo, so both produce identical scales.
+ * Theme knobs playground in apps/web (and the Storybook examples), so all produce identical scales.
  */
-import { clampChroma, formatHex, oklch } from 'culori'
+import { clampChroma, converter, formatHex, modeLrgb, modeOklab, modeOklch, modeRgb, useMode as registerMode } from 'culori/fn'
+
+// The tree-shakeable build of culori: register only the colour spaces used here, so the web
+// app's Theme knobs page ships a few kB of colour maths instead of every colour space.
+// rgb parses hex and named colours; oklch, oklab and lrgb are what the conversions route through.
+registerMode(modeRgb)
+registerMode(modeLrgb)
+registerMode(modeOklab)
+registerMode(modeOklch)
+const oklch = converter('oklch')
 
 export const steps = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const
 export type Step = (typeof steps)[number]
