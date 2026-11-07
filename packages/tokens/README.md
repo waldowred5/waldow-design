@@ -23,9 +23,9 @@ A brand is a handful of knobs in `src/brand/<name>.json`. Every other token deri
 | Radius | `theme.radius` | `radius.surface` (×1), `radius.control` (×0.75), `radius.inner` (×0.5) |
 | Font | `theme.font.body`, `theme.font.display`, `theme.font.mono` | `font.body`, `font.display`, `font.code` |
 
-Each seed colour becomes an 11-step scale in `palette.ts`. Steps are placed by OKLCH lightness, so a step has about the same contrast whatever the hue: 600 carries white text and 400 carries near-black text. The build and the Storybook Theme knobs demo use the same generator.
+Each seed colour becomes an 11-step scale in `palette.ts`. Steps are placed by OKLCH lightness, so a step has about the same contrast whatever the hue: 600 carries white text and 400 carries near-black text. The build and the web app's Theme knobs playground (`apps/web`, `#/theme-knobs`) use the same generator.
 
-Brand and mode are separate: any brand works in light or dark mode. Every block in `tokens.css` is also declared on `[data-brand]`, so overriding a knob on any element re-derives the tokens for that subtree. The Storybook page *Foundations / Theme knobs* lets you try it.
+Brand and mode are separate: any brand works in light or dark mode. Every block in `tokens.css` is also declared on `[data-brand]`, so overriding a knob on any element re-derives the tokens for that subtree. The Theme knobs page in the web app lets you try it live; Storybook's *Foundations / Theme knobs* explains the knobs with fixed examples.
 
 ## Three tiers
 
