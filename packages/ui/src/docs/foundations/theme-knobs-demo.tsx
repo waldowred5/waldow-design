@@ -4,7 +4,7 @@
  * scale generator the token build uses (@waldow-design/tokens/palette).
  */
 import * as t from '@waldow-design/tokens'
-import { scale, steps } from '@waldow-design/tokens/palette'
+import { scale, steps, toOklch } from '@waldow-design/tokens/palette'
 import { type CSSProperties, type ReactNode, useState } from 'react'
 import { ActionBar } from '../../components/action-bar'
 import { Badge } from '../../components/badge'
@@ -39,7 +39,7 @@ function knobStyle(seeds: Record<Role, string>, radius: number, font: Font): CSS
   const vars: Record<string, string> = { '--ds-theme-radius': `${radius}rem` }
   for (const role of roles) {
     const generated = scale(seeds[role])
-    for (const step of steps) vars[`--ds-color-${role}-${step}`] = generated[step]
+    for (const step of steps) vars[`--ds-color-${role}-${step}`] = toOklch(generated[step])
   }
   vars['--ds-theme-font-body'] = fonts[font]
   vars['--ds-theme-font-display'] = fonts[font]

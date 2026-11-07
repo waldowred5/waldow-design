@@ -38,3 +38,13 @@ export function scale(seed: string): Scale {
     }),
   ) as Scale
 }
+
+const round = (n: number, places: number) => Number(n.toFixed(places))
+
+/** Any CSS colour as a compact `oklch()` string, e.g. `oklch(50% 0.22 276.7)` or `oklch(17.7% 0.011 260.6 / 6%)`. */
+export function toOklch(colour: string): string {
+  const c = oklch(colour)
+  if (!c) throw new Error(`Not a colour: ${colour}`)
+  const alpha = c.alpha !== undefined && c.alpha < 1 ? ` / ${round(c.alpha * 100, 0)}%` : ''
+  return `oklch(${round(c.l * 100, 1)}% ${round(c.c ?? 0, 3)} ${round(c.h ?? 0, 1)}${alpha})`
+}
