@@ -22,7 +22,7 @@
   {
     "name": "@waldow-design/tokens: tokens.css",
     "path": "packages/tokens/dist/tokens.css",
-    "limit": "5 kB",
+    "limit": "3.5 kB",
     "rolldown": false
   },
   {
