@@ -28,7 +28,7 @@ const preview: Preview = {
     backgrounds: { disable: true },
     docs: { container: ThemedDocsContainer },
     options: {
-      storySort: { order: ['Introduction', 'Principles', ['Overview', '*'], 'Foundations', 'Components', 'Prototypes'] },
+      storySort: { order: ['Introduction', 'Principles', ['Overview', '*'], 'Foundations', 'Components', 'Patterns', 'Prototypes'] },
     },
   },
 }
