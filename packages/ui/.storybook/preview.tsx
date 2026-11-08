@@ -8,7 +8,10 @@ const preview: Preview = {
   decorators: [
     withThemeByDataAttribute<ReactRenderer>({
       themes: { light: 'light', dark: 'dark' },
-      defaultTheme: 'light',
+      // Follow the OS until someone picks from the toolbar. A fixed 'light' default meant the
+      // tokens painted dark (prefers-color-scheme) and then flipped to light on load. Chromatic and
+      // the jsdom story tests have no dark preference (or no matchMedia), so they stay on light.
+      defaultTheme: globalThis.matchMedia?.('(prefers-color-scheme: dark)').matches ? 'dark' : 'light',
       attributeName: 'data-theme',
       parentSelector: 'html',
     }),

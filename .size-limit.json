@@ -7,7 +7,7 @@
       "react",
       "react-dom"
     ],
-    "limit": "45 kB"
+    "limit": "48 kB"
   },
   {
     "name": "ui: Button only (tree-shaking)",
@@ -40,7 +40,7 @@
   {
     "name": "apps/web: CSS",
     "path": "apps/web/dist/assets/*.css",
-    "limit": "8 kB",
+    "limit": "9 kB",
     "rolldown": false
   }
 ]

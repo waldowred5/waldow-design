@@ -5,6 +5,7 @@ export { Badge, type BadgeProps, badgeVariants } from './components/badge'
 export { Button, type ButtonProps, buttonVariants } from './components/button'
 export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './components/card'
 export { Checkbox, type CheckboxProps } from './components/checkbox'
+export { Dial, type DialProps } from './components/dial'
 export {
   Dialog,
   DialogClose,
@@ -28,7 +29,7 @@ export {
   DrawerTrigger,
   drawerVariants,
 } from './components/drawer'
-export { Field, type FieldProps, useFieldControl } from './components/field'
+export { Field, type FieldProps, useFieldControl, useFieldLabel } from './components/field'
 export { Input, type InputProps } from './components/input'
 export { type Mode, ModeToggle, type ModeToggleProps } from './components/mode-toggle'
 export {
@@ -41,6 +42,7 @@ export {
   SelectTrigger,
   SelectValue,
 } from './components/select'
+export { Slider, type SliderProps } from './components/slider'
 export { Stack, type StackProps, stackVariants } from './components/stack'
 export { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from './components/table'
 

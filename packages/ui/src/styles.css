@@ -8,6 +8,9 @@
  */
 @import "tailwindcss";
 @import "@waldow-design/tokens/tokens.css";
+/* The brand's display face (font-family.display). Variable weight and optical size, latin
+   subsets only, loaded on demand by unicode-range. */
+@import "@fontsource-variable/bricolage-grotesque/opsz.css";
 
 @source "./";
 
@@ -115,10 +118,19 @@
   --text-2xl: var(--ds-font-size-2xl);
   --text-3xl: var(--ds-font-size-3xl);
   --text-4xl: var(--ds-font-size-4xl);
+  /* Display sizes: heroes and landing titles only. */
+  --text-5xl: var(--ds-font-size-5xl);
+  --text-5xl--line-height: var(--ds-line-height-none);
+  --text-6xl: var(--ds-font-size-6xl);
+  --text-6xl--line-height: var(--ds-line-height-none);
+  --text-7xl: var(--ds-font-size-7xl);
+  --text-7xl--line-height: var(--ds-line-height-none);
 
   /* Motion */
   --default-transition-duration: var(--ds-motion-duration-fast);
   --default-transition-timing-function: var(--ds-motion-easing-standard);
+  --ease-standard: var(--ds-motion-easing-standard);
+  --ease-overshoot: var(--ds-motion-easing-overshoot);
   --animate-fade-in: fade-in var(--ds-motion-duration-normal) var(--ds-motion-easing-standard);
   --animate-pop-in: pop-in var(--ds-motion-duration-normal) var(--ds-motion-easing-standard);
   --animate-slide-in-start: slide-in-start var(--ds-motion-duration-normal) var(--ds-motion-easing-standard);

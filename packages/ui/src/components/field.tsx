@@ -4,12 +4,22 @@ import { cn } from '../lib/cn'
 
 type FieldContextValue = {
   id: string
+  labelId: string
   describedBy: string | undefined
   invalid: boolean
   required: boolean
 }
 
 const FieldContext = createContext<FieldContextValue | null>(null)
+
+/**
+ * `aria-labelledby` for controls a `<label for>` can't name, such as a `role="slider"` element
+ * that isn't a native input (Slider thumbs, Dial). Empty outside a Field.
+ */
+export function useFieldLabel() {
+  const field = useContext(FieldContext)
+  return field ? { 'aria-labelledby': field.labelId } : {}
+}
 
 /**
  * Props a form control should spread to be wired to its surrounding `<Field>`.
@@ -61,12 +71,13 @@ export type FieldProps = {
 export function Field({ label, description, error, required = false, orientation = 'vertical', id, className, children }: FieldProps) {
   const generated = useId()
   const controlId = id ?? `field-${generated}`
+  const labelId = `${controlId}-label`
   const descriptionId = description ? `${controlId}-description` : undefined
   const errorId = error ? `${controlId}-error` : undefined
   const describedBy = [descriptionId, errorId].filter(Boolean).join(' ') || undefined
 
   const labelNode = (
-    <Label.Root htmlFor={controlId} className="text-sm font-medium text-foreground">
+    <Label.Root id={labelId} htmlFor={controlId} className="text-sm font-medium text-foreground">
       {label}
       {required && (
         <span aria-hidden="true" className="text-danger-text">
@@ -77,7 +88,7 @@ export function Field({ label, description, error, required = false, orientation
   )
 
   return (
-    <FieldContext.Provider value={{ id: controlId, describedBy, invalid: Boolean(error), required }}>
+    <FieldContext.Provider value={{ id: controlId, labelId, describedBy, invalid: Boolean(error), required }}>
       <div data-slot="field" className={cn('flex flex-col gap-1.5', className)}>
         {orientation === 'horizontal' ? (
           <div className="flex items-center gap-2">

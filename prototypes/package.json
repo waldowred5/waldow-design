@@ -8,11 +8,14 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@waldow-design/tokens": "workspace:*",
     "@waldow-design/ui": "workspace:*"
   },
   "devDependencies": {
     "@storybook/react-vite": "catalog:",
     "@types/react": "catalog:",
-    "react": "catalog:"
+    "@types/react-dom": "^19.3.0",
+    "react": "catalog:",
+    "react-dom": "^19.3.1"
   }
 }

@@ -29,6 +29,8 @@ Theme with `data-theme="light" | "dark"` on `<html>`, or leave it unset to follo
 | `Field` | Radix Label | Label, description, error; wires `aria-describedby`, `aria-invalid` and `aria-required` |
 | `Select` | Radix Select | Trigger, content, item, group, label, separator |
 | `Checkbox` | Radix Checkbox | Checked, unchecked and indeterminate |
+| `Slider` | Radix Slider | One value or a range; a `Field` labels a single thumb |
+| `Dial` | `role="slider"` | Rotary control for cyclic values (hue, heading); drag or arrow keys, turns without end |
 | `ActionBar` | `<div>` | Trailing-edge action group; same layout as `CardFooter` and `DialogFooter` |
 | `Card` | `<div>` | Header, title, description, content, footer |
 | `Stack` | flexbox | Gap from the token space scale; `asChild` for semantic elements |
