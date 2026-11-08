@@ -49,7 +49,7 @@ export function ComponentsDemo() {
   const emailError = submitted && !email.includes('@') ? 'Enter an email address, like name@example.com.' : undefined
 
   return (
-    <Stack gap={8} className="mx-auto max-w-4xl">
+    <Stack gap={8} className="max-w-4xl">
       <Card>
         <CardHeader>
           <CardTitle>Invite a team member</CardTitle>

@@ -25,7 +25,7 @@ A brand is a handful of knobs in `src/brand/<name>.json`. Every other token deri
 
 Each seed colour becomes an 11-step scale in `palette.ts`. Steps are placed by OKLCH lightness, so a step has about the same contrast whatever the hue: 600 carries white text and 400 carries near-black text. The seed only sets hue and chroma, so an achromatic seed gives a neutral grey scale.
 
-Brand and mode are separate: any brand works in light or dark mode. The knob defaults and primitives are declared once on `:root`; every derived token is also declared on `[data-brand]`, so a `[data-brand]` element re-derives its subtree from the knobs it inherits. Overriding a knob there themes that subtree, and a nested `[data-brand]` keeps the outer overrides. The web app's Theme knobs page (`apps/web`, `#/theme-knobs`) lets you try it live; Storybook's *Foundations / Theme knobs* shows fixed examples.
+Brand and mode are separate: any brand works in light or dark mode. The knob defaults and primitives are declared once on `:root`; every derived token is also declared on `[data-brand]`, so a `[data-brand]` element re-derives its subtree from the knobs it inherits. Overriding a knob there themes that subtree, and a nested `[data-brand]` keeps the outer overrides. The web app's Theme knobs page (`apps/web`, `/tools/theme-knobs`) lets you try it live; Storybook's *Foundations / Theme knobs* shows fixed examples.
 
 ## Two tiers
 

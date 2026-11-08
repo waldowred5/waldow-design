@@ -9,7 +9,7 @@ A small but real design system: three-tier design tokens, accessible React compo
 | `packages/tokens` | `@waldow-design/tokens` | Design tokens, built into CSS variables |
 | `packages/ui` | `@waldow-design/ui` | React components (shadcn/ui foundation, see [ADR 001](docs/adr/001-shadcn-ui-component-foundation.md)) |
 | `packages/catalog` | `@waldow-design/catalog` | Machine-readable component catalog (Phase 3) |
-| `apps/web` | `@waldow-design/web` | The design system app |
+| `apps/web` | `@waldow-design/web` | The docs site: the system explained and demonstrated |
 | `prototypes` | `@waldow-design/prototypes` | Prototype stories, published by Chromatic; disposable, or kept as showcase examples ([README](prototypes/README.md)) |
 
 ## Getting started
