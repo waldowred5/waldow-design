@@ -1,6 +1,7 @@
 import { withThemeByDataAttribute } from '@storybook/addon-themes'
 import type { Preview, ReactRenderer } from '@storybook/react-vite'
 import { ThemedDocsContainer } from './docs-container'
+import { StableDocsRenderer } from './docs-renderer'
 import './storybook.css'
 
 const preview: Preview = {
@@ -26,7 +27,7 @@ const preview: Preview = {
       },
     },
     backgrounds: { disable: true },
-    docs: { container: ThemedDocsContainer },
+    docs: { container: ThemedDocsContainer, renderer: async () => new StableDocsRenderer() },
     options: {
       storySort: { order: ['Introduction', 'Principles', ['Overview', '*'], 'Foundations', 'Components', 'Patterns', 'Prototypes'] },
     },

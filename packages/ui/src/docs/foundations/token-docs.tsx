@@ -101,7 +101,8 @@ export function Scale({ group }: ScaleProps) {
       ? Object.entries(tree).map(([key, value]) => [[key], formatShadow(value)])
       : flatten(tree).map(([path, value]) => [path, String(value)])
   return (
-    <table className="w-full text-sm">
+    // Elevation rows aren't striped (see storybook.css): shadows read best on the plain page.
+    <table className="w-full text-sm" data-striped={group === 'elevation' ? 'false' : undefined}>
       <thead>
         <tr className="border-b text-left">
           <th className="py-2">Token</th>
@@ -127,8 +128,9 @@ export function Scale({ group }: ScaleProps) {
                   <div className="size-10 border-2 border-primary bg-background-muted" style={{ borderRadius: `var(${name})` }} />
                 )}
                 {group === 'elevation' && (
-                  // A raised surface on the page's subtle background, the way elevation is actually seen.
-                  <div className="inline-flex rounded-surface bg-background-subtle p-6">
+                  // A raised surface straight on the page, the way elevation is actually seen. The
+                  // padding leaves room for the shadow to spread.
+                  <div className="inline-flex py-4">
                     <div className="h-12 w-20 rounded-surface bg-surface-raised" style={{ boxShadow: `var(${name})` }} />
                   </div>
                 )}
