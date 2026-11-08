@@ -10,6 +10,11 @@
   background-color: var(--ds-color-background-subtle);
 }
 
+/* Tables that opt out of striping (the elevation scale), so previews sit on the plain page. */
+.sbdocs-wrapper .sbdocs-content table[data-striped="false"] tr {
+  background-color: transparent;
+}
+
 /* Theme switch: cross-fade colours with Tailwind's default transition, only while switching
    (see theme-transition.ts). !important so it also covers components' own transitions. */
 .theme-switching,
