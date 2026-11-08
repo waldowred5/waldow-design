@@ -1,0 +1,90 @@
+/*
+ * Hero prototype styles. Only what utilities can't express: the display size, keyframes,
+ * view-transition names and a CSS-only counter. Colours come from semantic tokens only.
+ * Gaps this file papers over are listed in hero.stories.tsx ("Gaps found").
+ */
+@import "@fontsource-variable/bricolage-grotesque/opsz.css";
+
+/* Display size: no type token goes above 4xl yet, so derive from it. Sized to its container
+   (cqi), not the viewport, so the title fits whether the hero has one column or two. */
+.hero-display {
+  font-size: clamp(var(--ds-font-size-4xl), 12cqi, calc(var(--ds-font-size-4xl) * 2.6));
+  line-height: 0.95;
+  letter-spacing: -0.035em;
+  font-variation-settings: "opsz" 96;
+}
+
+/* Aurora: three blurred seed-colour blobs drifting slowly. Transform only, so it stays on the compositor. */
+.hero-blob {
+  animation: hero-drift 18s var(--ds-motion-easing-standard) infinite alternate;
+  will-change: transform;
+}
+.hero-blob:nth-child(2) { animation-duration: 23s; animation-delay: -6s; }
+.hero-blob:nth-child(3) { animation-duration: 29s; animation-delay: -12s; }
+
+@keyframes hero-drift {
+  from { transform: translate3d(-8%, -6%, 0) scale(1); }
+  to { transform: translate3d(10%, 8%, 0) scale(1.15); }
+}
+
+/* Film grain over the aurora, so the gradients don't band. */
+.hero-grain {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='160' height='160'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  mix-blend-mode: overlay;
+  opacity: 0.18;
+}
+
+/* Background grid that fades out towards the edges. */
+.hero-grid {
+  background-image:
+    linear-gradient(to right, var(--ds-color-border-default) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--ds-color-border-default) 1px, transparent 1px);
+  background-size: calc(var(--ds-space-1) * 12) calc(var(--ds-space-1) * 12);
+  mask-image: radial-gradient(ellipse 70% 60% at 50% 40%, black, transparent);
+  opacity: 0.5;
+}
+
+/* Staggered reveal for the pipeline steps (variant C). */
+.hero-reveal {
+  animation: hero-rise calc(var(--ds-motion-duration-normal) * 3) var(--ds-motion-easing-standard) both;
+  animation-delay: calc(var(--i, 0) * 140ms + 200ms);
+}
+@keyframes hero-rise {
+  from { opacity: 0; transform: translateY(12px); }
+}
+
+/* CSS-only count-up: an animatable integer drives a counter. The real number is in the DOM
+   for assistive technology; this pseudo-element is the visual only. */
+@property --hero-n {
+  syntax: "<integer>";
+  inherits: false;
+  initial-value: 0;
+}
+.hero-count {
+  --hero-n: var(--to);
+  counter-reset: hero-n var(--hero-n);
+  animation: hero-count calc(var(--ds-motion-duration-normal) * 7) var(--ds-motion-easing-standard) both;
+  animation-delay: calc(var(--i, 0) * 140ms + 400ms);
+  font-variant-numeric: tabular-nums;
+}
+.hero-count::after { content: counter(hero-n); }
+@keyframes hero-count {
+  from { --hero-n: 0; }
+}
+
+/* Brand switch (variant B): the product window morphs as one shared element. */
+.hero-window { view-transition-name: hero-window; }
+.hero-brand-caption { view-transition-name: hero-brand-caption; }
+::view-transition-group(hero-window) {
+  animation-duration: 450ms;
+  animation-timing-function: var(--ds-motion-easing-standard);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .hero-blob,
+  .hero-reveal,
+  .hero-count { animation: none; }
+  ::view-transition-group(*),
+  ::view-transition-old(*),
+  ::view-transition-new(*) { animation: none !important; }
+}
