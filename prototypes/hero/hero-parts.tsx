@@ -92,38 +92,27 @@ function subscribeMode(onChange: () => void) {
   return () => observer.disconnect()
 }
 /**
- * Switch the mode with a soft circular reveal: the new mode grows out from `origin` (the toggle)
- * as a view transition, through a radial mask with a feathered edge whose radius animates (hero.css `.hero-reveal`).
- * Without view transitions, or with reduced motion, it switches straight away.
+ * Switch the mode with a circular reveal: the new mode grows out from `origin` (the toggle) as a
+ * view transition. Without view transitions, or with reduced motion, it switches straight away.
  */
 function switchMode(next: Mode, origin: { x: number; y: number }) {
-  const root = document.documentElement
   const apply = () => {
-    root.dataset.theme = next
+    document.documentElement.dataset.theme = next
   }
   const reduced = globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches
   if (!document.startViewTransition || reduced) return apply()
-  root.classList.add('hero-reveal')
-  root.style.setProperty('--reveal-x', `${origin.x}px`)
-  root.style.setProperty('--reveal-y', `${origin.y}px`)
   const transition = document.startViewTransition(apply)
-  // The mask is solid to 80% of its radius, so it must reach past the farthest corner by that margin.
-  const corner = Math.hypot(Math.max(origin.x, innerWidth - origin.x), Math.max(origin.y, innerHeight - origin.y))
+  const radius = Math.hypot(Math.max(origin.x, innerWidth - origin.x), Math.max(origin.y, innerHeight - origin.y))
   void transition.ready.then(() =>
-    root.animate(
-      { '--reveal-r': ['0px', `${corner / 0.8}px`] },
+    document.documentElement.animate(
+      { clipPath: [`circle(0 at ${origin.x}px ${origin.y}px)`, `circle(${radius}px at ${origin.x}px ${origin.y}px)`] },
       {
-        duration: ms(tokens.MotionDurationSlower) * 1.5,
+        duration: ms(tokens.MotionDurationSlower),
         easing: easing(tokens.MotionEasingStandard),
         pseudoElement: '::view-transition-new(root)',
       },
     ),
   )
-  void transition.finished.finally(() => {
-    root.classList.remove('hero-reveal')
-    root.style.removeProperty('--reveal-x')
-    root.style.removeProperty('--reveal-y')
-  })
 }
 
 function useDocumentMode() {
