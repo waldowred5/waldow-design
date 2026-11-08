@@ -3,10 +3,36 @@
  * the frame (backdrop and mode toggle), the title, the actions, and the seed maths.
  */
 import { Button, type Mode, ModeToggle } from '@waldow-design/ui'
+import * as tokens from '@waldow-design/tokens'
 import { defaultKnobs, type Knobs, knobStyle } from '@waldow-design/tokens/knobs'
-import { type Role, toHex } from '@waldow-design/tokens/palette'
-import { type CSSProperties, type ReactNode, useEffect, useState, useSyncExternalStore } from 'react'
+import { type Role, roles, steps, toHex } from '@waldow-design/tokens/palette'
+import { type CSSProperties, type MouseEvent, type ReactNode, useEffect, useRef, useState, useSyncExternalStore } from 'react'
 import './hero.css'
+
+const ms = ({ value, unit }: { value: number; unit: string }) => (unit === 's' ? value * 1000 : value)
+const easing = (curve: readonly number[]) => `cubic-bezier(${curve.join(', ')})`
+
+/**
+ * The palette step variables every knob change rewrites (role × step, from knobStyle), registered
+ * as colours. An unregistered custom property can only jump; a registered one interpolates, so a
+ * transition on the steps themselves animates every semantic token derived from them, and with
+ * them every component on the page, without a transition rule on any component.
+ */
+const paletteVars = roles.flatMap((role) => steps.map((step) => `--ds-color-${role}-${step}`))
+for (const name of paletteVars) {
+  try {
+    globalThis.CSS?.registerProperty?.({ name, syntax: '<color>', inherits: true, initialValue: 'transparent' })
+  } catch {
+    // Already registered (hot reload, or another story module): nothing to do.
+  }
+}
+
+/** Glide between palettes: long enough to read as a sweep, short enough to finish before the next drift tick. */
+const paletteTransition: CSSProperties = {
+  transitionProperty: paletteVars.join(', '),
+  transitionDuration: `${ms(tokens.MotionDurationSlower)}ms`,
+  transitionTimingFunction: easing(tokens.MotionEasingStandard),
+}
 
 /**
  * The brand's display face. `knobStyle` points the display font at the font knob (Sans by
@@ -65,12 +91,32 @@ function subscribeMode(onChange: () => void) {
   observer.observe(document.documentElement, { attributeFilter: ['data-theme'] })
   return () => observer.disconnect()
 }
-function useDocumentMode() {
-  const mode = useSyncExternalStore(subscribeMode, readMode, () => 'light' as Mode)
-  const setMode = (next: Mode) => {
+/**
+ * Switch the mode with a circular reveal: the new mode grows out from `origin` (the toggle) as a
+ * view transition. Without view transitions, or with reduced motion, it switches straight away.
+ */
+function switchMode(next: Mode, origin: { x: number; y: number }) {
+  const apply = () => {
     document.documentElement.dataset.theme = next
   }
-  return [mode, setMode] as const
+  const reduced = globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches
+  if (!document.startViewTransition || reduced) return apply()
+  const transition = document.startViewTransition(apply)
+  const radius = Math.hypot(Math.max(origin.x, innerWidth - origin.x), Math.max(origin.y, innerHeight - origin.y))
+  void transition.ready.then(() =>
+    document.documentElement.animate(
+      { clipPath: [`circle(0 at ${origin.x}px ${origin.y}px)`, `circle(${radius}px at ${origin.x}px ${origin.y}px)`] },
+      {
+        duration: ms(tokens.MotionDurationSlower),
+        easing: easing(tokens.MotionEasingStandard),
+        pseudoElement: '::view-transition-new(root)',
+      },
+    ),
+  )
+}
+
+function useDocumentMode() {
+  return useSyncExternalStore(subscribeMode, readMode, () => 'light' as Mode)
 }
 
 export function HeroTitle({ align = 'start' }: { align?: 'start' | 'center' }) {
@@ -116,16 +162,26 @@ export function Backdrop() {
 
 /** The hero's frame: a full-bleed, branded section with the backdrop behind and a mode toggle. */
 export function HeroFrame({ style, children }: { style: CSSProperties; children: ReactNode }) {
-  const [mode, setMode] = useDocumentMode()
+  const mode = useDocumentMode()
+  const reduced = usePrefersReducedMotion()
+  // The reveal grows from the toggle's centre, read on the click that switches it.
+  const origin = useRef({ x: 0, y: 0 })
+  const fromToggle = (event: MouseEvent<HTMLDivElement>) => {
+    const box = event.currentTarget.getBoundingClientRect()
+    origin.current = { x: box.left + box.width / 2, y: box.top + box.height / 2 }
+  }
   return (
     <section
       aria-label="Waldow.Design"
       data-brand="hero"
-      style={style}
+      style={reduced ? style : { ...style, ...paletteTransition }}
       className="relative isolate overflow-hidden bg-background px-6 py-16 sm:px-12 sm:py-24"
     >
       <Backdrop />
-      <ModeToggle mode={mode} onModeChange={setMode} variant="outline" className="absolute top-4 right-4 z-10 bg-surface/70 backdrop-blur-sm" />
+      {/* Capture runs before the toggle's own click, so the origin is set when the mode changes. */}
+      <div className="absolute top-4 right-4 z-10" onClickCapture={fromToggle}>
+        <ModeToggle mode={mode} onModeChange={(next) => switchMode(next, origin.current)} variant="outline" className="bg-surface/70 backdrop-blur-sm" />
+      </div>
       <div className="relative mx-auto max-w-6xl">{children}</div>
     </section>
   )

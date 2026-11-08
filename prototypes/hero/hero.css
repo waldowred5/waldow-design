@@ -106,6 +106,14 @@
   animation-timing-function: var(--ds-motion-easing-standard);
 }
 
+/* Mode switch: the hero toggle animates a circular reveal of the new snapshot over the old
+   one (hero-parts.tsx), so the default cross-fade is switched off for the page itself. */
+::view-transition-old(root),
+::view-transition-new(root) {
+  animation: none;
+  mix-blend-mode: normal;
+}
+
 @media (prefers-reduced-motion: reduce) {
   .hero-blob,
   .hero-digit,
