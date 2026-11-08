@@ -41,7 +41,7 @@ import {
 } from 'lucide-react'
 import { useEffect } from 'react'
 import budgets from '../../../../.size-limit.json'
-import { MAIN_ID, ModeToggleButton, SiteNav, SiteSearch, useFocusMainOnNavigate } from '../chrome'
+import { MAIN_ID, ThemeToggleButton, SiteNav, SiteSearch, useFocusMainOnNavigate } from '../chrome'
 import { loadDocs } from '../routes'
 import { DOCS_PATH, introHeadings as intro, SITE_NAME } from '../site'
 import { BrandShowcase } from './brand-showcase'
@@ -72,7 +72,7 @@ export default function LandingPage() {
         <NavbarActions>
           <SiteNav />
           <SiteSearch />
-          <ModeToggleButton />
+          <ThemeToggleButton />
         </NavbarActions>
       </Navbar>
 

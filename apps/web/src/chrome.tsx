@@ -2,7 +2,7 @@
  * The pieces both layouts share: the navbar's search and mode toggle, and
  * moving focus to the new page after a navigation.
  */
-import { ModeToggle, NavbarLink, NavbarNav, Search, type SearchItem } from '@waldow-design/ui'
+import { NavbarLink, NavbarNav, Search, type SearchItem, ThemeToggle } from '@waldow-design/ui'
 import { useEffect } from 'react'
 import { loadDocs } from './routes'
 import { hasNavigated, navigate } from './router'
@@ -36,8 +36,8 @@ export function SiteNav({ inDocs = false }: { inDocs?: boolean }) {
 }
 
 /** Only this button subscribes to the mode, so switching never re-renders (or remounts) a page. */
-export function ModeToggleButton() {
-  return <ModeToggle mode={useMode()} onModeChange={setMode} />
+export function ThemeToggleButton() {
+  return <ThemeToggle theme={useMode()} onThemeChange={setMode} />
 }
 
 export const MAIN_ID = 'main'

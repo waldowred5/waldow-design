@@ -30,7 +30,6 @@ export {
 } from './components/drawer'
 export { Field, type FieldProps, useFieldControl } from './components/field'
 export { Input, type InputProps } from './components/input'
-export { type Mode, ModeToggle, type ModeToggleProps } from './components/mode-toggle'
 export {
   Select,
   SelectContent,
@@ -43,6 +42,7 @@ export {
 } from './components/select'
 export { Stack, type StackProps, stackVariants } from './components/stack'
 export { Table, TableBody, TableCaption, TableCell, TableFooter, TableHead, TableHeader, TableRow } from './components/table'
+export { type Theme, ThemeToggle, type ThemeToggleProps } from './components/theme-toggle'
 
 export { DocsLayout, type DocsLayoutProps } from './patterns/docs-layout'
 export { Hero, type HeroProps } from './patterns/hero'

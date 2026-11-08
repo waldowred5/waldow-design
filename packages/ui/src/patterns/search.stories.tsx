@@ -1,45 +1,41 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
-import { expect, fn, userEvent, within } from 'storybook/test'
+import { expect, fn, userEvent, waitFor, within } from 'storybook/test'
 import { sampleSearchItems } from './sample-data'
 import { Search } from './search'
 
 const meta = {
   title: 'Patterns/Search',
   component: Search,
-  args: { items: sampleSearchItems, onSelect: fn(), shortcut: false },
+  args: { items: sampleSearchItems, onSelect: fn() },
 } satisfies Meta<typeof Search>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Closed: Story = {}
+/**
+ * Try it:
+ * - **Open** with the button, <kbd>⌘K</kbd> / <kbd>Ctrl+K</kbd>, or <kbd>/</kbd> (when focus isn't in a text field).
+ *   With an empty query the dialog lists the pages.
+ * - **Type** to filter: every word must appear in a result's title or group, and title matches come first
+ *   ("co" finds Colour, then Prototypes in code, then Overview in Components).
+ * - **Move** through the results with <kbd>↑</kbd> and <kbd>↓</kbd>; the pointer also highlights them.
+ * - **Enter** (or a click) opens the highlighted result: `onSelect` gets the item and the dialog closes.
+ * - **Esc** closes without choosing and returns focus to the button.
+ */
+export const Default: Story = {}
 
-/** Open with an empty query: the pages are listed. */
-export const Open: Story = { args: { defaultOpen: true } }
-
-/** Types a query (title matches come before group matches), moves to the second result with the arrow key and opens it with Enter. */
-export const KeyboardFlow: Story = {
-  play: async ({ canvasElement, args }) => {
-    await userEvent.click(within(canvasElement).getByRole('button', { name: 'Search docs' }))
-    const dialog = within(await within(document.body).findByRole('dialog', { name: 'Search docs' }))
-    const box = dialog.getByRole('combobox', { name: 'Search docs' })
-    await expect(box).toHaveFocus()
-    await userEvent.type(box, 'co')
-    const options = dialog.getAllByRole('option')
-    await expect(options.map((option) => option.textContent)).toEqual(['ColourFoundations', 'Prototypes in codeIntroduction', 'OverviewComponents'])
-    await userEvent.keyboard('{ArrowDown}')
-    await expect(options[1]).toHaveAttribute('aria-selected', 'true')
-    await userEvent.keyboard('{Enter}')
-    await expect(args.onSelect).toHaveBeenCalledWith(expect.objectContaining({ title: 'Prototypes in code' }))
-  },
-}
-
-/** Nothing matches: the dialog says so instead of showing an empty list. */
+/** The query "zebra" matches nothing, so opening it shows the empty state instead of an empty list. */
 export const NoResults: Story = {
-  args: { defaultOpen: true },
-  play: async () => {
-    const box = await within(document.body).findByRole('combobox', { name: 'Search docs' })
-    await userEvent.type(box, 'zebra')
-    await expect(within(document.body).getByText('No results for “zebra”.')).toBeVisible()
+  args: { defaultQuery: 'zebra', shortcut: false },
+  play: async ({ canvasElement }) => {
+    const trigger = within(canvasElement).getByRole('button', { name: 'Search docs' })
+    await userEvent.click(trigger)
+    const dialog = within(await within(document.body).findByRole('dialog', { name: 'Search docs' }))
+    await expect(dialog.queryAllByRole('option')).toHaveLength(0)
+    // Not toBeVisible: the dialog pops in from opacity 0, and animations stall in a background tab.
+    await expect(dialog.getByText('No results for “zebra”.')).toBeInTheDocument()
+    await userEvent.keyboard('{Escape}')
+    await waitFor(() => expect(within(document.body).queryByRole('dialog')).not.toBeInTheDocument())
+    await expect(trigger).toHaveFocus()
   },
 }

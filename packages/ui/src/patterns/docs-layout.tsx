@@ -8,7 +8,7 @@ import { Navbar, NavbarActions } from './navbar'
 export type DocsLayoutProps = {
   /** The leading edge of the navbar, usually a `NavbarBrand`. */
   brand: ReactNode
-  /** The trailing edge of the navbar: search, mode toggle, links. */
+  /** The trailing edge of the navbar: search, theme toggle, links. */
   actions?: ReactNode
   /** Site navigation, usually a `Sidebar`. Fixed beside the page from `md`, in a drawer below it. */
   sidebar: ReactNode
@@ -40,7 +40,7 @@ export type DocsLayoutProps = {
  * ```tsx
  * <DocsLayout
  *   brand={<NavbarBrand href="/">waldow.design</NavbarBrand>}
- *   actions={<><Search items={items} /><ModeToggle mode={mode} onModeChange={setMode} /></>}
+ *   actions={<><Search items={items} /><ThemeToggle theme={theme} onThemeChange={setTheme} /></>}
  *   sidebar={<Sidebar aria-label="Docs">…</Sidebar>}
  *   outline={<Outline items={headings} activeId={active} />}
  * >

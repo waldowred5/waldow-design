@@ -4,7 +4,7 @@
  */
 import { DocsLayout, NavbarBrand, Outline, Sidebar, SidebarGroup, SidebarLink } from '@waldow-design/ui'
 import { type ComponentType, lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
-import { focusMain, MAIN_ID, ModeToggleButton, SiteNav, SiteSearch, useFocusMainOnNavigate } from '../chrome'
+import { focusMain, MAIN_ID, ThemeToggleButton, SiteNav, SiteSearch, useFocusMainOnNavigate } from '../chrome'
 import ComponentsPage from '../pages/components'
 import IntroductionPage from '../pages/introduction'
 import { NotFoundPage } from '../pages/not-found'
@@ -55,7 +55,7 @@ export default function DocsApp({ path }: { path: string }) {
         <>
           <SiteNav inDocs />
           <SiteSearch />
-          <ModeToggleButton />
+          <ThemeToggleButton />
         </>
       }
       sidebar={<DocsNav path={path} />}

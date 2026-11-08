@@ -36,5 +36,11 @@ type Story = StoryObj<typeof meta>
 export const Placeholder: Story = {}
 export const WithValue: Story = { args: { defaultValue: 'banana' } }
 export const Disabled: Story = { args: { disabled: true } }
-/** Open by default so visual tests capture the menu. */
-export const Open: Story = { args: { defaultOpen: true, defaultValue: 'apple' }, parameters: { layout: 'padded' } }
+/**
+ * Open by default so visual tests capture the menu. The box is as tall as trigger and menu
+ * together, with the trigger at its top, so the pair sits centred in the canvas.
+ */
+export const Open: Story = {
+  args: { defaultOpen: true, defaultValue: 'apple' },
+  decorators: [withWidth('h-60')],
+}

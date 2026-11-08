@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 import { Button } from '../components/button'
-import { type Mode, ModeToggle } from '../components/mode-toggle'
+import { type Theme, ThemeToggle } from '../components/theme-toggle'
 import { Navbar, NavbarActions, NavbarBrand, NavbarLink, NavbarNav } from './navbar'
 import { Search } from './search'
 import { sampleSearchItems } from './sample-data'
@@ -16,16 +16,16 @@ export default meta
 type Story = StoryObj<typeof meta>
 
 function Actions() {
-  const [mode, setMode] = useState<Mode>('light')
+  const [theme, setTheme] = useState<Theme>('light')
   return (
     <NavbarActions>
       <Search items={sampleSearchItems} shortcut={false} />
-      <ModeToggle mode={mode} onModeChange={setMode} />
+      <ThemeToggle theme={theme} onThemeChange={setTheme} />
     </NavbarActions>
   )
 }
 
-/** Brand at the leading edge; search and the mode toggle at the trailing edge. */
+/** Brand at the leading edge; search and the theme toggle at the trailing edge. */
 export const Default: Story = {
   render: () => (
     <Navbar>
@@ -55,7 +55,7 @@ export const WithLink: Story = {
 /** A landing page: content kept to the page width, and the site's top-level links before search. */
 export const Landing: Story = {
   render: () => {
-    const [mode, setMode] = useState<Mode>('light')
+    const [theme, setTheme] = useState<Theme>('light')
     return (
       <Navbar contained>
         <NavbarBrand href="#top">waldow.design</NavbarBrand>
@@ -64,7 +64,7 @@ export const Landing: Story = {
             <NavbarLink href="#top">Docs</NavbarLink>
             <NavbarLink href="#top">Components</NavbarLink>
           </NavbarNav>
-          <ModeToggle mode={mode} onModeChange={setMode} />
+          <ThemeToggle theme={theme} onThemeChange={setTheme} />
         </NavbarActions>
       </Navbar>
     )
