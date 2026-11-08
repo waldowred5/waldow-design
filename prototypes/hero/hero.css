@@ -106,12 +106,19 @@
   animation-timing-function: var(--ds-motion-easing-standard);
 }
 
-/* Mode switch: the hero toggle animates a circular reveal of the new snapshot over the old
-   one (hero-parts.tsx), so the default cross-fade is switched off for the page itself. */
-::view-transition-old(root),
-::view-transition-new(root) {
+/* Mode switch: the hero toggle reveals the new mode as a soft-edged circle growing from the
+   button (hero-parts.tsx animates the mask's size and position). The mask is a radial gradient
+   solid to 80% of its radius and fading to nothing at the edge, so the edge stays blurred as it
+   grows. Scoped to .hero-reveal so other view transitions (variant B's brand morph) keep the default. */
+:root.hero-reveal::view-transition-old(root),
+:root.hero-reveal::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
+}
+:root.hero-reveal::view-transition-new(root) {
+  mask-image: radial-gradient(closest-side, black 80%, transparent);
+  mask-repeat: no-repeat;
+  mask-size: 0 0;
 }
 
 @media (prefers-reduced-motion: reduce) {

@@ -92,27 +92,36 @@ function subscribeMode(onChange: () => void) {
   return () => observer.disconnect()
 }
 /**
- * Switch the mode with a circular reveal: the new mode grows out from `origin` (the toggle) as a
- * view transition. Without view transitions, or with reduced motion, it switches straight away.
+ * Switch the mode with a soft circular reveal: the new mode grows out from `origin` (the toggle)
+ * as a view transition, through a radial mask with a feathered edge (hero.css `.hero-reveal`).
+ * Without view transitions, or with reduced motion, it switches straight away.
  */
 function switchMode(next: Mode, origin: { x: number; y: number }) {
+  const root = document.documentElement
   const apply = () => {
-    document.documentElement.dataset.theme = next
+    root.dataset.theme = next
   }
   const reduced = globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches
   if (!document.startViewTransition || reduced) return apply()
+  root.classList.add('hero-reveal')
   const transition = document.startViewTransition(apply)
-  const radius = Math.hypot(Math.max(origin.x, innerWidth - origin.x), Math.max(origin.y, innerHeight - origin.y))
+  // The mask is solid to 80% of its radius, so it must reach past the farthest corner by that margin.
+  const corner = Math.hypot(Math.max(origin.x, innerWidth - origin.x), Math.max(origin.y, innerHeight - origin.y))
+  const size = (corner / 0.8) * 2
   void transition.ready.then(() =>
-    document.documentElement.animate(
-      { clipPath: [`circle(0 at ${origin.x}px ${origin.y}px)`, `circle(${radius}px at ${origin.x}px ${origin.y}px)`] },
+    root.animate(
       {
-        duration: ms(tokens.MotionDurationSlower),
+        maskSize: ['0px 0px', `${size}px ${size}px`],
+        maskPosition: [`${origin.x}px ${origin.y}px`, `${origin.x - size / 2}px ${origin.y - size / 2}px`],
+      },
+      {
+        duration: ms(tokens.MotionDurationSlower) * 1.5,
         easing: easing(tokens.MotionEasingStandard),
         pseudoElement: '::view-transition-new(root)',
       },
     ),
   )
+  void transition.finished.finally(() => root.classList.remove('hero-reveal'))
 }
 
 function useDocumentMode() {
