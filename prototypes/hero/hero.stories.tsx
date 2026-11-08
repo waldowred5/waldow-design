@@ -52,9 +52,9 @@ type Story = StoryObj<typeof meta>
 
 // A: the hue dial ------------------------------------------------------------------------------
 
-/** Degrees per autoplay tick, and how often it ticks: 12° a second, in steps big enough to read. */
-const DRIFT_STEP = 2
-const DRIFT_MS = 167
+/** Degrees per autoplay tick, and how often it ticks: 9° a second, in steps big enough to read. */
+const DRIFT_STEP = 3
+const DRIFT_MS = 333
 
 /** One hue in, three seeds out; drifts on its own until the reader takes over (or asks for less motion). */
 function useHue() {
