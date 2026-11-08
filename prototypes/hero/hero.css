@@ -107,18 +107,27 @@
 }
 
 /* Mode switch: the hero toggle reveals the new mode as a soft-edged circle growing from the
-   button (hero-parts.tsx animates the mask's size and position). The mask is a radial gradient
-   solid to 80% of its radius and fading to nothing at the edge, so the edge stays blurred as it
-   grows. Scoped to .hero-reveal so other view transitions (variant B's brand morph) keep the default. */
+   button. The mask covers the whole snapshot and only its radius animates (hero-parts.tsx), so
+   at radius 0 the new mode is fully hidden. (Animating mask-size from 0 instead flashed the whole
+   new mode first: a zero-size mask layer isn't painted, which leaves the snapshot unmasked.)
+   Solid to 80% of the radius, then fading out, so the edge stays blurred as it grows. Scoped to
+   .hero-reveal so other view transitions (variant B's brand morph) keep the default. */
+@property --reveal-r {
+  syntax: "<length>";
+  inherits: false;
+  initial-value: 0px;
+}
 :root.hero-reveal::view-transition-old(root),
 :root.hero-reveal::view-transition-new(root) {
   animation: none;
   mix-blend-mode: normal;
 }
 :root.hero-reveal::view-transition-new(root) {
-  mask-image: radial-gradient(closest-side, black 80%, transparent);
-  mask-repeat: no-repeat;
-  mask-size: 0 0;
+  mask-image: radial-gradient(
+    circle at var(--reveal-x) var(--reveal-y),
+    black calc(var(--reveal-r) * 0.8),
+    transparent var(--reveal-r)
+  );
 }
 
 @media (prefers-reduced-motion: reduce) {

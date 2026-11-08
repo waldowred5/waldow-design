@@ -93,7 +93,7 @@ function subscribeMode(onChange: () => void) {
 }
 /**
  * Switch the mode with a soft circular reveal: the new mode grows out from `origin` (the toggle)
- * as a view transition, through a radial mask with a feathered edge (hero.css `.hero-reveal`).
+ * as a view transition, through a radial mask with a feathered edge whose radius animates (hero.css `.hero-reveal`).
  * Without view transitions, or with reduced motion, it switches straight away.
  */
 function switchMode(next: Mode, origin: { x: number; y: number }) {
@@ -104,16 +104,14 @@ function switchMode(next: Mode, origin: { x: number; y: number }) {
   const reduced = globalThis.matchMedia?.('(prefers-reduced-motion: reduce)').matches
   if (!document.startViewTransition || reduced) return apply()
   root.classList.add('hero-reveal')
+  root.style.setProperty('--reveal-x', `${origin.x}px`)
+  root.style.setProperty('--reveal-y', `${origin.y}px`)
   const transition = document.startViewTransition(apply)
   // The mask is solid to 80% of its radius, so it must reach past the farthest corner by that margin.
   const corner = Math.hypot(Math.max(origin.x, innerWidth - origin.x), Math.max(origin.y, innerHeight - origin.y))
-  const size = (corner / 0.8) * 2
   void transition.ready.then(() =>
     root.animate(
-      {
-        maskSize: ['0px 0px', `${size}px ${size}px`],
-        maskPosition: [`${origin.x}px ${origin.y}px`, `${origin.x - size / 2}px ${origin.y - size / 2}px`],
-      },
+      { '--reveal-r': ['0px', `${corner / 0.8}px`] },
       {
         duration: ms(tokens.MotionDurationSlower) * 1.5,
         easing: easing(tokens.MotionEasingStandard),
@@ -121,7 +119,11 @@ function switchMode(next: Mode, origin: { x: number; y: number }) {
       },
     ),
   )
-  void transition.finished.finally(() => root.classList.remove('hero-reveal'))
+  void transition.finished.finally(() => {
+    root.classList.remove('hero-reveal')
+    root.style.removeProperty('--reveal-x')
+    root.style.removeProperty('--reveal-y')
+  })
 }
 
 function useDocumentMode() {
