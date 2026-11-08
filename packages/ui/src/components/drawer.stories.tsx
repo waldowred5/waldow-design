@@ -44,27 +44,31 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Closed: Story = {}
-
-/** Opened by the play function, so visual tests capture the panel. */
-export const Open: Story = {
-  play: async ({ canvasElement }) => {
-    await userEvent.click(within(canvasElement).getByRole('button', { name: 'Open navigation' }))
-    await within(document.body).findByRole('dialog', { name: 'Navigation' })
-  },
-}
-
-export const End: Story = { args: { side: 'end' }, play: Open.play }
-
-/** Opens with the keyboard, checks focus moves in, then closes with Escape. */
-export const KeyboardFlow: Story = {
-  play: async ({ canvasElement }) => {
+/**
+ * Press the menu button to open the drawer; switch `side` to slide it in from the other
+ * edge (`start` and `end` follow the reading direction). The story renders closed; its play
+ * function runs the keyboard flow below and leaves it closed again.
+ *
+ * - **Open:** click the trigger, or focus it and press Enter or Space.
+ * - **Focus:** moves into the panel on open and is trapped there: Tab and Shift+Tab cycle
+ *   through its links and buttons, and the page behind is inert.
+ * - **Close:** Escape, the × button, clicking the overlay, or **Done**. Focus returns to
+ *   the trigger.
+ * - **Actions:** Done sits at the foot of the panel, after the content it closes.
+ */
+export const Default: Story = {
+  play: async ({ canvasElement, step }) => {
     const trigger = within(canvasElement).getByRole('button', { name: 'Open navigation' })
-    trigger.focus()
-    await userEvent.keyboard('{Enter}')
-    const drawer = await within(document.body).findByRole('dialog', { name: 'Navigation' })
-    await expect(drawer).toContainElement(document.activeElement as HTMLElement)
-    await userEvent.keyboard('{Escape}')
-    await waitFor(() => expect(trigger).toHaveFocus())
+    await step('Open from the keyboard; focus moves in', async () => {
+      trigger.focus()
+      await userEvent.keyboard('{Enter}')
+      const drawer = await within(document.body).findByRole('dialog', { name: 'Navigation' })
+      await expect(drawer).toContainElement(document.activeElement as HTMLElement)
+    })
+    await step('Escape closes; focus returns to the trigger', async () => {
+      await userEvent.keyboard('{Escape}')
+      await waitFor(() => expect(trigger).toHaveFocus())
+      await expect(within(document.body).queryByRole('dialog')).not.toBeInTheDocument()
+    })
   },
 }

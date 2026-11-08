@@ -18,4 +18,12 @@ describe('Checkbox', () => {
     render(<Checkbox aria-label="All" checked="indeterminate" />)
     expect(screen.getByRole('checkbox')).toHaveAttribute('aria-checked', 'mixed')
   })
+
+  it('ignores clicks when disabled', async () => {
+    const onCheckedChange = vi.fn()
+    render(<Checkbox aria-label="Accept" disabled onCheckedChange={onCheckedChange} />)
+    await userEvent.click(screen.getByRole('checkbox'))
+    expect(screen.getByRole('checkbox')).not.toBeChecked()
+    expect(onCheckedChange).not.toHaveBeenCalled()
+  })
 })

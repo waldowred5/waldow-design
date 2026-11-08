@@ -1,34 +1,39 @@
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Badge, badgeVariantOptions } from './badge'
 
+const labels: Record<string, string> = {
+  neutral: 'Draft',
+  primary: 'New',
+  secondary: 'Shared',
+  highlight: 'Featured',
+  success: 'Active',
+  warning: 'Pending',
+  danger: 'Failed',
+  info: 'Beta',
+}
+
+type Variant = NonNullable<Parameters<typeof Badge>[0]['variant']>
+
 const meta = {
   title: 'Components/Badge',
   component: Badge,
-  args: { children: 'Active' },
-  argTypes: { variant: { control: 'inline-radio', options: badgeVariantOptions.variant } },
 } satisfies Meta<typeof Badge>
 
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Neutral: Story = { args: { children: 'Draft' } }
-export const Primary: Story = { args: { variant: 'primary', children: 'New' } }
-export const Success: Story = { args: { variant: 'success' } }
-export const Warning: Story = { args: { variant: 'warning', children: 'Pending' } }
-export const Danger: Story = { args: { variant: 'danger', children: 'Failed' } }
-export const Info: Story = { args: { variant: 'info', children: 'Beta' } }
-
-export const All: Story = {
+/** Every `variant`, by name. The text always states the status, so colour is never the only signal. */
+export const Variants: Story = {
   render: () => (
-    <div className="flex flex-wrap gap-2">
-      <Badge>Draft</Badge>
-      <Badge variant="primary">New</Badge>
-      <Badge variant="secondary">Shared</Badge>
-      <Badge variant="highlight">Featured</Badge>
-      <Badge variant="success">Active</Badge>
-      <Badge variant="warning">Pending</Badge>
-      <Badge variant="danger">Failed</Badge>
-      <Badge variant="info">Beta</Badge>
-    </div>
+    <dl className="grid grid-cols-2 items-center gap-x-10 gap-y-3">
+      {badgeVariantOptions.variant.map((variant) => (
+        <div key={variant} className="contents">
+          <dt className="font-mono text-sm text-muted-foreground">{variant}</dt>
+          <dd>
+            <Badge variant={variant as Variant}>{labels[variant] ?? variant}</Badge>
+          </dd>
+        </div>
+      ))}
+    </dl>
   ),
 }
