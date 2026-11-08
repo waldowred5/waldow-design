@@ -5,6 +5,7 @@ Short records of decisions that shape the design system. Each ADR captures the c
 | ADR | Title | Status |
 | --- | --- | --- |
 | [001](./001-shadcn-ui-component-foundation.md) | shadcn/ui as the component foundation | Accepted |
+| [004](./004-prototypes-anyone-can-submit.md) | Prototypes anyone can submit | Proposed |
 
 ## Writing a new ADR
 
