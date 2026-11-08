@@ -1,6 +1,5 @@
 import {
   DocsLayout,
-  ModeToggle,
   NavbarBrand,
   Outline,
   Search,
@@ -8,6 +7,7 @@ import {
   Sidebar,
   SidebarGroup,
   SidebarLink,
+  ThemeToggle,
 } from '@waldow-design/ui'
 import { type ComponentType, lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
 import ComponentsPage from './pages/components'
@@ -94,7 +94,7 @@ function App() {
       actions={
         <>
           <Search items={searchItems} onSelect={(item) => navigate(item.href)} />
-          <ModeToggleButton />
+          <ThemeToggleButton />
         </>
       }
       sidebar={<SiteNav path={path} />}
@@ -146,8 +146,8 @@ function SiteNav({ path }: { path: string }) {
 }
 
 /** Only this button subscribes to the mode, so switching never re-renders (or remounts) a page. */
-function ModeToggleButton() {
-  return <ModeToggle mode={useMode()} onModeChange={setMode} />
+function ThemeToggleButton() {
+  return <ThemeToggle theme={useMode()} onThemeChange={setMode} />
 }
 
 /** The heading the reader is in: the last one above the top of the viewport (below the sticky navbar). */

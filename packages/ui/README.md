@@ -36,7 +36,7 @@ Theme with `data-theme="light" | "dark"` on `<html>`, or leave it unset to follo
 | `Dialog` | Radix Dialog | Modal with focus trap, overlay and close button |
 | `Table` | `<table>` | Scrollable, keyboard-focusable wrapper |
 | `Drawer` | Radix Dialog | Modal panel from the `start` or `end` edge |
-| `ModeToggle` | `Button` | Light/dark icon button; the app applies and stores the mode |
+| `ThemeToggle` | `Button` | Light/dark icon button; the app applies and stores the theme |
 
 ## Patterns
 

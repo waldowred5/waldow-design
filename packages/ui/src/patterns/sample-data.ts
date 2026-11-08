@@ -5,7 +5,7 @@ import type { SearchItem } from './search'
 const slug = (text: string) => text.toLowerCase().replace(/\s+/g, '-')
 
 export const sampleNav = [
-  { title: 'Getting started', pages: ['Introduction', 'Installation'] },
+  { title: 'Getting started', pages: ['Introduction'] },
   { title: 'Foundations', pages: ['Colour', 'Typography', 'Spacing'] },
   { title: 'Components', pages: ['Overview'] },
   { title: 'Tools', pages: ['Theme knobs'] },
