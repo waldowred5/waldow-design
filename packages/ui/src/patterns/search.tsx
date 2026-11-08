@@ -26,6 +26,8 @@ export type SearchProps = {
   shortcut?: boolean
   /** Open on first render (for visual tests). */
   defaultOpen?: boolean
+  /** The query the box starts with, and returns to when the dialog closes (for visual tests). */
+  defaultQuery?: string
   className?: string
 }
 
@@ -67,9 +69,9 @@ function isTyping(target: EventTarget | null) {
  * - The trigger's name is its visible text, `label` (kept for screen readers when the phone layout
  *   shows only the icon); the shortcut hint is hidden from screen readers.
  */
-export function Search({ items, onSelect, label = 'Search docs', shortcut = true, defaultOpen = false, className }: SearchProps) {
+export function Search({ items, onSelect, label = 'Search docs', shortcut = true, defaultOpen = false, defaultQuery = '', className }: SearchProps) {
   const [open, setOpen] = useState(defaultOpen)
-  const [query, setQuery] = useState('')
+  const [query, setQuery] = useState(defaultQuery)
   const [active, setActive] = useState(0)
   const results = useMemo(() => filterSearchItems(items, query), [items, query])
   const listId = useId()
@@ -97,7 +99,7 @@ export function Search({ items, onSelect, label = 'Search docs', shortcut = true
   const onOpenChange = (next: boolean) => {
     setOpen(next)
     if (!next) {
-      setQuery('')
+      setQuery(defaultQuery)
       setActive(0)
     }
   }

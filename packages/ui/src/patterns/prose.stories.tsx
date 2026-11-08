@@ -18,19 +18,19 @@ export const Default: Story = {
   args: {
     children: (
       <>
-        <h1>Installation</h1>
-        <p className="lead">Two commands and an import, and every component is ready to use.</p>
-        <h2 id="install">Install</h2>
+        <h1>Colour</h1>
+        <p className="lead">Every colour on the page comes from a token, so a theme is a handful of knobs.</p>
+        <h2 id="roles">Roles</h2>
         <p>
-          Run <code>pnpm add @waldow-design/ui</code>, then import the stylesheet once in your app's CSS. The{' '}
-          <a href="#top">README</a> lists every component.
+          Components ask for a role such as <code>foreground</code> or <code>primary</code>, never a raw value. The{' '}
+          <a href="#top">token reference</a> lists every role.
         </p>
         <ul>
-          <li>Components come from one package.</li>
-          <li>Styles come from tokens, never raw values.</li>
+          <li>Primitives hold the raw scales.</li>
+          <li>Semantic tokens map roles onto them.</li>
         </ul>
         <pre>
-          <code>@import "@waldow-design/ui/styles.css";</code>
+          <code>color: var(--color-foreground);</code>
         </pre>
         <h3 id="themes">Themes</h3>
         <ol>

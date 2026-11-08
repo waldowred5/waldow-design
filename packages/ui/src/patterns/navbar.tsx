@@ -3,7 +3,7 @@ import { cn } from '../lib/cn'
 
 /**
  * The bar across the top of an app or docs site: the brand at the leading edge, then
- * actions (search, mode toggle, links) at the trailing edge. It sticks to the top as the
+ * actions (search, theme toggle, links) at the trailing edge. It sticks to the top as the
  * page scrolls.
  *
  * ```tsx
@@ -11,7 +11,7 @@ import { cn } from '../lib/cn'
  *   <NavbarBrand href="/">waldow.design</NavbarBrand>
  *   <NavbarActions>
  *     <Search items={pages} />
- *     <ModeToggle mode={mode} onModeChange={setMode} />
+ *     <ThemeToggle theme={theme} onThemeChange={setTheme} />
  *   </NavbarActions>
  * </Navbar>
  * ```

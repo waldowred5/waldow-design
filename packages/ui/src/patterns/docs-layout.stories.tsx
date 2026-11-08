@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 import { expect, userEvent, within } from 'storybook/test'
 import { Button } from '../components/button'
-import { type Mode, ModeToggle } from '../components/mode-toggle'
+import { type Theme, ThemeToggle } from '../components/theme-toggle'
 import { DocsLayout } from './docs-layout'
 import { Hero } from './hero'
 import { NavbarBrand } from './navbar'
@@ -13,14 +13,14 @@ import { Search } from './search'
 import { Sidebar, SidebarGroup, SidebarLink } from './sidebar'
 
 function Example() {
-  const [mode, setMode] = useState<Mode>('light')
+  const [theme, setTheme] = useState<Theme>('light')
   return (
     <DocsLayout
       brand={<NavbarBrand href="#top">waldow.design</NavbarBrand>}
       actions={
         <>
           <Search items={sampleSearchItems} shortcut={false} />
-          <ModeToggle mode={mode} onModeChange={setMode} />
+          <ThemeToggle theme={theme} onThemeChange={setTheme} />
         </>
       }
       sidebar={
