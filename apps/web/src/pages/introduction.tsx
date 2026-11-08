@@ -111,7 +111,7 @@ export default function IntroductionPage() {
           A design system is a shared kit of parts and the rules for using them. Instead of every team drawing its own
           buttons and picking its own blues, everyone builds from the same pieces. It has three layers:
         </p>
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 lg:grid-cols-3">
           {layers.map((layer) => (
             <Card key={layer.title} className="gap-4">
               <CardHeader>
@@ -184,7 +184,7 @@ export default function IntroductionPage() {
           shows every state (loading, error, empty, a name that’s too long). Handoff notes approximate spacing. Nobody
           draws keyboard order or dark mode. Each loss becomes a question, a guess or a bug.
         </p>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-2">
           <Card className="gap-4">
             <CardHeader>
               <CardTitle>Pictures of code</CardTitle>

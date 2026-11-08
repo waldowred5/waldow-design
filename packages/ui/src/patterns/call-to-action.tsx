@@ -31,13 +31,13 @@ export function CallToAction({ title, description, className, children, ...props
       data-slot="call-to-action"
       aria-labelledby={titleId}
       className={cn(
-        'flex flex-col gap-6 rounded-surface border border-highlight-border bg-highlight-subtle p-6 shadow-raised sm:p-12 lg:flex-row lg:items-center lg:justify-between',
+        'flex flex-col gap-6 rounded-surface border border-border bg-surface p-6 shadow-floating sm:p-12 justify-between lg:flex-row lg:items-center',
         className,
       )}
       {...props}
     >
       <div className="flex max-w-2xl flex-col gap-3">
-        <h2 id={titleId} className="font-display text-3xl leading-tight font-bold tracking-tight text-balance text-foreground">
+        <h2 id={titleId} className="font-display text-2xl leading-tight sm:text-4xl font-bold tracking-tight text-balance text-foreground">
           {title}
         </h2>
         {description && <p className="text-lg text-muted-foreground">{description}</p>}

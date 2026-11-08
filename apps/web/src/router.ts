@@ -96,3 +96,7 @@ if (location.hash.startsWith('#/')) {
   const target = path === '/theme-knobs' ? '/tools/theme-knobs' : '/'
   history.replaceState(null, '', `${target}${query ? `?${query}` : ''}`)
 }
+
+// A short path on first load (`/docs`): show its page's real URL.
+const alias = aliases[normalisePath(location.pathname)]
+if (alias) history.replaceState(null, '', `${alias}${location.search}${location.hash}`)

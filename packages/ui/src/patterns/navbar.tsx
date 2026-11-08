@@ -54,7 +54,7 @@ export function Navbar({ contained = false, className, children, ...props }: Nav
       className={cn('sticky top-0 z-40 border-b border-border bg-background', className)}
       {...props}
     >
-      <div className={cn('flex h-16 items-center gap-2 px-4 sm:px-6', contained && 'mx-auto max-w-6xl lg:px-8')}>{children}</div>
+      <div className={cn('flex h-16 items-center gap-2 px-4 sm:px-6', contained && 'mx-auto max-w-6xl')}>{children}</div>
     </header>
   )
 }
@@ -93,7 +93,7 @@ export type NavbarLinkProps = ComponentProps<'a'> & {
 }
 
 /** A text link in the navbar, such as "Docs". The current section is marked by colour and weight. */
-export function NavbarLink({ current = false, className, ...props }: NavbarLinkProps) {
+export function NavbarLink({ current = false, className, children, ...props }: NavbarLinkProps) {
   return (
     <li className="flex">
       <a
@@ -106,7 +106,9 @@ export function NavbarLink({ current = false, className, ...props }: NavbarLinkP
           className,
         )}
         {...props}
-      />
+      >
+        {children}
+      </a>
     </li>
   )
 }

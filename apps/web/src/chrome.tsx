@@ -1,11 +1,9 @@
 /**
- * The pieces both layouts share: the navbar's search and mode toggle, and
- * moving focus to the new page after a navigation.
+ * The navbar pieces both layouts share: the site's links, search and the theme toggle.
  */
 import { NavbarLink, NavbarNav, Search, type SearchItem, ThemeToggle } from '@waldow-design/ui'
-import { useEffect } from 'react'
 import { loadDocs } from './routes'
-import { hasNavigated, navigate } from './router'
+import { navigate } from './router'
 import { DOCS_PATH, pages } from './site'
 import { setMode, useMode } from './theme-mode'
 
@@ -38,20 +36,4 @@ export function SiteNav({ inDocs = false }: { inDocs?: boolean }) {
 /** Only this button subscribes to the mode, so switching never re-renders (or remounts) a page. */
 export function ThemeToggleButton() {
   return <ThemeToggle theme={useMode()} onThemeChange={setMode} />
-}
-
-export const MAIN_ID = 'main'
-export const focusMain = () => document.getElementById(MAIN_ID)?.focus({ preventScroll: true })
-
-/**
- * After a navigation (not the first load), move focus to the new page so keyboard and screen
- * reader users start there. Runs when a layout mounts after a navigation too (landing → docs).
- * A timeout, so it lands after search's own focus return.
- */
-export function useFocusMainOnNavigate(path: string) {
-  useEffect(() => {
-    if (!hasNavigated()) return
-    const timer = setTimeout(focusMain)
-    return () => clearTimeout(timer)
-  }, [path])
 }

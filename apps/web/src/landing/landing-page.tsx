@@ -41,7 +41,8 @@ import {
 } from 'lucide-react'
 import { useEffect } from 'react'
 import budgets from '../../../../.size-limit.json'
-import { MAIN_ID, ThemeToggleButton, SiteNav, SiteSearch, useFocusMainOnNavigate } from '../chrome'
+import { SiteNav, SiteSearch, ThemeToggleButton } from '../chrome'
+import { MAIN_ID, useFocusMainOnNavigate } from '../focus'
 import { loadDocs } from '../routes'
 import { DOCS_PATH, introHeadings as intro, SITE_NAME } from '../site'
 import { BrandShowcase } from './brand-showcase'
@@ -248,7 +249,7 @@ export default function LandingPage() {
         <section aria-labelledby="anyone" className="border-t border-border bg-background-subtle">
           <div className="mx-auto flex max-w-4xl flex-col items-center gap-6 px-4 py-16 text-center sm:px-6 sm:py-24">
             <p className="text-sm font-semibold text-link">The principle</p>
-            <h2 id="anyone" className="font-display text-3xl leading-tight font-bold tracking-tight text-balance sm:text-4xl">
+            <h2 id="anyone" className="font-display text-2xl leading-tight font-bold tracking-tight text-balance sm:text-4xl">
               Anyone can propose a prototype
             </h2>
             <blockquote className="text-xl text-balance text-muted-foreground">
@@ -258,7 +259,7 @@ export default function LandingPage() {
           </div>
         </section>
 
-        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24 lg:px-8">
+        <div className="mx-auto max-w-6xl px-4 py-16 sm:px-6 sm:py-24">
           <CallToAction
             title="Read the guide"
             description="The whole story, page by page: what a design system is, why it matters now, and how this one is built."
@@ -274,7 +275,7 @@ export default function LandingPage() {
       </main>
 
       <footer className="border-t border-border">
-        <div className="mx-auto flex max-w-6xl flex-col gap-2 px-4 py-8 text-sm text-muted-foreground sm:flex-row sm:justify-between sm:px-6 lg:px-8">
+        <div className="mx-auto flex max-w-6xl flex-wrap justify-between gap-2 px-4 py-8 text-sm text-muted-foreground sm:px-6">
           <p>{SITE_NAME}: an exploration into design systems in the age of agents.</p>
           <p>Built only from its own components and tokens.</p>
         </div>
@@ -286,10 +287,10 @@ export default function LandingPage() {
 /** A screen made from the kit, under the hero. An illustration: inert, so it isn't in the tab order. */
 function HeroPreview() {
   return (
-    <div className="mx-auto max-w-5xl px-4 sm:px-6">
-      <div inert className="rounded-surface border border-border bg-background-subtle p-2 shadow-floating sm:p-3">
-        <div className="grid gap-3 rounded-control bg-background p-3 sm:p-6 md:grid-cols-5">
-          <Card className="md:col-span-3">
+    <div className="mx-auto max-w-6xl px-4 sm:px-6">
+      <div inert className="rounded-surface border border-border bg-background-subtle p-2 shadow-floating">
+        <div className="grid gap-4 rounded-control bg-background p-4 md:grid-cols-2">
+          <Card>
             <CardHeader>
               <CardTitle>Invite a team member</CardTitle>
               <CardDescription>They’ll get an email with a link to join.</CardDescription>
@@ -306,7 +307,7 @@ function HeroPreview() {
               </Stack>
             </CardContent>
           </Card>
-          <Card className="md:col-span-2">
+          <Card>
             <CardHeader>
               <CardTitle>Members</CardTitle>
               <CardDescription>3 people</CardDescription>
@@ -371,7 +372,7 @@ const layers = [
 
 function Layers() {
   return (
-    <ol className="grid gap-4 md:grid-cols-3">
+    <ol className="grid gap-4 lg:grid-cols-3">
       {layers.map((layer, index) => (
         <li key={layer.title} className="flex">
           <Card className="flex-1 gap-4">
@@ -406,7 +407,7 @@ const inCode = [
 
 function FidelityComparison() {
   return (
-    <div className="grid gap-4 sm:grid-cols-2">
+    <div className="grid gap-4">
       <Flow title="Pictures of code" description="Each hop translates, and loses something." steps={handoff} verb="Lost" variant="warning" />
       <Flow title="Prototypes in code" description="Already made of the real thing." steps={inCode} verb="Kept" variant="success" />
     </div>
@@ -432,7 +433,7 @@ function Flow({
         <CardTitle>{title}</CardTitle>
         <CardDescription>{description}</CardDescription>
       </CardHeader>
-      <ol className="flex flex-col gap-3 border-s-2 border-border ps-4">
+      <ol className="flex flex-col gap-3 border-s border-border ps-4">
         {steps.map(([step, note]) => (
           <li key={step} className="flex flex-col items-start gap-1">
             <span className="text-sm font-medium">{step}</span>
@@ -446,12 +447,16 @@ function Flow({
   )
 }
 
+// Short lines, so the snippet fits a phone screen without scrolling or wrapping.
 const a2uiDescription = `{
   "component": "Card",
   "title": "Table for 4, Friday",
   "actions": [
-    { "component": "Button", "variant": "ghost", "label": "Change" },
-    { "component": "Button", "label": "Confirm" }
+    { "component": "Button",
+      "variant": "ghost",
+      "label": "Change" },
+    { "component": "Button",
+      "label": "Confirm" }
   ]
 }`
 
@@ -460,7 +465,7 @@ function AgentFlow() {
     <ol className="grid gap-4">
       <li className="flex flex-col gap-2">
         <span className="text-sm font-semibold">1. The agent describes a screen from the catalog</span>
-        <pre className="rounded-control border border-border bg-background-muted p-4 font-mono text-xs whitespace-pre-wrap">
+        <pre className="rounded-control border border-border bg-background-muted p-4 font-mono text-xs">
           {a2uiDescription}
         </pre>
       </li>

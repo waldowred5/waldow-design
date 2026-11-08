@@ -47,8 +47,9 @@ export function BrandShowcase() {
 
   return (
     <Stack gap={6}>
-      <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
-        <div role="group" aria-label="Brand" className="flex flex-wrap gap-2">
+      <div className="flex flex-wrap items-center justify-between gap-4">
+        <fieldset className="flex flex-wrap gap-2">
+          <legend className="sr-only">Brand</legend>
           {brands.map((option) => (
             <Button
               key={option.name}
@@ -62,8 +63,9 @@ export function BrandShowcase() {
               {option.name}
             </Button>
           ))}
-        </div>
-        <div role="group" aria-label="Mode" className="flex gap-2">
+        </fieldset>
+        <fieldset className="flex gap-2">
+          <legend className="sr-only">Mode</legend>
           {(['light', 'dark'] as const).map((option) => (
             <Button
               key={option}
@@ -75,13 +77,13 @@ export function BrandShowcase() {
               {option === 'light' ? 'Light' : 'Dark'}
             </Button>
           ))}
-        </div>
+        </fieldset>
       </div>
 
       <div
         data-brand="landing-showcase"
         style={style}
-        className="grid gap-4 rounded-surface border border-border bg-background p-4 sm:p-6 md:grid-cols-2"
+        className="grid gap-4 rounded-surface border border-border bg-background p-4 md:grid-cols-2"
       >
         <Card>
           <CardHeader>

@@ -23,7 +23,7 @@ export type OutlineProps = Omit<ComponentProps<'nav'>, 'title'> & {
  * position) and passes `activeId`.
  *
  * ```tsx
- * <Outline items={[{ id: 'install', title: 'Install' }, { id: 'usage', title: 'Usage' }]} activeId="usage" />
+ * <Outline items={[{ id: 'seeds', title: 'Seeds' }, { id: 'roles', title: 'Roles' }]} activeId="roles" />
  * ```
  *
  * **Accessibility**

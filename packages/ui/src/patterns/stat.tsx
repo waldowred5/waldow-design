@@ -13,12 +13,12 @@ import { cn } from '../lib/cn'
  * ```
  *
  * **Accessibility**
- * - A description list: each value is announced with its label (`<dt>`), so a number is never
- *   read without what it measures. The label comes first in the DOM and the value is shown
- *   larger above it with CSS order only within its own item.
+ * - A description list: each value is announced with its label (`<dt>`, with the note), so a
+ *   number is never read without what it measures. The label comes first in the DOM; the value
+ *   is shown above it by reversing the item's column, and nothing in it is focusable.
  */
 export function StatGroup({ className, ...props }: ComponentProps<'dl'>) {
-  return <dl data-slot="stat-group" className={cn('grid grid-cols-2 gap-px overflow-hidden rounded-surface border border-border bg-border lg:grid-cols-4', className)} {...props} />
+  return <dl data-slot="stat-group" className={cn('grid grid-cols-2 gap-4 lg:grid-cols-4', className)} {...props} />
 }
 
 export type StatProps = Omit<ComponentProps<'div'>, 'children'> & {
@@ -32,10 +32,12 @@ export type StatProps = Omit<ComponentProps<'div'>, 'children'> & {
 
 export function Stat({ label, value, detail, className, ...props }: StatProps) {
   return (
-    <div data-slot="stat" className={cn('flex flex-col gap-1 bg-surface p-surface-inset', className)} {...props}>
-      <dt className="order-2 text-sm font-medium text-foreground">{label}</dt>
-      <dd className="order-1 font-display text-3xl font-bold tracking-tight text-foreground">{value}</dd>
-      {detail && <dd className="order-3 text-xs text-muted-foreground">{detail}</dd>}
+    <div data-slot="stat" className={cn('flex flex-col-reverse justify-end gap-1 rounded-surface border border-border bg-surface p-surface-inset shadow-raised', className)} {...props}>
+      <dt className="flex flex-col gap-1 text-sm font-medium text-foreground">
+        {label}
+        {detail && <span className="text-xs font-normal text-muted-foreground">{detail}</span>}
+      </dt>
+      <dd className="font-display text-4xl font-bold tracking-tight text-foreground">{value}</dd>
     </div>
   )
 }

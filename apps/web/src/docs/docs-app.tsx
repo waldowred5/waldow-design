@@ -4,7 +4,8 @@
  */
 import { DocsLayout, NavbarBrand, Outline, Sidebar, SidebarGroup, SidebarLink } from '@waldow-design/ui'
 import { type ComponentType, lazy, Suspense, useEffect, useMemo, useRef, useState } from 'react'
-import { focusMain, MAIN_ID, ThemeToggleButton, SiteNav, SiteSearch, useFocusMainOnNavigate } from '../chrome'
+import { SiteNav, SiteSearch, ThemeToggleButton } from '../chrome'
+import { focusMain, MAIN_ID, useFocusMainOnNavigate } from '../focus'
 import ComponentsPage from '../pages/components'
 import IntroductionPage from '../pages/introduction'
 import { NotFoundPage } from '../pages/not-found'

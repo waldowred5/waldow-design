@@ -54,21 +54,23 @@ export const WithLink: Story = {
 
 /** A landing page: content kept to the page width, and the site's top-level links before search. */
 export const Landing: Story = {
-  render: () => {
-    const [theme, setTheme] = useState<Theme>('light')
-    return (
-      <Navbar contained>
-        <NavbarBrand href="#top">waldow.design</NavbarBrand>
-        <NavbarActions>
-          <NavbarNav aria-label="Main">
-            <NavbarLink href="#top">Docs</NavbarLink>
-            <NavbarLink href="#top">Components</NavbarLink>
-          </NavbarNav>
-          <ThemeToggle theme={theme} onThemeChange={setTheme} />
-        </NavbarActions>
-      </Navbar>
-    )
-  },
+  render: () => <LandingNavbar />,
+}
+
+function LandingNavbar() {
+  const [theme, setTheme] = useState<Theme>('light')
+  return (
+    <Navbar contained>
+      <NavbarBrand href="#top">waldow.design</NavbarBrand>
+      <NavbarActions>
+        <NavbarNav aria-label="Main">
+          <NavbarLink href="#top">Docs</NavbarLink>
+          <NavbarLink href="#top">Components</NavbarLink>
+        </NavbarNav>
+        <ThemeToggle theme={theme} onThemeChange={setTheme} />
+      </NavbarActions>
+    </Navbar>
+  )
 }
 
 /** Inside the docs, the "Docs" link is the current section. */

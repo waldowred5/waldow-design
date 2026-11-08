@@ -9,7 +9,7 @@ const variants = {
     /** A bordered panel at the top of a page in a layout, such as a docs page. */
     panel: 'items-start gap-6 rounded-surface border border-border bg-background-subtle p-6 sm:p-12',
     /** The full-width opening of a landing page: centred, no frame, generous space around it. */
-    landing: 'items-center gap-8 px-4 pt-16 pb-12 text-center sm:px-6 sm:pt-24 sm:pb-16',
+    landing: 'items-center gap-8 px-4 py-16 text-center sm:px-6 sm:py-24',
   },
 }
 
@@ -59,14 +59,14 @@ export function Hero({ title, tagline, eyebrow, variant, className, children, ..
           id={titleId}
           className={cn(
             'font-display text-4xl leading-tight font-bold tracking-tight text-foreground',
-            landing && 'text-balance sm:leading-none',
+            landing && 'text-balance',
           )}
         >
           {title}
         </h1>
-        <p className={cn('max-w-2xl text-lg text-muted-foreground sm:text-xl', landing && 'text-balance sm:text-2xl')}>{tagline}</p>
+        <p className={cn('max-w-2xl text-lg text-muted-foreground sm:text-xl', landing && 'text-balance')}>{tagline}</p>
       </div>
-      {children && <ActionBar className={cn('w-full', landing && 'sm:w-auto sm:justify-center')}>{children}</ActionBar>}
+      {children && <ActionBar className={cn('w-full', landing && 'sm:justify-center')}>{children}</ActionBar>}
     </section>
   )
 }

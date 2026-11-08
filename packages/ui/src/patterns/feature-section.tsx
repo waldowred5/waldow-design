@@ -8,13 +8,13 @@ const layouts = {
     /** The copy above, the demo full width below it. */
     stacked: '',
     /** The copy beside the demo from `lg`, stacked below it. */
-    split: 'lg:grid lg:grid-cols-5 lg:items-center lg:gap-12',
+    split: 'lg:grid lg:grid-cols-2 lg:items-center',
 }
 
 const tones = {
     default: 'bg-background',
     /** A tinted band, to separate a section from its neighbours. */
-  subtle: 'border-y border-border bg-background-subtle',
+  subtle: 'border-t border-b border-border bg-background-subtle',
 }
 
 const toneVariants = cva('', { variants: { tone: tones }, defaultVariants: { tone: 'default' } })
@@ -55,7 +55,7 @@ export type FeatureSectionProps = Omit<ComponentProps<'section'>, 'title'> &
  * </FeatureSection>
  * ```
  *
- * `layout="split"` puts the copy beside the demo on wide screens (two fifths to three); `reverse`
+ * `layout="split"` puts the copy beside the demo from `lg`, half and half; `reverse`
  * swaps the demo to the leading side visually only, so the copy is still read first.
  *
  * **Accessibility**
@@ -82,16 +82,16 @@ export function FeatureSection({
   const split = layout === 'split'
   return (
     <section data-slot="feature-section" aria-labelledby={headingId} className={cn(toneVariants({ tone }), className)} {...props}>
-      <div className={cn('mx-auto flex max-w-6xl flex-col gap-12 px-4 py-16 sm:px-6 sm:py-24 lg:px-8', layoutVariants({ layout }))}>
-        <div className={cn('flex max-w-2xl flex-col gap-4', split && 'lg:col-span-2', split && reverse && 'lg:order-last')}>
+      <div className={cn('mx-auto flex max-w-6xl flex-col gap-12 px-4 py-16 sm:px-6 sm:py-24', layoutVariants({ layout }))}>
+        <div className={cn('flex max-w-2xl flex-col gap-4', split && reverse && 'lg:order-last')}>
           {eyebrow && <p className="text-sm font-semibold text-link">{eyebrow}</p>}
-          <h2 id={headingId} className="scroll-mt-24 font-display text-3xl leading-tight font-bold tracking-tight text-balance text-foreground sm:text-4xl">
+          <h2 id={headingId} className="font-display text-2xl leading-tight font-bold tracking-tight text-balance text-foreground sm:text-4xl">
             {title}
           </h2>
           {description && <div className="text-lg text-muted-foreground">{description}</div>}
-          {actions && <ActionBar className="mt-2">{actions}</ActionBar>}
+          {actions && <ActionBar>{actions}</ActionBar>}
         </div>
-        {children && <div className={cn('min-w-0', split && 'lg:col-span-3')}>{children}</div>}
+        {children && <div className="min-w-0">{children}</div>}
       </div>
     </section>
   )

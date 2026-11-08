@@ -11,7 +11,7 @@ const variants = {
   },
 }
 
-const featureGridVariants = cva('grid gap-x-8 gap-y-10', { variants, defaultVariants: { columns: 3 } })
+const featureGridVariants = cva('grid gap-8', { variants, defaultVariants: { columns: 3 } })
 
 export const featureGridVariantOptions = variantOptions(variants)
 
@@ -49,7 +49,7 @@ export function FeatureGridItem({ icon, title, className, children, ...props }: 
       {icon && (
         <span
           aria-hidden="true"
-          className="inline-flex size-control-lg items-center justify-center rounded-control border border-highlight-border bg-highlight-subtle text-highlight-text [&_svg]:size-5"
+          className="inline-flex size-control-md items-center justify-center rounded-control border border-highlight-border bg-highlight-subtle text-highlight-text [&_svg]:size-4"
         >
           {icon}
         </span>

@@ -94,10 +94,10 @@ export function DocsLayout({
         {actions && <NavbarActions>{actions}</NavbarActions>}
       </Navbar>
 
-      <div className="fixed top-16 bottom-0 start-0 hidden w-56 overflow-y-auto border-e border-border px-4 py-8 md:block lg:w-64 lg:px-6">{sidebar}</div>
+      <div className="fixed top-16 bottom-0 start-0 hidden w-56 overflow-y-auto border-e border-border px-4 py-8 md:block lg:w-64">{sidebar}</div>
 
       <div className="md:ps-56 lg:ps-64">
-        <div className="mx-auto flex max-w-6xl gap-12 px-4 py-10 sm:px-6 md:px-8 lg:px-12">
+        <div className="mx-auto flex max-w-6xl gap-12 px-4 py-10 sm:px-6 lg:px-12">
           <main id={mainId} tabIndex={-1} className="min-w-0 flex-1 focus:outline-none">
             {children}
           </main>
