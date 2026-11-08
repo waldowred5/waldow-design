@@ -102,12 +102,27 @@
       },
       "normal": {
         "$value": "{duration.normal}"
+      },
+      "slow": {
+        "$value": "{duration.slow}",
+        "$description": "Larger moves: panels, entrances across a surface."
+      },
+      "slower": {
+        "$value": "{duration.slower}",
+        "$description": "Hero and landing entrances, count-ups."
+      },
+      "stagger": {
+        "$value": "{duration.stagger}",
+        "$description": "Step between siblings in a staggered entrance."
       }
     },
     "easing": {
       "$type": "cubicBezier",
       "standard": {
         "$value": "{easing.standard}"
+      },
+      "overshoot": {
+        "$value": "{easing.overshoot}"
       }
     }
   }

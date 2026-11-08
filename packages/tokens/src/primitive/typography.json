@@ -1,6 +1,5 @@
 {
   "font-family": {
-    "$type": "fontFamily",
     "sans": {
       "$value": [
         "Inter",
@@ -10,6 +9,16 @@
         "Segoe UI",
         "sans-serif"
       ]
+    },
+    "display": {
+      "$value": [
+        "Bricolage Grotesque Variable",
+        "Inter",
+        "ui-sans-serif",
+        "system-ui",
+        "sans-serif"
+      ],
+      "$description": "The brand's display face (variable, with an optical-size axis), loaded by @waldow-design/ui/styles.css."
     },
     "mono": {
       "$value": [
@@ -46,6 +55,16 @@
     },
     "4xl": {
       "$value": "2.25rem"
+    },
+    "5xl": {
+      "$value": "3rem"
+    },
+    "6xl": {
+      "$value": "3.75rem"
+    },
+    "7xl": {
+      "$value": "4.5rem",
+      "$description": "Display sizes (5xl-7xl) are for heroes and landing titles, not headings in running text."
     }
   },
   "font-weight": {
@@ -64,7 +83,9 @@
     }
   },
   "line-height": {
-    "$type": "number",
+    "none": {
+      "$value": 1
+    },
     "tight": {
       "$value": 1.2
     },

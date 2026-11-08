@@ -2,12 +2,9 @@
  * Prototype: the home hero (LAB-193). Three directions for "show the system, don't describe it".
  * Disposable by default: compare in Chromatic, pick one, build it properly in apps/web.
  *
- * Gaps found (each is a proposal, not something to inline in the real build):
- * - No `Slider` component: the hue dial is a native range input, as on the Theme knobs page.
- *   ADR 002 already needs one for the music demo.
- * - No display type token above `4xl`: `.hero-display` derives one from it.
- * - No motion tokens for long or staggered motion: hero.css multiplies `duration.normal`.
- * - The brand has no display face: Bricolage Grotesque is the candidate for `theme.font.display`.
+ * The first round found four gaps in the system, now filled in packages/ and used here:
+ * `Dial` (and `Slider`) components, display type sizes `5xl`-`7xl`, motion tokens for long and
+ * staggered motion plus an overshoot easing, and a brand display face (Bricolage Grotesque).
  */
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import {
@@ -20,6 +17,7 @@ import {
   CardHeader,
   CardTitle,
   Checkbox,
+  Dial,
   Field,
   Input,
   Stack,
@@ -37,6 +35,8 @@ import {
   HeroActions,
   HeroFrame,
   HeroTitle,
+  RollingNumber,
+  ScrambleText,
   seed,
   TokenTag,
   usePrefersReducedMotion,
@@ -52,6 +52,10 @@ type Story = StoryObj<typeof meta>
 
 // A: the hue dial ------------------------------------------------------------------------------
 
+/** Degrees per autoplay tick, and how often it ticks: 12° a second, in steps big enough to read. */
+const DRIFT_STEP = 2
+const DRIFT_MS = 167
+
 /** One hue in, three seeds out; drifts on its own until the reader takes over (or asks for less motion). */
 function useHue() {
   const reduced = usePrefersReducedMotion()
@@ -61,8 +65,7 @@ function useHue() {
 
   useEffect(() => {
     if (!autoplay) return
-    // Re-deriving three scales is cheap, but React needn't do it 60 times a second: 20 is smooth enough.
-    const timer = setInterval(() => setHue((h) => (h + 0.6) % 360), 50)
+    const timer = setInterval(() => setHue((h) => (h + DRIFT_STEP) % 360), DRIFT_MS)
     return () => clearInterval(timer)
   }, [autoplay])
 
@@ -117,14 +120,25 @@ function Constellation({ seeds }: { seeds: Knobs['seeds'] }) {
           <Stack gap={2}>
             {Object.entries(seeds).map(([role, colour]) => (
               <span key={role} className="flex items-center gap-2 font-mono text-xs text-muted-foreground">
-                <span className="size-3 rounded-pill" style={{ backgroundColor: colour }} />
-                {role} {colour}
+                <span className="size-3 shrink-0 rounded-pill" style={{ backgroundColor: colour }} />
+                <span className="w-16">{role}</span>
+                <ScrambleText text={colour} className="text-foreground" />
               </span>
             ))}
             <TokenTag>radius.surface</TokenTag>
           </Stack>
         </CardContent>
       </Card>
+    </div>
+  )
+}
+
+/** Every hue the dial can reach, as a ring around it. It counter-turns, so the current hue sits under the index mark. */
+const ringStops = Array.from({ length: 13 }, (_, index) => seed(0.7, 0.15, index * 30)).join(', ')
+function HueRing({ hue, children }: { hue: number; children: ReactNode }) {
+  return (
+    <div className="rounded-pill p-2 shadow-floating" style={{ background: `conic-gradient(from ${-hue}deg, ${ringStops})` }}>
+      {children}
     </div>
   )
 }
@@ -136,29 +150,35 @@ function HueDialHero() {
     <HeroFrame style={brandStyle(knobs)}>
       <div className="grid items-center gap-12 lg:grid-cols-2">
         <Stack gap={8}>
-          <Badge variant="highlight">10 components · 40 contrast pairs at AA</Badge>
+          <Badge variant="highlight">12 components · 40 contrast pairs at AA</Badge>
           <HeroTitle />
-          <Stack gap={3} className="max-w-sm">
-            <Field label="Change one value. Everything follows." id="hero-hue" description={`Brand hue ${Math.round(hue)}°`}>
-              <input
-                id="hero-hue"
-                type="range"
-                min={0}
-                max={359}
-                value={Math.round(hue)}
-                onChange={(e) => {
+          <div className="flex flex-wrap items-center gap-6">
+            <HueRing hue={hue}>
+              <Dial
+                aria-label="Brand hue"
+                size="lg"
+                value={hue}
+                onValueChange={(next) => {
                   setPlaying(false)
-                  setHue(Number(e.target.value))
+                  setHue(next)
                 }}
-                className="w-full accent-primary"
-              />
-            </Field>
-            {!reduced && (
-              <Button variant="ghost" size="sm" className="w-fit" aria-pressed={!playing} onClick={() => setPlaying(!playing)}>
-                {playing ? 'Pause colour drift' : 'Resume colour drift'}
-              </Button>
-            )}
-          </Stack>
+              >
+                <span className="font-mono text-xs tracking-widest text-muted-foreground">HUE</span>
+                <span className="font-display text-5xl font-semibold text-foreground">
+                  <RollingNumber value={hue} suffix="°" />
+                </span>
+              </Dial>
+            </HueRing>
+            <Stack gap={2} className="max-w-56">
+              <p className="font-display text-xl font-semibold text-foreground">Change one value. Everything follows.</p>
+              <p className="text-sm text-muted-foreground">Turn the dial: every colour token in this hero is re-derived from it.</p>
+              {!reduced && (
+                <Button variant="ghost" size="sm" className="w-fit" aria-pressed={!playing} onClick={() => setPlaying(!playing)}>
+                  {playing ? 'Pause colour drift' : 'Resume colour drift'}
+                </Button>
+              )}
+            </Stack>
+          </div>
           <HeroActions />
         </Stack>
         <Constellation seeds={knobs.seeds} />
