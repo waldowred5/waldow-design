@@ -51,3 +51,8 @@ export { Outline, type OutlineItem, type OutlineProps } from './patterns/outline
 export { Prose } from './patterns/prose'
 export { filterSearchItems, Search, type SearchItem, type SearchProps } from './patterns/search'
 export { Sidebar, SidebarGroup, type SidebarGroupProps, SidebarLink, type SidebarLinkProps } from './patterns/sidebar'
+export { CallToAction, type CallToActionProps } from './patterns/call-to-action'
+export { FeatureGrid, FeatureGridItem, type FeatureGridItemProps, type FeatureGridProps } from './patterns/feature-grid'
+export { FeatureSection, type FeatureSectionProps } from './patterns/feature-section'
+export { Stat, StatGroup, type StatProps } from './patterns/stat'
+export { NavbarLink, type NavbarLinkProps, NavbarNav, type NavbarProps } from './patterns/navbar'

@@ -2,7 +2,7 @@ import type { Meta, StoryObj } from '@storybook/react-vite'
 import { useState } from 'react'
 import { Button } from '../components/button'
 import { type Mode, ModeToggle } from '../components/mode-toggle'
-import { Navbar, NavbarActions, NavbarBrand } from './navbar'
+import { Navbar, NavbarActions, NavbarBrand, NavbarLink, NavbarNav } from './navbar'
 import { Search } from './search'
 import { sampleSearchItems } from './sample-data'
 
@@ -47,6 +47,41 @@ export const WithLink: Story = {
         <Button asChild>
           <a href="#top">Get started</a>
         </Button>
+      </NavbarActions>
+    </Navbar>
+  ),
+}
+
+/** A landing page: content kept to the page width, and the site's top-level links before search. */
+export const Landing: Story = {
+  render: () => {
+    const [mode, setMode] = useState<Mode>('light')
+    return (
+      <Navbar contained>
+        <NavbarBrand href="#top">waldow.design</NavbarBrand>
+        <NavbarActions>
+          <NavbarNav aria-label="Main">
+            <NavbarLink href="#top">Docs</NavbarLink>
+            <NavbarLink href="#top">Components</NavbarLink>
+          </NavbarNav>
+          <ModeToggle mode={mode} onModeChange={setMode} />
+        </NavbarActions>
+      </Navbar>
+    )
+  },
+}
+
+/** Inside the docs, the "Docs" link is the current section. */
+export const CurrentLink: Story = {
+  render: () => (
+    <Navbar>
+      <NavbarBrand href="#top">waldow.design</NavbarBrand>
+      <NavbarActions>
+        <NavbarNav aria-label="Main">
+          <NavbarLink href="#top" current>
+            Docs
+          </NavbarLink>
+        </NavbarNav>
       </NavbarActions>
     </Navbar>
   ),

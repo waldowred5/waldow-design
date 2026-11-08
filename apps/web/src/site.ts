@@ -1,7 +1,10 @@
 /**
- * The site map: every page's path, sidebar section, title and headings. The sidebar, search,
- * the "On this page" outline and document titles all read from here, and pages render their
- * headings from it too, so a heading can't drift from what search and the outline show.
+ * The site map: every docs page's path, sidebar section, title and headings. The sidebar,
+ * search, the "On this page" outline and document titles all read from here, and pages render
+ * their headings from it too, so a heading can't drift from what search and the outline show.
+ *
+ * The landing page (`/`) sits outside the docs: it has its own full-width layout, and links
+ * into the guide at `DOCS_PATH`.
  */
 export type Heading = { id: string; title: string; level?: 2 | 3 }
 
@@ -17,8 +20,13 @@ export type Page = {
 export const sections = ['Getting started', 'Foundations', 'Components', 'Tools', "How it's built"] as const
 export type Section = (typeof sections)[number]
 
-/** The home page's sections, in order. Home renders each one under its heading. */
-export const homeHeadings = {
+export const SITE_NAME = 'waldow.design'
+
+/** Where the navbar's "Docs" link goes: the first page of the guide. */
+export const DOCS_PATH = '/getting-started/introduction'
+
+/** The introduction's sections, in order. The page renders each one under its heading. */
+export const introHeadings = {
   what: { id: 'what-is-a-design-system', title: 'What is a design system?' },
   why: { id: 'why-it-matters', title: 'Why it matters' },
   trends: { id: 'how-front-end-work-is-changing', title: 'How front-end work is changing' },
@@ -33,31 +41,17 @@ export const homeHeadings = {
   anyone: { id: 'anyone-can-prototype', title: 'Anyone can propose a prototype' },
 } satisfies Record<string, Heading>
 
-export const installationHeadings = {
-  install: { id: 'install', title: 'Install' },
-  styles: { id: 'import-the-styles', title: 'Import the styles' },
-  use: { id: 'use-a-component', title: 'Use a component' },
-  mode: { id: 'light-and-dark-mode', title: 'Light and dark mode' },
-} satisfies Record<string, Heading>
-
 export const componentsHeadings = {
   workspace: { id: 'workspace-example', title: 'Workspace example' },
 } satisfies Record<string, Heading>
 
 export const pages: Page[] = [
   {
-    path: '/',
+    path: DOCS_PATH,
     title: 'Introduction',
     section: 'Getting started',
     description: 'What a design system is, why it matters now, and how this one is built.',
-    headings: Object.values(homeHeadings),
-  },
-  {
-    path: '/getting-started/installation',
-    title: 'Installation',
-    section: 'Getting started',
-    description: 'Add the components and tokens to a React app.',
-    headings: Object.values(installationHeadings),
+    headings: Object.values(introHeadings),
   },
   {
     path: '/foundations/colour',
