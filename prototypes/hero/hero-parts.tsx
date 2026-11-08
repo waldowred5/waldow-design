@@ -161,7 +161,16 @@ export function Backdrop() {
 }
 
 /** The hero's frame: a full-bleed, branded section with the backdrop behind and a mode toggle. */
-export function HeroFrame({ style, children }: { style: CSSProperties; children: ReactNode }) {
+export function HeroFrame({
+  style,
+  animatePalette = true,
+  children,
+}: {
+  style: CSSProperties
+  /** Glide between palettes when the knobs change. Off for direct manipulation (dragging the dial), where colours should track the hand. */
+  animatePalette?: boolean
+  children: ReactNode
+}) {
   const mode = useDocumentMode()
   const reduced = usePrefersReducedMotion()
   // The reveal grows from the toggle's centre, read on the click that switches it.
@@ -174,7 +183,7 @@ export function HeroFrame({ style, children }: { style: CSSProperties; children:
     <section
       aria-label="Waldow.Design"
       data-brand="hero"
-      style={reduced ? style : { ...style, ...paletteTransition }}
+      style={reduced || !animatePalette ? style : { ...style, ...paletteTransition }}
       className="relative isolate overflow-hidden bg-background px-6 py-16 sm:px-12 sm:py-24"
     >
       <Backdrop />

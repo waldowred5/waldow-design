@@ -147,7 +147,8 @@ function HueDialHero() {
   const { hue, setHue, playing, setPlaying, reduced } = useHue()
   const knobs = useMemo(() => brandKnobs(hue), [hue])
   return (
-    <HeroFrame style={brandStyle(knobs)}>
+    // Colours glide while the hue drifts; once the reader takes the dial (which pauses the drift), they follow it directly.
+    <HeroFrame style={brandStyle(knobs)} animatePalette={playing}>
       <div className="grid items-center gap-12 lg:grid-cols-2">
         <Stack gap={8}>
           <Badge variant="highlight">12 components · 40 contrast pairs at AA</Badge>
