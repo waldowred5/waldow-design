@@ -162,8 +162,9 @@ const glyphs = '0123456789abcdefｱｲｳｴｵｶｷｸｹｺｻｼｽｾｿﾀ
 const randomGlyph = () => glyphs[Math.floor(Math.random() * glyphs.length)]!
 
 /**
- * Text that rains through code glyphs and locks in left to right whenever it changes, like the
- * Matrix. Screen readers get the plain text; reduced motion shows it straight away.
+ * Text that rains through code glyphs and locks in, one character at a time in a fresh random
+ * order, whenever it changes, like the Matrix. Screen readers get the plain text; reduced motion
+ * shows it straight away.
  */
 export function ScrambleText({ text, className }: { text: string; className?: string }) {
   const reduced = usePrefersReducedMotion()
@@ -171,12 +172,19 @@ export function ScrambleText({ text, className }: { text: string; className?: st
 
   useEffect(() => {
     if (reduced) return
+    // A random lock-in order for this change: rank[i] is when character i settles.
+    const order = Array.from(text, (_, index) => index)
+    for (let i = order.length - 1; i > 0; i--) {
+      const j = Math.floor(Math.random() * (i + 1))
+      ;[order[i], order[j]] = [order[j]!, order[i]!]
+    }
+    const rank = order.reduce<number[]>((ranks, index, position) => ((ranks[index] = position), ranks), [])
     const run = { frame: 0 }
     const timer = setInterval(() => {
       run.frame += 1
       // Two frames of pure noise, then one more character locks in each frame. The leading # stays put.
       const locked = run.frame - 2
-      setShown([...text].map((char, index) => (char === '#' || index < locked ? char : randomGlyph())).join(''))
+      setShown([...text].map((char, index) => (char === '#' || rank[index]! < locked ? char : randomGlyph())).join(''))
       if (locked >= text.length) clearInterval(timer)
     }, 20)
     return () => clearInterval(timer)
