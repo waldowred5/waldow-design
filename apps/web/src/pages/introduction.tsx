@@ -1,7 +1,8 @@
 /**
- * The home page: the hero, then the case for a design system, told for someone who doesn't
- * write code. Each section's heading comes from `homeHeadings` in site.ts, which also feeds
- * search and the outline.
+ * The guide's first page: the case for a design system, told for someone who doesn't write
+ * code. The landing page (`/`) tells the same story in pictures and links here for the detail.
+ * Each section's heading comes from `introHeadings` in site.ts, which also feeds search and
+ * the outline.
  */
 import {
   ActionBar,
@@ -12,7 +13,6 @@ import {
   CardDescription,
   CardHeader,
   CardTitle,
-  Hero,
   Prose,
   Stack,
   Table,
@@ -25,7 +25,7 @@ import {
 } from '@waldow-design/ui'
 import type { ReactNode } from 'react'
 import budgets from '../../../../.size-limit.json'
-import { type Heading, homeHeadings as h } from '../site'
+import { type Heading, introHeadings as h } from '../site'
 
 function H2({ heading }: { heading: Heading }) {
   return <h2 id={heading.id}>{heading.title}</h2>
@@ -96,19 +96,11 @@ const inCode = [
 
 const appBudget = (name: string) => budgets.find((budget) => budget.name === name)?.limit
 
-export default function HomePage() {
+export default function IntroductionPage() {
   return (
     <Stack gap={12}>
-      <Hero title="Waldow.Design" tagline="An exploration into design systems in the age of agents">
-        <Button variant="outline" asChild>
-          <a href="/tools/theme-knobs">Try the theme knobs</a>
-        </Button>
-        <Button asChild>
-          <a href="/getting-started/installation">Get started</a>
-        </Button>
-      </Hero>
-
       <Prose className="max-w-3xl">
+        <h1>Introduction</h1>
         <p className="lead">
           This site is a working design system and the story of why it exists. It’s written for anyone who builds
           products, whether or not you write code.
@@ -119,7 +111,7 @@ export default function HomePage() {
           A design system is a shared kit of parts and the rules for using them. Instead of every team drawing its own
           buttons and picking its own blues, everyone builds from the same pieces. It has three layers:
         </p>
-        <div className="grid gap-4 sm:grid-cols-3">
+        <div className="grid gap-4 lg:grid-cols-3">
           {layers.map((layer) => (
             <Card key={layer.title} className="gap-4">
               <CardHeader>
@@ -192,7 +184,7 @@ export default function HomePage() {
           shows every state (loading, error, empty, a name that’s too long). Handoff notes approximate spacing. Nobody
           draws keyboard order or dark mode. Each loss becomes a question, a guess or a bug.
         </p>
-        <div className="grid gap-4 md:grid-cols-2">
+        <div className="grid gap-4 lg:grid-cols-2">
           <Card className="gap-4">
             <CardHeader>
               <CardTitle>Pictures of code</CardTitle>
@@ -325,10 +317,10 @@ export default function HomePage() {
 
       <ActionBar className="max-w-3xl">
         <Button variant="outline" asChild>
-          <a href="/components">Browse the components</a>
+          <a href="/tools/theme-knobs">Try the theme knobs</a>
         </Button>
         <Button asChild>
-          <a href="/getting-started/installation">Get started</a>
+          <a href="/components">Browse the components</a>
         </Button>
       </ActionBar>
     </Stack>

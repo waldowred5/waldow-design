@@ -17,12 +17,25 @@
 import { useSyncExternalStore } from 'react'
 
 const listeners = new Set<() => void>()
-const notify = () => listeners.forEach((listener) => listener())
+let navigated = false
+const notify = () => {
+  navigated = true
+  listeners.forEach((listener) => listener())
+}
+
+/**
+ * Whether the person has moved between pages since the site loaded. A layout that mounts after
+ * a navigation (the docs, opened from the landing page) uses it to move focus to the new page.
+ */
+export const hasNavigated = () => navigated
 
 /** Normalise `/tools/` to `/tools`, so a trailing slash still finds the page. */
 export function normalisePath(path: string) {
   return path.length > 1 ? path.replace(/\/+$/, '') : path
 }
+
+/** Short paths that stand for a page: `/docs` is the guide's first page. */
+const aliases: Record<string, string> = { '/docs': '/getting-started/introduction' }
 
 /** Run `listener` after every navigation, including back/forward. Returns an unsubscribe. */
 export function subscribe(listener: () => void) {
@@ -42,6 +55,7 @@ export function usePath(): string {
 export function navigate(to: string) {
   const url = new URL(to, location.href)
   if (url.origin !== location.origin) return location.assign(url)
+  url.pathname = aliases[normalisePath(url.pathname)] ?? url.pathname
   const samePage = url.pathname === location.pathname && url.search === location.search
   if (url.href !== location.href) history.pushState(null, '', url)
   notify()
@@ -82,3 +96,7 @@ if (location.hash.startsWith('#/')) {
   const target = path === '/theme-knobs' ? '/tools/theme-knobs' : '/'
   history.replaceState(null, '', `${target}${query ? `?${query}` : ''}`)
 }
+
+// A short path on first load (`/docs`): show its page's real URL.
+const alias = aliases[normalisePath(location.pathname)]
+if (alias) history.replaceState(null, '', `${alias}${location.search}${location.hash}`)

@@ -10,7 +10,7 @@ export type DocsLayoutProps = {
   brand: ReactNode
   /** The trailing edge of the navbar: search, theme toggle, links. */
   actions?: ReactNode
-  /** Site navigation, usually a `Sidebar`. Fixed beside the page from `lg`, in a drawer below it. */
+  /** Site navigation, usually a `Sidebar`. Fixed beside the page from `md`, in a drawer below it. */
   sidebar: ReactNode
   /** The page's "On this page" `Outline`. Shown beside the page from `xl`. */
   outline?: ReactNode
@@ -33,8 +33,9 @@ export type DocsLayoutProps = {
 
 /**
  * The frame of a docs site: a sticky navbar, the site navigation down the leading edge, the
- * page in the middle and its outline at the trailing edge. Below `lg` the navigation moves
- * into a drawer opened from the navbar's menu button, and below `xl` the outline is hidden.
+ * page in the middle and its outline at the trailing edge. The navigation column is narrow
+ * (14rem at `md`, 16rem from `lg`) so the page keeps the room. At phone width it moves into a
+ * drawer opened from the navbar's menu button, and below `xl` the outline is hidden.
  *
  * ```tsx
  * <DocsLayout
@@ -80,7 +81,7 @@ export function DocsLayout({
       <Navbar>
         <Drawer open={navOpen} onOpenChange={onNavOpenChange}>
           <DrawerTrigger asChild>
-            <Button variant="ghost" size="icon" aria-label={`Open ${navLabel.toLowerCase()}`} className="lg:hidden">
+            <Button variant="ghost" size="icon" aria-label={`Open ${navLabel.toLowerCase()}`} className="md:hidden">
               <MenuIcon aria-hidden="true" />
             </Button>
           </DrawerTrigger>
@@ -93,9 +94,9 @@ export function DocsLayout({
         {actions && <NavbarActions>{actions}</NavbarActions>}
       </Navbar>
 
-      <div className="fixed top-16 bottom-0 start-0 hidden w-72 overflow-y-auto border-e border-border px-6 py-8 lg:block">{sidebar}</div>
+      <div className="fixed top-16 bottom-0 start-0 hidden w-56 overflow-y-auto border-e border-border px-4 py-8 md:block lg:w-64">{sidebar}</div>
 
-      <div className="lg:ps-72">
+      <div className="md:ps-56 lg:ps-64">
         <div className="mx-auto flex max-w-6xl gap-12 px-4 py-10 sm:px-6 lg:px-12">
           <main id={mainId} tabIndex={-1} className="min-w-0 flex-1 focus:outline-none">
             {children}

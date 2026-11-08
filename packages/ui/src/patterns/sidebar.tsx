@@ -8,8 +8,10 @@ import { cn } from '../lib/cn'
  * ```tsx
  * <Sidebar aria-label="Docs">
  *   <SidebarGroup title="Getting started">
- *     <SidebarLink href="/" current>Introduction</SidebarLink>
- *     <SidebarLink href="/getting-started/installation">Installation</SidebarLink>
+ *     <SidebarLink href="/getting-started/introduction" current>Introduction</SidebarLink>
+ *   </SidebarGroup>
+ *   <SidebarGroup title="Foundations">
+ *     <SidebarLink href="/foundations/colour">Colour</SidebarLink>
  *   </SidebarGroup>
  * </Sidebar>
  * ```

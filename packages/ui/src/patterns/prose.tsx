@@ -8,10 +8,10 @@ import { cn } from '../lib/cn'
  *
  * ```tsx
  * <Prose>
- *   <h1>Installation</h1>
- *   <p className="lead">Two commands and an import.</p>
- *   <h2 id="install">Install</h2>
- *   <p>Run <code>pnpm add @waldow-design/ui</code>.</p>
+ *   <h1>Colour</h1>
+ *   <p className="lead">Three seed colours expand into scales, then into semantic roles.</p>
+ *   <h2 id="seeds">Seeds</h2>
+ *   <p>Change <code>theme.color.primary</code> and every primary role follows.</p>
  * </Prose>
  * ```
  *
