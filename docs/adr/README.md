@@ -5,6 +5,7 @@ Short records of decisions that shape the design system. Each ADR captures the c
 | ADR | Title | Status |
 | --- | --- | --- |
 | [001](./001-shadcn-ui-component-foundation.md) | shadcn/ui as the component foundation | Accepted |
+| [002](./002-demo-domains.md) | Four demo apps as polar-opposite themes | Accepted |
 
 ## Writing a new ADR
 
