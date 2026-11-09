@@ -1,0 +1,5 @@
+@import "../src/styles.css";
+
+/* Explorations live outside this package; let Tailwind see their classes.
+   Same path as the explorations glob in main.ts and src/test/stories.test.tsx. */
+@source "../../../explorations";

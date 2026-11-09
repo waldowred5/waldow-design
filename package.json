@@ -14,7 +14,8 @@
     "check": "pnpm lint && pnpm build && pnpm typecheck && pnpm test && pnpm size",
     "storybook": "pnpm --filter @waldow-ds/ui storybook",
     "test": "pnpm -r run test",
-    "size": "size-limit"
+    "size": "size-limit",
+    "explore": "node scripts/new-exploration.mjs"
   },
   "devDependencies": {
     "@changesets/changelog-github": "^1.0.1",

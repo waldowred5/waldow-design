@@ -1,6 +1,6 @@
 import { withThemeByDataAttribute } from '@storybook/addon-themes'
 import type { Preview, ReactRenderer } from '@storybook/react-vite'
-import '../src/styles.css'
+import './storybook.css'
 
 const preview: Preview = {
   tags: ['autodocs'],
