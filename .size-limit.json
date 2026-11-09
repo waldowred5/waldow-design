@@ -28,7 +28,25 @@
   {
     "name": "apps/web: entry JS",
     "path": "apps/web/dist/assets/index-*.js",
-    "limit": "110 kB",
+    "limit": "65 kB",
+    "rolldown": false
+  },
+  {
+    "name": "apps/web: design system chunk (shared by landing and docs)",
+    "path": "apps/web/dist/assets/design-system-*.js",
+    "limit": "46 kB",
+    "rolldown": false
+  },
+  {
+    "name": "apps/web: landing chunk (lazy)",
+    "path": "apps/web/dist/assets/landing-page-*.js",
+    "limit": "6 kB",
+    "rolldown": false
+  },
+  {
+    "name": "apps/web: docs chunk (lazy)",
+    "path": "apps/web/dist/assets/docs-app-*.js",
+    "limit": "6 kB",
     "rolldown": false
   },
   {
@@ -38,9 +56,15 @@
     "rolldown": false
   },
   {
+    "name": "apps/web: theme colour maths (lazy, shared by theme knobs and the landing brand picker)",
+    "path": "apps/web/dist/assets/knobs-*.js",
+    "limit": "7 kB",
+    "rolldown": false
+  },
+  {
     "name": "apps/web: CSS",
     "path": "apps/web/dist/assets/*.css",
-    "limit": "8 kB",
+    "limit": "8.2 kB",
     "rolldown": false
   }
 ]

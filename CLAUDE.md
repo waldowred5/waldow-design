@@ -11,7 +11,7 @@ The web app is the public face of the project. It should read like a SaaS develo
 The home page hero reads:
 
 > **Waldow.Design**
-> An exploration into design systems for the age of agents
+> An exploration into design systems in the age of agents
 
 The generic shell and its pages come first (Phase 2). Domain-specific demo apps (ADR 002) come later and live inside that shell.
 

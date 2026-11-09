@@ -2,7 +2,7 @@
  * How the theme knobs are saved. The knobs themselves (defaults, fonts, their CSS variables)
  * are in @waldow-design/tokens/knobs, shared with Storybook.
  *
- * State lives in the hash query (`#/theme-knobs?primary=4c46dc&radius=0.75&font=serif`) so a
+ * State lives in the query (`/tools/theme-knobs?primary=4c46dc&radius=0.75&font=serif`) so a
  * look can be shared as a link, and in localStorage so coming back to the page without a query
  * restores the last look. The URL wins when both exist.
  */

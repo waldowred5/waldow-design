@@ -35,6 +35,22 @@ Theme with `data-theme="light" | "dark"` on `<html>`, or leave it unset to follo
 | `Badge` | `<span>` | `neutral`, `primary`, `success`, `warning`, `danger`, `info` |
 | `Dialog` | Radix Dialog | Modal with focus trap, overlay and close button |
 | `Table` | `<table>` | Scrollable, keyboard-focusable wrapper |
+| `Drawer` | Radix Dialog | Modal panel from the `start` or `end` edge |
+| `ThemeToggle` | `Button` | Light/dark icon button; the app applies and stores the theme |
+
+## Patterns
+
+Larger pieces composed from the components, for page structure. Storybook: *Patterns*.
+
+| Pattern | Built from | Notes |
+| --- | --- | --- |
+| `DocsLayout` | `Navbar`, `Drawer` | Docs-site frame: sticky navbar, sidebar (a drawer below `lg`), page, outline (from `xl`), skip link |
+| `Navbar` | `<header>` | Sticky top bar: `NavbarBrand` link, `NavbarActions` at the trailing edge |
+| `Sidebar` | `<nav>` | `SidebarGroup` lists of `SidebarLink`s; `current` sets `aria-current="page"` |
+| `Outline` | `<nav>` | "On this page" links to headings; `activeId` highlights the section being read |
+| `Search` | `Dialog`, `Input` | Client-side search over the items you pass; combobox and listbox, ⌘K / Ctrl+K and `/` |
+| `Hero` | `<section>`, `ActionBar` | Page `h1`, tagline and actions |
+| `Prose` | `<div>` | Type and spacing for plain `h1`–`h3`, `p`, lists, links, `code` |
 
 Each component's JSDoc has usage examples and accessibility notes, which surface in your editor and in Storybook.
 

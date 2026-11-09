@@ -12,6 +12,7 @@
   "dependencies": {
     "@waldow-design/tokens": "workspace:*",
     "@waldow-design/ui": "workspace:*",
+    "lucide-react": "^1.70.0",
     "react": "catalog:",
     "react-dom": "^19.3.1"
   },

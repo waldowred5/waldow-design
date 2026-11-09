@@ -46,22 +46,32 @@ const meta = {
 export default meta
 type Story = StoryObj<typeof meta>
 
-export const Closed: Story = {}
-
-/** Open by default so visual tests capture the dialog. */
-export const Open: Story = { args: { defaultOpen: true } }
-
-/** Opens with the keyboard, checks focus moves in, then closes with Escape. */
-export const KeyboardFlow: Story = {
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement)
-    const trigger = canvas.getByRole('button', { name: 'Edit profile' })
-    trigger.focus()
-    await userEvent.keyboard('{Enter}')
-    const dialog = await within(document.body).findByRole('dialog', { name: 'Edit profile' })
-    await expect(dialog).toContainElement(document.activeElement as HTMLElement)
-    await userEvent.keyboard('{Escape}')
-    // Radix restores focus to the trigger after unmount, on the next tick.
-    await waitFor(() => expect(trigger).toHaveFocus())
+/**
+ * Press **Edit profile** to open the dialog. The story renders closed; its play function
+ * runs the keyboard flow below and leaves it closed again.
+ *
+ * - **Open:** click the trigger, or focus it and press Enter or Space.
+ * - **Focus:** moves into the dialog on open and is trapped there: Tab and Shift+Tab cycle
+ *   through its controls, and the page behind is inert.
+ * - **Close:** Escape, the × button, clicking the overlay outside the panel, or either
+ *   footer action. Focus returns to the trigger.
+ * - **Actions:** the footer sits on the trailing edge, the primary action (Save) last and
+ *   Cancel before it.
+ */
+export const Default: Story = {
+  play: async ({ canvasElement, step }) => {
+    const trigger = within(canvasElement).getByRole('button', { name: 'Edit profile' })
+    await step('Open from the keyboard; focus moves in', async () => {
+      trigger.focus()
+      await userEvent.keyboard('{Enter}')
+      const dialog = await within(document.body).findByRole('dialog', { name: 'Edit profile' })
+      await expect(dialog).toContainElement(document.activeElement as HTMLElement)
+    })
+    await step('Escape closes; focus returns to the trigger', async () => {
+      await userEvent.keyboard('{Escape}')
+      // Radix restores focus to the trigger after unmount, on the next tick.
+      await waitFor(() => expect(trigger).toHaveFocus())
+      await expect(within(document.body).queryByRole('dialog')).not.toBeInTheDocument()
+    })
   },
 }

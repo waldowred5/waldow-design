@@ -121,6 +121,8 @@
   --default-transition-timing-function: var(--ds-motion-easing-standard);
   --animate-fade-in: fade-in var(--ds-motion-duration-normal) var(--ds-motion-easing-standard);
   --animate-pop-in: pop-in var(--ds-motion-duration-normal) var(--ds-motion-easing-standard);
+  --animate-slide-in-start: slide-in-start var(--ds-motion-duration-normal) var(--ds-motion-easing-standard);
+  --animate-slide-in-end: slide-in-end var(--ds-motion-duration-normal) var(--ds-motion-easing-standard);
 }
 
 @keyframes fade-in {
@@ -129,6 +131,15 @@
 
 @keyframes pop-in {
   from { opacity: 0; transform: scale(0.97); }
+}
+
+/* Drawers slide in from their edge. The offsets assume a left-to-right page. */
+@keyframes slide-in-start {
+  from { opacity: 0; transform: translateX(-100%); }
+}
+
+@keyframes slide-in-end {
+  from { opacity: 0; transform: translateX(100%); }
 }
 
 @layer base {
@@ -151,5 +162,88 @@
   [data-brand] {
     color: var(--color-foreground);
     font-family: var(--font-sans);
+  }
+}
+
+/* Prose (patterns/prose.tsx): type and spacing for plain long-form elements. Plain CSS rather
+   than utilities on the component: one short selector per rule keeps the stylesheet small.
+   Only direct children get block styles, so components inside keep their own. In the
+   components layer, so utilities on the elements still win. */
+@layer components {
+  [data-slot="prose"] {
+    line-height: var(--ds-line-height-normal);
+  }
+  [data-slot="prose"] > * + * {
+    margin-top: calc(var(--ds-space-1) * 4);
+  }
+  [data-slot="prose"] > :is(h1, h2, h3) {
+    font-family: var(--ds-font-display);
+    line-height: var(--ds-line-height-tight);
+    scroll-margin-top: calc(var(--ds-space-1) * 24);
+  }
+  [data-slot="prose"] > h1 {
+    font-size: var(--ds-font-size-3xl);
+    font-weight: var(--ds-font-weight-bold);
+    letter-spacing: -0.025em; /* Tailwind's tracking-tight */
+  }
+  [data-slot="prose"] > h2 {
+    margin-top: calc(var(--ds-space-1) * 12);
+    font-size: var(--ds-font-size-2xl);
+    font-weight: var(--ds-font-weight-semibold);
+  }
+  [data-slot="prose"] > h3 {
+    margin-top: calc(var(--ds-space-1) * 8);
+    font-size: var(--ds-font-size-lg);
+    font-weight: var(--ds-font-weight-semibold);
+  }
+  [data-slot="prose"] > .lead {
+    font-size: var(--ds-font-size-lg);
+    color: var(--ds-color-text-muted);
+  }
+  [data-slot="prose"] > :is(ul, ol) {
+    padding-inline-start: calc(var(--ds-space-1) * 6);
+    list-style: disc;
+  }
+  [data-slot="prose"] > ol {
+    list-style: decimal;
+  }
+  [data-slot="prose"] > :is(ul, ol) > li + li {
+    margin-top: calc(var(--ds-space-1) * 1);
+  }
+  [data-slot="prose"] > blockquote {
+    border-inline-start: 4px solid var(--ds-color-emphasis-highlight-border);
+    padding-inline-start: calc(var(--ds-space-1) * 4);
+    color: var(--ds-color-text-muted);
+  }
+  /* Code blocks wrap rather than scroll, so they never need to be focusable to be read. */
+  [data-slot="prose"] > pre {
+    padding: calc(var(--ds-space-1) * 4);
+    border-radius: var(--ds-radius-control);
+    background-color: var(--ds-color-background-muted);
+    font-size: var(--ds-font-size-sm);
+    white-space: pre-wrap;
+    overflow-wrap: anywhere;
+  }
+  [data-slot="prose"] :is(code, pre) {
+    font-family: var(--ds-font-code);
+  }
+  [data-slot="prose"] :not(pre) > code {
+    padding-inline: calc(var(--ds-space-1) * 1);
+    border-radius: var(--ds-radius-inner);
+    background-color: var(--ds-color-background-muted);
+    font-size: var(--ds-font-size-sm);
+  }
+  [data-slot="prose"] a:not([data-slot]) {
+    color: var(--ds-color-text-link);
+    text-decoration: underline;
+    text-underline-offset: 2px;
+  }
+}
+
+@media (width >= 40rem) {
+  @layer components {
+    [data-slot="prose"] > h1 {
+      font-size: var(--ds-font-size-4xl);
+    }
   }
 }
