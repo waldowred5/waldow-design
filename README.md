@@ -19,14 +19,14 @@ Requires Node 22+ (see `.nvmrc`) and pnpm (pinned via `packageManager`, so `core
 pnpm install
 pnpm dev        # run the app
 pnpm storybook  # component workbench on :6006
-pnpm check      # lint, typecheck and build everything
+pnpm check      # every CI gate: lint, build, typecheck, test, size
 ```
 
 ## Quality gates
 
 | Gate | Where | Blocks on |
 | --- | --- | --- |
-| Lint, tokens-only check, typecheck, build | `ci.yml` | Any failure |
+| `pnpm check`: lint and tokens-only check, build, typecheck, unit tests and axe on every story, bundle-size budget (`.size-limit.json`) | `ci.yml` | Any failure, axe violation or bundle over its limit |
 | Token contrast | token build | A key text/background pair below WCAG AA |
 | Visual regression | `chromatic.yml` (Chromatic "UI Tests" status) | Unreviewed visual changes |
 

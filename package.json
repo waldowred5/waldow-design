@@ -11,11 +11,15 @@
     "build": "pnpm -r run build",
     "lint": "oxlint && node scripts/check-tokens.mjs",
     "typecheck": "pnpm -r run typecheck",
-    "check": "pnpm lint && pnpm build && pnpm typecheck",
-    "storybook": "pnpm --filter @waldow-ds/ui storybook"
+    "check": "pnpm lint && pnpm build && pnpm typecheck && pnpm test && pnpm size",
+    "storybook": "pnpm --filter @waldow-ds/ui storybook",
+    "test": "pnpm -r run test",
+    "size": "size-limit"
   },
   "devDependencies": {
+    "@size-limit/preset-small-lib": "^14.3.0",
     "oxlint": "^1.91.0",
+    "size-limit": "^14.3.0",
     "typescript": "~7.0.2"
   }
 }
