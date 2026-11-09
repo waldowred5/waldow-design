@@ -1,0 +1,22 @@
+name: Changeset
+
+# Fails a PR into main that has no changeset. See "Versioning and releases" in the README.
+on:
+  pull_request:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    name: Changeset present
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+          # `changeset status --since` diffs against origin/main.
+          fetch-depth: 0
+      - uses: ./.github/actions/setup
+      - run: pnpm changeset status --since=origin/main

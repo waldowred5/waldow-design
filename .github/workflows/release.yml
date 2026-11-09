@@ -1,0 +1,31 @@
+name: Release
+
+# Opens the "Version Packages" PR and tags releases. See "Versioning and releases" in the README.
+on:
+  push:
+    branches: [main]
+
+concurrency: release-${{ github.ref }}
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    name: Version packages
+    runs-on: ubuntu-latest
+    steps:
+      # The changesets action pushes commits and tags through the GitHub API with its
+      # `github-token` input, so the token isn't left in .git/config for `pnpm install`.
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+        with:
+          persist-credentials: false
+      - uses: ./.github/actions/setup
+      - uses: changesets/action@ae32849d5ba541f9ae29e40e22a623bc13562f51 # v2.1.2
+        with:
+          pr-title: 'chore: version packages'
+          commit-message: 'chore: version packages'
+          # Source-only: tag releases instead of publishing to npm.
+          publish-script: pnpm changeset git-tag
+          create-github-releases: true
