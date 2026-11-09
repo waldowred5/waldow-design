@@ -41,7 +41,7 @@ Tokens are built in three tiers (primitive → semantic → component) into CSS 
 
 ```css
 @import "tailwindcss";
-@import "@waldow-ds/tokens/tokens.css";
+@import "@waldow-design/tokens/tokens.css";
 
 @theme inline {
   /* Drop Tailwind's default palette so only token colours exist. */
@@ -65,7 +65,7 @@ Consequences:
 ## Consequences
 
 - We take on maintenance of copied code. Upstream fixes are not automatic; we pull them in deliberately.
-- Tailwind becomes a build requirement for consumers of `@waldow-ds/ui` (they import our stylesheet).
+- Tailwind becomes a build requirement for consumers of `@waldow-design/ui` (they import our stylesheet).
 - Radix is a runtime dependency (through the `radix-ui` package).
 
 ## When to revisit

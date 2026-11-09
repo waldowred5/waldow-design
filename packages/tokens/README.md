@@ -1,13 +1,13 @@
-# @waldow-ds/tokens
+# @waldow-design/tokens
 
 Design tokens for waldow.design, written in the [W3C Design Tokens (DTCG)](https://www.designtokens.org/tr/drafts/format/) format and built with [Style Dictionary](https://styledictionary.com/) into CSS variables, a typed JS module and nested JSON.
 
 ```bash
-pnpm --filter @waldow-ds/tokens build   # also runs on install (prepare)
+pnpm --filter @waldow-design/tokens build   # also runs on install (prepare)
 ```
 
 ```css
-@import "@waldow-ds/tokens/tokens.css";
+@import "@waldow-design/tokens/tokens.css";
 
 .thing { color: var(--ds-color-text-default); }
 ```
@@ -66,4 +66,4 @@ The build fails if any key text/background pair (for example `text.muted` on `su
 1. Add a primitive only if no existing step works.
 2. Add or change the semantic token in **both** `light.json` and `dark.json`.
 3. If the pair carries text, add it to the contrast list in `build.ts`.
-4. Run `pnpm --filter @waldow-ds/tokens build`.
+4. Run `pnpm --filter @waldow-design/tokens build`.

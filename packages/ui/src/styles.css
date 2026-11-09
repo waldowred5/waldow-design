@@ -1,13 +1,13 @@
 /*
  * waldow.design stylesheet. Import once in your app:
- *   @import "@waldow-ds/ui/styles.css";
+ *   @import "@waldow-design/ui/styles.css";
  *
  * The Tailwind theme below only references --ds-* token variables. Tailwind's
  * default colour, radius and shadow scales are cleared, so utilities like
  * bg-blue-500 or rounded-2xl don't exist. See ADR 001.
  */
 @import "tailwindcss";
-@import "@waldow-ds/tokens/tokens.css";
+@import "@waldow-design/tokens/tokens.css";
 
 @source "./";
 

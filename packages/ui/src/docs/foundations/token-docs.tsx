@@ -1,4 +1,4 @@
-import tokens from '@waldow-ds/tokens/tokens.json'
+import tokens from '@waldow-design/tokens/tokens.json'
 import { ColorItem, ColorPalette } from '@storybook/addon-docs/blocks'
 import styles from '../../styles.css?raw'
 

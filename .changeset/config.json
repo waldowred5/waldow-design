@@ -6,7 +6,7 @@
   "changelog": ["@changesets/changelog-github", { "repo": "waldowred5/waldow-design" }],
   "commit": false,
   "privatePackages": { "version": true, "tag": true },
-  "ignore": ["@waldow-ds/web"],
+  "ignore": ["@waldow-design/web"],
   "fixed": [],
   "linked": [],
   "updateInternalDependencies": "patch"

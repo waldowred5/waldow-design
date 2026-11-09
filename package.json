@@ -1,5 +1,5 @@
 {
-  "name": "waldow-ds-monorepo",
+  "name": "waldow-design-monorepo",
   "private": true,
   "repository": {
     "type": "git",
@@ -11,12 +11,12 @@
     "node": ">=22"
   },
   "scripts": {
-    "dev": "pnpm --filter @waldow-ds/web dev",
+    "dev": "pnpm --filter @waldow-design/web dev",
     "build": "pnpm -r run build",
     "lint": "oxlint && node scripts/check-tokens.mjs",
     "typecheck": "pnpm -r run typecheck",
     "check": "pnpm lint && pnpm build && pnpm typecheck && pnpm test && pnpm size",
-    "storybook": "pnpm --filter @waldow-ds/ui storybook",
+    "storybook": "pnpm --filter @waldow-design/ui storybook",
     "test": "pnpm -r run test",
     "size": "size-limit",
     "explore": "node scripts/new-exploration.mjs"

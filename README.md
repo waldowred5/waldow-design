@@ -6,11 +6,11 @@ A small but real design system: three-tier design tokens, accessible React compo
 
 | Path | Package | What it is |
 | --- | --- | --- |
-| `packages/tokens` | `@waldow-ds/tokens` | Design tokens, built into CSS variables |
-| `packages/ui` | `@waldow-ds/ui` | React components (shadcn/ui foundation, see [ADR 001](docs/adr/001-shadcn-ui-component-foundation.md)) |
-| `packages/catalog` | `@waldow-ds/catalog` | Machine-readable component catalog (Phase 2) |
-| `apps/web` | `@waldow-ds/web` | The design system app |
-| `explorations` | `@waldow-ds/explorations` | Throwaway prototype stories, published by Chromatic ([README](explorations/README.md)) |
+| `packages/tokens` | `@waldow-design/tokens` | Design tokens, built into CSS variables |
+| `packages/ui` | `@waldow-design/ui` | React components (shadcn/ui foundation, see [ADR 001](docs/adr/001-shadcn-ui-component-foundation.md)) |
+| `packages/catalog` | `@waldow-design/catalog` | Machine-readable component catalog (Phase 2) |
+| `apps/web` | `@waldow-design/web` | The design system app |
+| `explorations` | `@waldow-design/explorations` | Throwaway prototype stories, published by Chromatic ([README](explorations/README.md)) |
 
 ## Getting started
 
@@ -39,7 +39,7 @@ Packages are versioned with [changesets](https://github.com/changesets/changeset
 
 1. In a PR that changes a package, run `pnpm changeset` and describe the change (patch, minor or major). For changes that need no release, run `pnpm changeset --empty`.
 2. On merge to `main`, the Release workflow opens a **Version Packages** PR that bumps versions and writes each package's `CHANGELOG.md`.
-3. Merging that PR creates git tags and GitHub releases (for example `@waldow-ds/ui@0.1.0`).
+3. Merging that PR creates git tags and GitHub releases (for example `@waldow-design/ui@0.1.0`).
 
 To publish to npm later: drop `"private": true` from the packages, set `access` in `.changeset/config.json`, add an `NPM_TOKEN` secret, and change the Release workflow's `publish-script` to `pnpm changeset publish`.
 

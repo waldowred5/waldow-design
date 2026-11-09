@@ -31,7 +31,7 @@ import {
   TableHead,
   TableHeader,
   TableRow,
-} from '@waldow-ds/ui'
+} from '@waldow-design/ui'
 import { useState } from 'react'
 
 type Theme = 'light' | 'dark'

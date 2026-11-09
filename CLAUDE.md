@@ -2,13 +2,13 @@
 
 A small but real design system: tokens → components → Storybook, with Chromatic and CI gates. Read `README.md` for the map; this file is the contract for generating UI and working in the repo.
 
-**Naming:** the public name is **waldow.design**. Use it in UI copy, docs, titles and anything user-facing. `waldow-ds` is only an identifier: the `@waldow-ds/*` package scope.
+**Naming:** the public name is **waldow.design**. Use it in UI copy, docs, titles and anything user-facing. `waldow-design` is the identifier form of the name: the repo slug and the `@waldow-design/*` package scope.
 
 ## The UI contract
 
 Any UI you write here (app screens, component stories, explorations) follows the same contract the runtime agent will (Phase 2, A2UI):
 
-1. **Only design system components.** Import from `@waldow-ds/ui` (list in [`packages/ui/README.md`](packages/ui/README.md#components)). Don't hand-roll a control that exists. If something is missing, say so and propose a component rather than inlining one.
+1. **Only design system components.** Import from `@waldow-design/ui` (list in [`packages/ui/README.md`](packages/ui/README.md#components)). Don't hand-roll a control that exists. If something is missing, say so and propose a component rather than inlining one.
 2. **Only semantic tokens.** Style with the token utilities defined in `packages/ui/src/styles.css`: `bg-primary`, `text-muted-foreground`, `border-border-strong`, `rounded-control`, `shadow-raised`, `p-4`, `gap-2`. Never:
    - raw colours (`#fff`, `rgb()`, `oklch()`)
    - arbitrary values (`p-[13px]`, `bg-[#...]`)
