@@ -26,7 +26,7 @@ const preview: Preview = {
     },
     backgrounds: { disable: true },
     options: {
-      storySort: { order: ['Introduction', 'Principles', ['Overview', '*'], 'Foundations', 'Components', 'Explorations'] },
+      storySort: { order: ['Introduction', 'Principles', ['Overview', '*'], 'Foundations', 'Components', 'Prototypes'] },
     },
   },
 }

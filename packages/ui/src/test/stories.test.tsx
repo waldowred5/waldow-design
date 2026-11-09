@@ -9,8 +9,8 @@ import { axeViolations } from './axe'
 type StoryModule = Parameters<typeof composeStories>[0]
 type RunnableStory = { run: () => Promise<void> }
 // Same patterns as `stories` in .storybook/main.ts, relative to src/test. import.meta.glob
-// only takes literals, so keep them in step (the explorations path also lives in .storybook/storybook.css).
-const modules = import.meta.glob<StoryModule>(['../**/*.stories.{ts,tsx}', '../../../../explorations/**/*.stories.{ts,tsx}'], {
+// only takes literals, so keep them in step (the prototypes path also lives in .storybook/storybook.css).
+const modules = import.meta.glob<StoryModule>(['../**/*.stories.{ts,tsx}', '../../../../prototypes/**/*.stories.{ts,tsx}'], {
   eager: true,
 })
 

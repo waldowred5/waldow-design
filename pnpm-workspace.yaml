@@ -1,7 +1,7 @@
 packages:
   - apps/*
   - packages/*
-  - explorations
+  - prototypes
 # Versions shared by more than one workspace, kept in one place.
 catalog:
   '@storybook/react-vite': ^10.6.6

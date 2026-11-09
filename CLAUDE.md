@@ -6,7 +6,7 @@ A small but real design system: tokens → components → Storybook, with Chroma
 
 ## The UI contract
 
-Any UI you write here (app screens, component stories, explorations) follows the same contract the runtime agent will (Phase 2, A2UI):
+Any UI you write here (app screens, component stories, prototypes) follows the same contract the runtime agent will (Phase 2, A2UI):
 
 1. **Only design system components.** Import from `@waldow-design/ui` (list in [`packages/ui/README.md`](packages/ui/README.md#components)). Don't hand-roll a control that exists. If something is missing, say so and propose a component rather than inlining one.
 2. **Only semantic tokens.** Style with the token utilities defined in `packages/ui/src/styles.css`: `bg-primary`, `text-muted-foreground`, `border-border-strong`, `rounded-control`, `shadow-raised`, `p-4`, `gap-2`. Never:
@@ -19,9 +19,9 @@ Any UI you write here (app screens, component stories, explorations) follows the
 3. **Follow the design principles.** Start at [`Overview.mdx`](packages/ui/src/docs/principles/Overview.mdx) (Storybook: Principles/Overview); each principle has its own page with examples.
 4. **Accessible by default.** Every control has a label. Icon-only buttons have `aria-label`. Dialogs have a `DialogTitle`. Every story must pass axe: the story tests render all of them in CI.
 
-## Prototyping: explorations
+## Prototypes
 
-When asked to explore or prototype UI, generate **several variants as stories** with `pnpm explore "<idea>"` rather than one finished screen. The rules (one story per variant, same contract as above, Chromatic on PRs into `main` or labelled `visual-test`, nothing ships) live in [`explorations/README.md`](explorations/README.md).
+When asked to explore or prototype UI, generate **several variants as stories** with `pnpm prototype "<idea>"` rather than one finished screen. The rules (one story per variant, same contract as above, Chromatic on PRs into `main` or labelled `visual-test`, nothing ships to the app, when to keep one as a showcase example) live in [`prototypes/README.md`](prototypes/README.md).
 
 ## Working in the repo
 

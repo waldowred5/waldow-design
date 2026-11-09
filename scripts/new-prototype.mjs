@@ -1,5 +1,5 @@
 #!/usr/bin/env node
-/** Scaffold explorations/<slug>/<slug>.stories.tsx with three variant stubs. */
+/** Scaffold prototypes/<slug>/<slug>.stories.tsx with three variant stubs. */
 import { existsSync } from 'node:fs'
 import { mkdir, readFile, writeFile } from 'node:fs/promises'
 
@@ -10,14 +10,14 @@ const { name: uiPackage } = JSON.parse(
 
 const name = process.argv.slice(2).join(' ').trim()
 if (!name) {
-  console.error('Usage: pnpm explore "<what you are exploring>"')
+  console.error('Usage: pnpm prototype "<what you are prototyping>"')
   process.exit(1)
 }
 
 const slug = name.toLowerCase().replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '')
 const title = name.charAt(0).toUpperCase() + name.slice(1)
-// The explorations path is also hard-coded in packages/ui/.storybook/main.ts.
-const dir = `explorations/${slug}`
+// The prototypes path is also hard-coded in packages/ui/.storybook/main.ts.
+const dir = `prototypes/${slug}`
 const file = `${dir}/${slug}.stories.tsx`
 
 if (!slug) {
@@ -28,7 +28,7 @@ if (!slug) {
 // The name is free text, so it never goes into source raw: string literals and JSX
 // text go through JSON.stringify, and the comment line drops anything that could close it.
 const titleLiteral = JSON.stringify(title)
-const metaTitleLiteral = JSON.stringify(`Explorations/${title}`)
+const metaTitleLiteral = JSON.stringify(`Prototypes/${title}`)
 const comment = name.replace(/\*\//g, '* /').replace(/[\r\n]+/g, ' ')
 
 if (existsSync(file)) {
@@ -59,8 +59,9 @@ await mkdir(dir, { recursive: true })
 await writeFile(
   file,
   `/**
- * Exploration: ${comment}.
- * Throwaway: compare in Chromatic, pick one, then build it properly.
+ * Prototype: ${comment}.
+ * Disposable by default: compare in Chromatic, pick one, build it properly.
+ * Keep or delete: see prototypes/README.md.
  */
 import type { Meta, StoryObj } from '@storybook/react-vite'
 import { Button, Card, CardContent, CardHeader, CardTitle, Stack } from '${uiPackage}'
