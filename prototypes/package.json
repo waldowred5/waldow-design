@@ -1,6 +1,6 @@
 {
   "name": "@waldow-design/prototypes",
-  "version": "0.0.0",
+  "version": "0.0.1",
   "private": true,
   "type": "module",
   "description": "Prototype stories, published by Chromatic. Disposable by default, kept when tagged showcase. Never shipped to the app.",

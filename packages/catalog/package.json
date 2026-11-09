@@ -1,6 +1,6 @@
 {
   "name": "@waldow-design/catalog",
-  "version": "0.0.0",
+  "version": "0.1.0",
   "private": true,
   "type": "module",
   "description": "Machine-readable catalog of waldow.design components (A2UI, Phase 3).",
