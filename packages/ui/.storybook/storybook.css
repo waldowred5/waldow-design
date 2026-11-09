@@ -3,3 +3,20 @@
 /* Prototypes live outside this package; let Tailwind see their classes.
    Same path as the prototypes glob in main.ts and src/test/stories.test.tsx. */
 @source "../../../prototypes";
+
+/* Docs tables: Storybook's dark theme stripes rows in a mid grey that drops links below AA.
+   Stripe with the subtle background token instead (the extra class outranks Storybook's rule). */
+.sbdocs-wrapper .sbdocs-content tr:nth-of-type(2n) {
+  background-color: var(--ds-color-background-subtle);
+}
+
+/* Theme switch: cross-fade colours with Tailwind's default transition, only while switching
+   (see theme-transition.ts). !important so it also covers components' own transitions. */
+.theme-switching,
+.theme-switching *,
+.theme-switching *::before,
+.theme-switching *::after {
+  transition-property: color, background-color, border-color, outline-color, text-decoration-color, fill, stroke, box-shadow !important;
+  transition-duration: var(--default-transition-duration, 150ms) !important;
+  transition-timing-function: var(--default-transition-timing-function, cubic-bezier(0.4, 0, 0.2, 1)) !important;
+}
