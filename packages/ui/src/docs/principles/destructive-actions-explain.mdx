@@ -1,0 +1,15 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { PrincipleExamples } from '../doc-blocks'
+import * as Stories from './destructive-actions-explain.stories'
+
+<Meta of={Stories} />
+
+# Destructive actions explain themselves
+
+**Rule:** Before something irreversible, say what will happen and to what, and label the confirming button with the action ("Delete project"), never "OK" or "Yes". Confirm with a `Dialog`.
+
+**Why:** People skim confirmations. Specific copy and specific buttons stop the costly mistakes.
+
+**How to check:** Every `variant="danger"` button that triggers an irreversible change opens a Dialog whose title names the object and whose button names the action.
+
+<PrincipleExamples of={Stories} />

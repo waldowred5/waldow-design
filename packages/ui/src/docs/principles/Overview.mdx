@@ -1,0 +1,14 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { PrincipleIndex } from '../doc-blocks'
+
+<Meta title="Principles/Overview" />
+
+# Design principles
+
+Short rules that every screen should pass. Each one is testable: it says how to check it, and has a **do** and a **don't** example. Link to a principle by its page when critiquing work, rather than restating it.
+
+<PrincipleIndex />
+
+## Adding a principle
+
+A principle earns a page when it has come up in at least two critiques. Write it as a rule that can be checked, add `principles/<name>.stories.tsx` with `DoExample` and `DontExample` stories and a one-line `parameters.summary` (it feeds the table above), and an MDX page in the same shape as the others. Don't stories still have to pass axe: show the design mistake, not an accessibility violation the tests would reject.

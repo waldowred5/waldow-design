@@ -1,0 +1,15 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { PrincipleExamples } from '../doc-blocks'
+import * as Stories from './status-not-colour-alone.stories'
+
+<Meta of={Stories} />
+
+# Status never relies on colour alone
+
+**Rule:** Status is always stated in words ("Failed", "Active"), with colour as reinforcement. Use `Badge` variants.
+
+**Why:** About 1 in 12 men has a colour vision deficiency, and colour isn't announced by screen readers (WCAG 1.4.1).
+
+**How to check:** Cover the colour: grayscale the screenshot, or switch Chromatic's diff to monochrome. Is every status still readable?
+
+<PrincipleExamples of={Stories} />

@@ -1,0 +1,15 @@
+import { Meta } from '@storybook/addon-docs/blocks'
+import { DocsLink, PrincipleExamples } from '../doc-blocks'
+import * as Stories from './spacing-from-the-scale.stories'
+
+<Meta of={Stories} />
+
+# Spacing comes from the scale
+
+**Rule:** Space between elements comes from the token space scale, applied with `Stack` gaps. No arbitrary values, and avoid one-off margins.
+
+**Why:** A consistent rhythm makes screens feel finished and makes density changes a token edit instead of a hunt.
+
+**How to check:** Lint catches arbitrary values (see <DocsLink to="Foundations/Space, radius and elevation">Space</DocsLink>). In review, look for `m*-` utilities where a `Stack` gap would do.
+
+<PrincipleExamples of={Stories} />
