@@ -40,6 +40,6 @@ Each component's JSDoc has usage examples and accessibility notes, which surface
 
 ## Rules
 
-- **Tokens only.** Components use Tailwind utilities that map to semantic or component tokens (`bg-primary`, `h-input`, `rounded-card`). Tailwind's default palette, radii and shadows are removed, and `pnpm lint` runs a tokens-only check that rejects raw colours, raw arbitrary values (`p-[13px]`) and primitive token variables.
+- **Tokens only.** Components use Tailwind utilities that map to semantic tokens (`bg-surface`, `h-control-md`, `rounded-surface`). Tailwind's default palette, radii and shadows are removed, and `pnpm lint` runs a tokens-only check that rejects raw colours, raw arbitrary values (`p-[13px]`) and primitive token variables.
 - **Typed props.** Every component extends the props of the element or Radix part it renders, so native attributes and `ref` pass through.
 - **`data-slot`.** Every part sets `data-slot="<name>"` so consumers can target it in tests and styles without relying on class names.

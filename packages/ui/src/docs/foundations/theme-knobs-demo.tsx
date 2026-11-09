@@ -35,7 +35,7 @@ const sameSeeds: Record<Role, string> = { primary: t.ThemeColorPrimary, secondar
 function knobStyle(seeds: Record<Role, string>, radius: number, font: Font): CSSProperties {
   const vars: Record<string, string> = { '--ds-theme-radius': `${radius}rem` }
   for (const [role, scale] of Object.entries(paletteTokens(seeds))) {
-    for (const [step, hex] of Object.entries(scale)) vars[`--ds-color-${role}-${step}`] = toOklch(hex)
+    for (const [step, colour] of Object.entries(scale)) vars[`--ds-color-${role}-${step}`] = toOklch(colour)
   }
   vars['--ds-theme-font-body'] = fonts[font]
   vars['--ds-theme-font-display'] = fonts[font]
@@ -54,7 +54,7 @@ export function ThemeKnobsDemo() {
           <h3 className="font-display text-lg font-semibold">Knobs</h3>
           {roles.map((role) => (
             <Field key={role} label={`${role[0]!.toUpperCase()}${role.slice(1)} colour`} id={`knob-${role}`} description={seeds[role]}>
-              <Input type="color" value={seeds[role]} onChange={(e) => setSeeds({ ...seeds, [role]: e.target.value })} className="h-input w-full p-1" />
+              <Input type="color" value={seeds[role]} onChange={(e) => setSeeds({ ...seeds, [role]: e.target.value })} className="h-control-md w-full p-1" />
             </Field>
           ))}
           <Field label="Radius" id="knob-radius" description={`${radius}rem`}>

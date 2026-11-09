@@ -11,6 +11,10 @@
     },
     "./tokens.css": "./dist/tokens.css",
     "./tokens.json": "./dist/tokens.json",
+    "./utilities": {
+      "types": "./dist/utilities.d.ts",
+      "default": "./dist/utilities.js"
+    },
     "./palette": "./palette.ts"
   },
   "scripts": {

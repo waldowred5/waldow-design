@@ -11,11 +11,11 @@
  * Used by the token build (brand seeds → color.primary/secondary/highlight.*) and by the
  * Theme knobs demo, so both produce identical scales.
  */
-import { clampChroma, formatHex, oklch } from 'culori'
+import { type Color, clampChroma, formatHex, type Oklch, oklch } from 'culori'
 
 export const steps = [50, 100, 200, 300, 400, 500, 600, 700, 800, 900, 950] as const
 export type Step = (typeof steps)[number]
-export type Scale = Record<Step, string>
+export type Scale = Record<Step, Oklch>
 
 /** The seed colours a brand sets; each becomes `color.<role>.50–950`. */
 export const roles = ['primary', 'secondary', 'highlight'] as const
@@ -31,7 +31,11 @@ const chromaShare: Record<Step, number> = {
   600: 1, 700: 0.92, 800: 0.82, 900: 0.7, 950: 0.55,
 }
 
-/** An 11-step hex scale from any CSS colour string. */
+/**
+ * An 11-step scale from any CSS colour string, as unrounded OKLCH colours. Format them with
+ * `toOklch` (CSS) or `toHex` (where a tool needs hex); never round-trip through hex first, or
+ * every step picks up 8-bit sRGB rounding (step 50 would land at 96.88% rather than 97%).
+ */
 export function scale(seed: string): Scale {
   const base = oklch(seed)
   if (!base) throw new Error(`Not a colour: ${seed}`)
@@ -39,23 +43,34 @@ export function scale(seed: string): Scale {
   const hue = base.h ?? 0
   return Object.fromEntries(
     steps.map((step) => {
-      const colour = clampChroma({ mode: 'oklch', l: lightness[step], c: chroma * chromaShare[step], h: hue }, 'oklch')
-      return [step, formatHex(colour)]
+      const colour = clampChroma({ mode: 'oklch', l: lightness[step], c: chroma * chromaShare[step], h: hue }, 'oklch') as Oklch
+      return [step, colour]
     }),
   ) as Scale
 }
 
-/** Every role's scale from the brand's seeds: role → step → hex (`color.<role>.<step>`). */
+/** Every role's scale from the brand's seeds: role → step → colour (`color.<role>.<step>`). */
 export function paletteTokens(seeds: Record<Role, string>): Record<Role, Scale> {
   return Object.fromEntries(roles.map((role) => [role, scale(seeds[role])])) as Record<Role, Scale>
 }
 
-const round = (n: number, places: number) => Number(n.toFixed(places))
+/** Six significant figures: far below a visible difference, without float noise like 100.00000000000003. */
+const sig = (n: number) => Number(n.toPrecision(6))
 
-/** Any CSS colour as a compact `oklch()` string, e.g. `oklch(50% 0.22 276.7)` or `oklch(17.7% 0.011 260.6 / 6%)`. */
-export function toOklch(colour: string): string {
+/**
+ * Any colour (a CSS string or a culori colour) as an `oklch()` string to six significant figures,
+ * e.g. `oklch(54% 0.219804 276.673)` or `oklch(17.6746% 0.0114376 260.635 / 5.88235%)`.
+ */
+export function toOklch(colour: string | Color): string {
   const c = oklch(colour)
-  if (!c) throw new Error(`Not a colour: ${colour}`)
-  const alpha = c.alpha !== undefined && c.alpha < 1 ? ` / ${round(c.alpha * 100, 0)}%` : ''
-  return `oklch(${round(c.l * 100, 1)}% ${round(c.c ?? 0, 3)} ${round(c.h ?? 0, 1)}${alpha})`
+  if (!c) throw new Error(`Not a colour: ${String(colour)}`)
+  const alpha = c.alpha !== undefined && c.alpha < 1 ? ` / ${sig(c.alpha * 100)}%` : ''
+  return `oklch(${sig(c.l * 100)}% ${sig(c.c ?? 0)} ${sig(c.h ?? 0)}${alpha})`
+}
+
+/** Any colour as sRGB hex, for the few consumers that can't read `oklch()` (see the tokens README). */
+export function toHex(colour: string | Color): string {
+  const hex = formatHex(colour)
+  if (!hex) throw new Error(`Not a colour: ${String(colour)}`)
+  return hex
 }

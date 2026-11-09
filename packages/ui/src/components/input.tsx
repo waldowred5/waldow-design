@@ -3,7 +3,7 @@ import { cn } from '../lib/cn'
 import { useFieldControl } from './field'
 
 export const controlStyles = [
-  'rounded-input border border-input-border bg-input text-foreground transition-colors',
+  'rounded-control border border-border-strong bg-surface text-foreground transition-colors',
   'focus-visible:outline-2 focus-visible:outline-offset-0 focus-visible:outline-ring',
   'aria-invalid:border-danger aria-invalid:focus-visible:outline-danger',
   'disabled:cursor-not-allowed disabled:opacity-50',
@@ -32,7 +32,7 @@ export function Input({ className, type = 'text', ...props }: InputProps) {
       type={type}
       className={cn(
         controlStyles,
-        'h-input w-full min-w-0 px-input-x text-sm placeholder:text-muted-foreground',
+        'h-control-md w-full min-w-0 px-control-x-sm text-sm placeholder:text-muted-foreground',
         'file:border-0 file:bg-transparent file:text-sm file:font-medium',
         className,
       )}

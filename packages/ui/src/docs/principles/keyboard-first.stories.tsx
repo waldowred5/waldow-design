@@ -28,7 +28,7 @@ export const DontExample: Story = {
     <Dont caption="A clickable div looks like a button but can't be focused or triggered from the keyboard.">
       <Stack direction="horizontal" gap={2}>
         {/* oxlint-disable-next-line jsx-a11y/click-events-have-key-events, jsx-a11y/no-static-element-interactions -- deliberate "don't" example */}
-        <div onClick={() => {}} className="rounded-button bg-primary px-button-x-md py-2 text-sm font-medium text-primary-foreground">
+        <div onClick={() => {}} className="rounded-control bg-primary px-control-x-md py-2 text-sm font-medium text-primary-foreground">
           Save
         </div>
       </Stack>

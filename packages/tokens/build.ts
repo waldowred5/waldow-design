@@ -1,11 +1,12 @@
 /**
- * Builds the three token tiers into CSS variables and a typed JS module.
+ * Builds the two token tiers (primitive, semantic) into CSS variables and a typed JS module.
+ * There is no component tier: components use semantic tokens directly (see docs/adr/003).
  *
  *   src/brand         the theme knobs: seed colours (primary, secondary, highlight), neutral scale,
  *                     radius, font. Each seed becomes an 11-step scale via palette.ts.
  *   src/primitive     raw values (status hues, scales)
- *   src/semantic      intent (base.json is mode-independent; light.json and dark.json are modes)
- *   src/component     per-component decisions, referencing semantic tokens
+ *   src/semantic      intent (base.json is mode-independent: radius, control sizes, insets,
+ *                     fonts, motion; light.json and dark.json are modes)
  *
  * Output (dist/):
  *   tokens.css   the knob defaults and primitives (every literal value) on :root only; then
@@ -15,8 +16,8 @@
  *                element re-derives its subtree from the knobs it inherits, so overriding a
  *                knob there themes the subtree, and a nested [data-brand] keeps the outer
  *                overrides.
- *   tokens.js    flat light-theme values for JS consumers, with tokens.d.ts
- *   tokens.json  nested light-theme values, for docs and tooling
+ *   tokens.js    flat light-theme values for JS consumers, with tokens.d.ts (colours as hex)
+ *   tokens.json  nested light-theme values, for docs and tooling (colours as hex)
  *
  * The build fails if light.json and dark.json declare different tokens, or if a text/background
  * pair in either theme drops below WCAG AA.
@@ -27,10 +28,10 @@ import StyleDictionary from 'style-dictionary'
 import type { TransformedToken } from 'style-dictionary/types'
 import { usesReferences } from 'style-dictionary/utils'
 import { wcagContrast } from 'culori'
-import { paletteTokens, type Role, toOklch } from './palette.ts'
+import { paletteTokens, type Role, toHex, toOklch } from './palette.ts'
 
-// CSS gets colours as oklch(), including the colours inside shadows. JS output keeps hex,
-// because tools that read it (Storybook's theming, for one) can't parse oklch().
+// CSS gets colours as oklch(), including the colours inside shadows; JS/JSON output gets hex.
+// Why: README, "Why OKLCH (and where hex remains)".
 type ShadowLayer = { color: string } & Record<string, string>
 StyleDictionary.registerTransform({
   name: 'color/oklch',
@@ -51,22 +52,31 @@ StyleDictionary.registerTransform({
 const cssTransforms = StyleDictionary.hooks.transformGroups.css!.flatMap((name) =>
   name === 'color/css' ? ['color/oklch'] : name === 'shadow/css/shorthand' ? ['shadow/oklch', name] : [name],
 )
+// Style Dictionary's own color/hex can't parse oklch(), which the generated scales are written in.
+StyleDictionary.registerTransform({
+  name: 'color/hex-culori',
+  type: 'value',
+  filter: (token) => token.$type === 'color',
+  transform: (token) => toHex(String(token.$value)),
+})
+const jsTransforms = StyleDictionary.hooks.transformGroups.js!.map((name) => (name === 'color/hex' ? 'color/hex-culori' : name))
 
 const PREFIX = 'ds'
 const DIST = 'dist/'
 const BRAND = 'src/brand/waldow.json'
-const shared = [BRAND, 'src/primitive/**/*.json', 'src/semantic/base.json', 'src/component/**/*.json']
+const shared = [BRAND, 'src/primitive/**/*.json', 'src/semantic/base.json']
 
 const readJson = (path: string) => JSON.parse(readFileSync(path, 'utf8'))
 
-// The brand's seed colours become color.primary.*, color.secondary.* and color.highlight.*.
+// The brand's seed colours become color.primary.*, color.secondary.* and color.highlight.*,
+// written at full OKLCH precision so each step keeps its exact lightness (hex only for JS).
 const seedTokens = readJson(BRAND).theme.color as Record<Role, { $value: string }>
 const seeds = Object.fromEntries(Object.entries(seedTokens).map(([role, token]) => [role, token.$value])) as Record<Role, string>
 const palette = {
   color: Object.fromEntries(
     Object.entries(paletteTokens(seeds)).map(([role, steps]) => [
       role,
-      Object.fromEntries(Object.entries(steps).map(([step, hex]) => [step, { $type: 'color', $value: hex }])),
+      Object.fromEntries(Object.entries(steps).map(([step, colour]) => [step, { $type: 'color', $value: toOklch(colour) }])),
     ]),
   ),
 }
@@ -114,7 +124,7 @@ const light = new StyleDictionary({
       ],
     },
     js: {
-      transformGroup: 'js',
+      transforms: jsTransforms,
       buildPath: DIST,
       files: [
         { destination: 'tokens.js', format: 'javascript/es6' },
@@ -125,8 +135,8 @@ const light = new StyleDictionary({
   },
 })
 
-// Dark only re-declares the semantic colour tokens. Component tokens reference
-// semantic variables, so they follow the theme without being re-emitted.
+// Dark only re-declares the semantic colour and elevation tokens. Everything else is
+// mode-independent, or references these variables, so it follows the theme without being re-emitted.
 const isDark = (token: TransformedToken) => token.filePath?.endsWith('semantic/dark.json') ?? false
 
 const dark = new StyleDictionary({
@@ -171,6 +181,31 @@ const colorScheme = [
 ].join('\n')
 await writeFile(DIST + 'tokens.css', [...parts, colorScheme].join('\n') + '\n')
 await Promise.all(['defaults.css', 'light.css', 'dark-attr.css', 'dark-media.css'].map((f) => rm(DIST + f)))
+
+// --- Utility names -----------------------------------------------------------
+
+// The Tailwind utility names packages/ui/src/styles.css maps from semantic tokens: the token path
+// without its first segment (size.control.md → h-control-md, radius.surface → rounded-surface).
+// Control sizes and every space.* token are spacing; other size.* tokens are container widths
+// (max-w-dialog). Exported so tailwind-merge in packages/ui doesn't restate them by hand.
+const semantic = (await light.getPlatformTokens('css')).allTokens.filter((t) => t.filePath?.includes('src/semantic/'))
+const utility = (t: TransformedToken) => t.path.slice(1).join('-')
+const group = (match: (t: TransformedToken) => boolean) => semantic.filter(match).map(utility)
+const utilities = {
+  spacing: group((t) => t.path[0] === 'space' || (t.path[0] === 'size' && t.path[1]!.startsWith('control'))),
+  container: group((t) => t.path[0] === 'size' && !t.path[1]!.startsWith('control')),
+  radius: group((t) => t.path[0] === 'radius'),
+  shadow: group((t) => t.path[0] === 'elevation'),
+}
+const banner = '/** Tailwind utility names for the semantic tokens. Generated by build.ts. */\n'
+await writeFile(
+  DIST + 'utilities.js',
+  banner + Object.entries(utilities).map(([k, v]) => `export const ${k} = ${JSON.stringify(v)}`).join('\n') + '\n',
+)
+await writeFile(
+  DIST + 'utilities.d.ts',
+  banner + Object.keys(utilities).map((k) => `export declare const ${k}: string[]`).join('\n') + '\n',
+)
 
 // --- Contrast gate ---------------------------------------------------------
 

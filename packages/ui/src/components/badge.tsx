@@ -17,7 +17,7 @@ const variants = {
 }
 
 export const badgeVariants = cva(
-  'inline-flex w-fit shrink-0 items-center gap-1 whitespace-nowrap rounded-badge border px-badge-x py-0.5 text-xs font-medium [&_svg]:size-3',
+  'inline-flex w-fit shrink-0 items-center gap-1 whitespace-nowrap rounded-pill border px-pill-x py-0.5 text-xs font-medium [&_svg]:size-3',
   { variants, defaultVariants: { variant: 'neutral' } },
 )
 
