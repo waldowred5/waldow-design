@@ -11,14 +11,34 @@ The knobs are three seed colours (primary, secondary, highlight), the neutral sc
 
 ## From one colour to a scale
 
-Each seed colour becomes an 11-step scale (`packages/tokens/palette.ts`). Steps are placed by **OKLCH lightness**, which tracks how light a colour looks across hues, so a given step has about the same contrast whatever colour you pick: step 600 always carries white text, step 400 always carries near-black text. The seed sets the hue and colourfulness. The token build checks every text/background pair against WCAG AA in both modes, and this demo uses the same generator.
+Each seed colour becomes an 11-step scale (`packages/tokens/palette.ts`). Steps are placed by **OKLCH lightness**, which tracks how light a colour looks across hues, so a given step has about the same contrast whatever colour you pick: step 600 always carries white text, step 400 always carries near-black text. The seed sets the hue and colourfulness. The token build checks the core text/background pairs against WCAG AA in both modes.
 
 ## Brand and mode are separate
 
-Light and dark are a **mode** (`data-theme`); a **brand** (`data-brand`) sets the knobs. Any brand works in either mode: switch the toolbar theme while you play. Setting `data-brand` on any element re-derives the tokens for its subtree, which is how this demo themes itself without touching the rest of the page.
+Light and dark are a **mode** (`data-theme`); a **brand** (`data-brand`) sets the knobs. Any brand works in either mode: switch the toolbar theme to see the examples in both. Setting `data-brand` on any element re-derives the tokens for its subtree, which is how each example themes itself without touching the rest of the page.
 
-## Try it
+## Try it in the web app
 
-All three colours start the same, so changing one shows exactly what it drives.
+The interactive playground (three colour pickers, the radius and the font, over a gallery of everyday components) lives in the web app, where your knobs survive light/dark switches and reloads and can be shared as a link. Run `pnpm dev` and choose **Theme knobs** in the header (`#/theme-knobs`).
 
-<Canvas of={Stories.Playground} sourceState="none" layout="fullscreen" />
+## Examples
+
+A small sample under fixed knob settings. The full gallery is on the web app's Theme knobs page.
+
+### waldow.design
+
+<Canvas of={Stories.Brand} sourceState="none" />
+
+### One colour for all three
+
+Primary, secondary and highlight share one seed, so the secondary button and the badges all take the primary scale.
+
+<Canvas of={Stories.OneColour} sourceState="none" />
+
+### Square corners, serif
+
+<Canvas of={Stories.SquareSerif} sourceState="none" />
+
+### Round corners, mono
+
+<Canvas of={Stories.RoundMono} sourceState="none" />
