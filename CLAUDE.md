@@ -13,9 +13,11 @@ The home page hero reads:
 > **Waldow.Design**
 > An exploration into design systems for the age of agents
 
+The generic shell and its pages come first (Phase 2). Domain-specific demo apps (ADR 002) come later and live inside that shell.
+
 ## The UI contract
 
-Any UI you write here (app screens, component stories, prototypes) follows the same contract the runtime agent will (Phase 2, A2UI):
+Any UI you write here (app screens, component stories, prototypes) follows the same contract the runtime agent will (Phase 3, A2UI):
 
 1. **Only design system components.** Import from `@waldow-design/ui` (list in [`packages/ui/README.md`](packages/ui/README.md#components)). Don't hand-roll a control that exists. If something is missing, say so and propose a component rather than inlining one.
 2. **Only semantic tokens.** Style with the token utilities defined in `packages/ui/src/styles.css`: `bg-primary`, `text-muted-foreground`, `border-border-strong`, `rounded-control`, `shadow-raised`, `h-control-md`, `p-surface-inset`, `p-4`, `gap-2`. There are two token tiers, primitive and semantic, and no component tokens ([ADR 003](docs/adr/003-two-token-tiers.md)). Never:
@@ -30,7 +32,7 @@ Any UI you write here (app screens, component stories, prototypes) follows the s
 
 ## Prototypes
 
-When asked to explore or prototype UI, generate **several variants as stories** with `pnpm prototype "<idea>"` rather than one finished screen. The rules (one story per variant, same contract as above, Chromatic on PRs into `main` or labelled `visual-test`, nothing ships to the app, when to keep one as a showcase example) live in [`prototypes/README.md`](prototypes/README.md).
+When asked to explore or prototype UI, generate **several variants as stories** with `pnpm prototype "<idea>"` rather than one finished screen. The rules (one story per variant, same contract as above, Chromatic builds as described in [`docs/chromatic.md`](docs/chromatic.md), nothing ships to the app, when to keep one as a showcase example) live in [`prototypes/README.md`](prototypes/README.md).
 
 ## Working in the repo
 
@@ -51,6 +53,6 @@ pnpm changeset        # in a PR that changes a package (see README "Versioning a
 ## Conventions
 
 - Branches use the Linear name (`lab-123-short-title`). PR titles start `[LAB-123]`, and bodies say `Closes LAB-123`.
-- Phase work lands as **stacked PRs**: each targets the previous branch. Merge bottom-up.
+- New work: short-lived branches off main, one PR per ticket; merge with a merge commit.
 - Commit messages follow Conventional Commits (`feat(ui): …`, `fix(tokens): …`, `docs: …`).
 - pnpm 11 blocks dependency build scripts by default. Approve one in `pnpm-workspace.yaml` under `allowBuilds` only when it's needed.

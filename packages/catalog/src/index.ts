@@ -1,2 +1,2 @@
-// The component catalog lands in Phase 2 (A2UI).
+// The component catalog lands in Phase 3 (A2UI).
 export {}

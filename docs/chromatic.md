@@ -12,7 +12,7 @@ Chromatic's free plan allows 5,000 billed snapshots a month. When it runs out, C
 | Any PR labelled `visual-test` | Yes, on every push while the label is on |
 | Manual run (Actions → Chromatic → Run workflow) | Yes, on the chosen branch |
 | Stacked PR (base is another branch) | Skipped |
-| Draft PR | Skipped until it's marked ready |
+| Draft PR | Skipped unless labelled `visual-test` |
 | PR into `main` that only changes `docs/`, `*.md`, `.changeset/`, `.claude/`, `.github/` (except this workflow) or `LICENSE` | Skipped |
 
 A skipped run still calls Chromatic with `skip: true`. This bills no snapshots and uploads no Storybook, but it marks the commit as passing, so the required **UI Tests** check still reports and nothing waits forever. The job summary says which branch was taken and why.
