@@ -23,8 +23,8 @@ export const Default: Story = {
         <p className="text-sm">3 of 5 seats used.</p>
       </CardContent>
       <CardFooter>
-        <Button>Invite</Button>
         <Button variant="ghost">Manage seats</Button>
+        <Button>Invite</Button>
       </CardFooter>
     </Card>
   ),

@@ -1,5 +1,6 @@
 import type { ComponentProps } from 'react'
 import { cn } from '../lib/cn'
+import { actionBarClasses } from './action-bar'
 
 /**
  * Groups related content on a raised surface.
@@ -11,7 +12,10 @@ import { cn } from '../lib/cn'
  *     <CardDescription>Invite people to collaborate.</CardDescription>
  *   </CardHeader>
  *   <CardContent>…</CardContent>
- *   <CardFooter><Button>Invite</Button></CardFooter>
+ *   <CardFooter>
+ *     <Button variant="ghost">Manage seats</Button>
+ *     <Button>Invite</Button>
+ *   </CardFooter>
  * </Card>
  * ```
  *
@@ -49,6 +53,7 @@ export function CardContent({ className, ...props }: ComponentProps<'div'>) {
   return <div data-slot="card-content" className={cn(className)} {...props} />
 }
 
+/** Lays out like `ActionBar`: a row from `sm` up, stacked full width below it. */
 export function CardFooter({ className, ...props }: ComponentProps<'div'>) {
-  return <div data-slot="card-footer" className={cn('flex items-center gap-2', className)} {...props} />
+  return <div data-slot="card-footer" className={cn(actionBarClasses, className)} {...props} />
 }

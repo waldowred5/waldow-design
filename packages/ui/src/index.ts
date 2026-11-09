@@ -1,5 +1,6 @@
 export { cn } from './lib/cn'
 
+export { ActionBar } from './components/action-bar'
 export { Badge, type BadgeProps, badgeVariants } from './components/badge'
 export { Button, type ButtonProps, buttonVariants } from './components/button'
 export { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from './components/card'

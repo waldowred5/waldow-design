@@ -1,4 +1,5 @@
 import {
+  ActionBar,
   Badge,
   Button,
   Card,
@@ -107,12 +108,12 @@ function App() {
                 <Field label="Send a copy to me" orientation="horizontal">
                   <Checkbox defaultChecked />
                 </Field>
-                <Stack direction="horizontal" gap={2}>
-                  <Button type="submit">Send invite</Button>
+                <ActionBar>
                   <Button variant="ghost" type="reset" onClick={() => setSubmitted(false)}>
                     Cancel
                   </Button>
-                </Stack>
+                  <Button type="submit">Send invite</Button>
+                </ActionBar>
               </form>
             </Stack>
           </CardContent>
