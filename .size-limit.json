@@ -22,7 +22,7 @@
   {
     "name": "tokens: tokens.css",
     "path": "packages/tokens/dist/tokens.css",
-    "limit": "2.5 kB",
+    "limit": "3 kB",
     "rolldown": false
   },
   {

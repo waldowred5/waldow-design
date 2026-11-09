@@ -1,36 +1,33 @@
 {
   "radius": {
     "$type": "dimension",
+    "inner": {
+      "$value": "calc({theme.radius} * 0.5)",
+      "$description": "Small elements inside controls, such as checkboxes."
+    },
     "control": {
-      "$value": "{radius.md}"
+      "$value": "calc({theme.radius} * 0.75)"
     },
     "surface": {
-      "$value": "{radius.lg}"
+      "$value": "{theme.radius}"
     },
     "pill": {
-      "$value": "{radius.full}"
+      "$value": "9999px",
+      "$description": "Fully rounded ends. A constant, not derived from theme.radius."
     }
   },
   "font": {
     "body": {
       "$type": "fontFamily",
-      "$value": "{font-family.sans}"
+      "$value": "{theme.font.body}"
+    },
+    "display": {
+      "$type": "fontFamily",
+      "$value": "{theme.font.display}"
     },
     "code": {
       "$type": "fontFamily",
-      "$value": "{font-family.mono}"
-    }
-  },
-  "elevation": {
-    "$type": "shadow",
-    "raised": {
-      "$value": "{shadow.sm}"
-    },
-    "floating": {
-      "$value": "{shadow.md}"
-    },
-    "overlay": {
-      "$value": "{shadow.lg}"
+      "$value": "{theme.font.mono}"
     }
   },
   "focus-ring": {

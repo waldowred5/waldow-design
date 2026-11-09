@@ -42,7 +42,7 @@ export function CardHeader({ className, ...props }: ComponentProps<'div'>) {
 
 export function CardTitle({ className, ...props }: ComponentProps<'h3'>) {
   // oxlint-disable-next-line jsx-a11y/heading-has-content -- content arrives as children via props
-  return <h3 data-slot="card-title" className={cn('text-lg leading-tight font-semibold', className)} {...props} />
+  return <h3 data-slot="card-title" className={cn('font-display text-lg leading-tight font-semibold', className)} {...props} />
 }
 
 export function CardDescription({ className, ...props }: ComponentProps<'p'>) {

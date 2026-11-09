@@ -70,7 +70,7 @@ export function DialogContent({ className, children, showCloseButton = true, ...
         {showCloseButton && (
           <DialogPrimitive.Close
             className={cn(
-              'absolute top-4 right-4 rounded-sm p-1 text-muted-foreground transition-colors hover:text-foreground',
+              'absolute top-4 right-4 rounded-inner p-1 text-muted-foreground transition-colors hover:text-foreground',
               'focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ring',
             )}
           >
@@ -92,7 +92,7 @@ export function DialogFooter({ className, ...props }: ComponentProps<'div'>) {
 }
 
 export function DialogTitle({ className, ...props }: ComponentProps<typeof DialogPrimitive.Title>) {
-  return <DialogPrimitive.Title data-slot="dialog-title" className={cn('text-lg leading-tight font-semibold', className)} {...props} />
+  return <DialogPrimitive.Title data-slot="dialog-title" className={cn('font-display text-lg leading-tight font-semibold', className)} {...props} />
 }
 
 export function DialogDescription({ className, ...props }: ComponentProps<typeof DialogPrimitive.Description>) {

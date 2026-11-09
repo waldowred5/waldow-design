@@ -40,7 +40,7 @@
         "$value": "{color.neutral.50}"
       },
       "link": {
-        "$value": "{color.brand.600}"
+        "$value": "{color.primary.600}"
       }
     },
     "border": {
@@ -51,16 +51,16 @@
         "$value": "{color.neutral.500}"
       },
       "focus": {
-        "$value": "{color.brand.500}"
+        "$value": "{color.primary.500}"
       }
     },
     "action": {
       "primary": {
         "default": {
-          "$value": "{color.brand.600}"
+          "$value": "{color.primary.600}"
         },
         "hover": {
-          "$value": "{color.brand.700}"
+          "$value": "{color.primary.700}"
         },
         "text": {
           "$value": "{color.white}"
@@ -68,13 +68,13 @@
       },
       "secondary": {
         "default": {
-          "$value": "{color.neutral.100}"
+          "$value": "{color.secondary.100}"
         },
         "hover": {
-          "$value": "{color.neutral.200}"
+          "$value": "{color.secondary.200}"
         },
         "text": {
-          "$value": "{color.neutral.900}"
+          "$value": "{color.secondary.900}"
         }
       },
       "danger": {
@@ -86,6 +86,29 @@
         },
         "text": {
           "$value": "{color.white}"
+        }
+      }
+    },
+    "emphasis": {
+      "highlight": {
+        "solid": {
+          "$value": "{color.highlight.600}",
+          "$description": "Filled highlight: markers, progress, chart emphasis."
+        },
+        "solid-hover": {
+          "$value": "{color.highlight.700}"
+        },
+        "on-solid": {
+          "$value": "{color.white}"
+        },
+        "background": {
+          "$value": "{color.highlight.100}"
+        },
+        "text": {
+          "$value": "{color.highlight.800}"
+        },
+        "border": {
+          "$value": "{color.highlight.300}"
         }
       }
     },
@@ -134,6 +157,18 @@
           "$value": "{color.blue.200}"
         }
       }
+    }
+  },
+  "elevation": {
+    "$type": "shadow",
+    "raised": {
+      "$value": "{shadow.sm}"
+    },
+    "floating": {
+      "$value": "{shadow.md}"
+    },
+    "overlay": {
+      "$value": "{shadow.lg}"
     }
   }
 }

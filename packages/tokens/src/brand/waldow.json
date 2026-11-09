@@ -1,0 +1,77 @@
+{
+  "$description": "The waldow.design brand: the theme knobs. A brand sets three seed colours (primary, secondary, highlight), a neutral scale, one radius and the font families; every semantic and component token derives from these.",
+  "color": {
+    "$type": "color",
+    "neutral": {
+      "50": {
+        "$value": "#f7f8fa"
+      },
+      "100": {
+        "$value": "#eef0f3"
+      },
+      "200": {
+        "$value": "#dde1e7"
+      },
+      "300": {
+        "$value": "#c3c9d2"
+      },
+      "400": {
+        "$value": "#9aa3b0"
+      },
+      "500": {
+        "$value": "#6f7987"
+      },
+      "600": {
+        "$value": "#535c69"
+      },
+      "700": {
+        "$value": "#3d4450"
+      },
+      "800": {
+        "$value": "#282e37"
+      },
+      "900": {
+        "$value": "#181c23"
+      },
+      "950": {
+        "$value": "#0e1116"
+      }
+    }
+  },
+  "theme": {
+    "color": {
+      "$type": "color",
+      "$description": "Seed colours. The build generates color.primary/secondary/highlight.50-950 from each (see palette.ts).",
+      "primary": {
+        "$value": "#4c46dc",
+        "$description": "Primary actions, focus, selection, links."
+      },
+      "secondary": {
+        "$value": "#0d9488",
+        "$description": "Secondary actions and secondary emphasis."
+      },
+      "highlight": {
+        "$value": "#d97706",
+        "$description": "Highlights: highlight badges, markers, progress and chart emphasis."
+      }
+    },
+    "radius": {
+      "$type": "dimension",
+      "$value": "0.5rem",
+      "$description": "The one radius knob. Surfaces use it as is; controls and inner elements are fractions of it. 0 gives square corners on surfaces and controls; pills (radius.pill) stay round."
+    },
+    "font": {
+      "$type": "fontFamily",
+      "body": {
+        "$value": "{font-family.sans}"
+      },
+      "display": {
+        "$value": "{font-family.sans}",
+        "$description": "Headings and titles."
+      },
+      "mono": {
+        "$value": "{font-family.mono}"
+      }
+    }
+  }
+}

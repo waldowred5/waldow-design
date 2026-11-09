@@ -23,6 +23,8 @@ export const All: Story = {
     <div className="flex flex-wrap gap-2">
       <Badge>Draft</Badge>
       <Badge variant="primary">New</Badge>
+      <Badge variant="secondary">Shared</Badge>
+      <Badge variant="highlight">Featured</Badge>
       <Badge variant="success">Active</Badge>
       <Badge variant="warning">Pending</Badge>
       <Badge variant="danger">Failed</Badge>

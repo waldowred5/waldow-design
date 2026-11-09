@@ -13,7 +13,7 @@ Any UI you write here (app screens, component stories, prototypes) follows the s
    - raw colours (`#fff`, `rgb()`, `oklch()`)
    - arbitrary values (`p-[13px]`, `bg-[#...]`)
    - Tailwind's default palette (`bg-blue-500`; it is removed and silently does nothing)
-   - primitive tokens (`var(--ds-color-brand-600)`)
+   - primitive tokens (`var(--ds-color-primary-600)`)
 
    `pnpm lint` enforces this (`scripts/check-tokens.mjs`).
 3. **Follow the design principles.** Start at [`Overview.mdx`](packages/ui/src/docs/principles/Overview.mdx) (Storybook: Principles/Overview); each principle has its own page with examples.
@@ -33,7 +33,7 @@ pnpm check            # lint + tokens check, build, typecheck, tests, size budge
 pnpm changeset        # in a PR that changes a package (see README "Versioning and releases")
 ```
 
-- **Tokens:** edit JSON in `packages/tokens/src/`. Change semantic colours in both `light.json` and `dark.json`. The build fails below WCAG AA for the pairs listed in `build.ts`.
+- **Tokens:** edit JSON in `packages/tokens/src/`. A brand is a few knobs in `src/brand/`: primary, secondary and highlight seed colours (`theme.color.*`, expanded into scales by `palette.ts`), neutrals, `theme.radius` and `theme.font.*` (what each one drives: [`packages/tokens/README.md`](packages/tokens/README.md#brand-knobs)); derive from them rather than adding raw values. Change semantic colours in both `light.json` and `dark.json`. The build fails below WCAG AA for the pairs listed in `build.ts`.
 - **Components:** `packages/ui/src/components/<name>.tsx`, with `<name>.stories.tsx` (and `<name>.test.tsx` for behaviour). JSDoc on the component holds usage and accessibility notes. Use `cn()` for class merging, and add new token utility names to `lib/cn.ts`.
 - **New token utility:** map it in `@theme inline` in `styles.css`. Watch for namespace collisions: Tailwind resolves `max-w-*`, `w-*` and `h-*` against `--spacing-*` before `--container-*`.
 - **Decisions:** add an ADR in `docs/adr/` for anything that changes the foundation.

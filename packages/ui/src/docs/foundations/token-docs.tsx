@@ -47,7 +47,7 @@ export function SemanticColors() {
     <ColorPalette>
       {semanticColorGroups.flatMap((group) => {
         const groupTree = color[group] as TokenTree
-        // Split groups of intents (action, status) into one row per intent so rows stay readable.
+        // Split groups of intents (action, emphasis, status) into one row per intent so rows stay readable.
         const byIntent = Object.values(groupTree).every((sub) => typeof sub === 'object')
         const rows: Array<[string[], TokenTree]> = byIntent
           ? Object.entries(groupTree).map(([intent, sub]) => [['color', group, intent], sub as TokenTree])
@@ -117,13 +117,21 @@ export function Scale({ group }: ScaleProps) {
             <tr key={path.join('.')} className="border-b">
               <td className="py-2 font-mono">{name}</td>
               {group !== 'space' && <td className="py-2 font-mono">{utilities.get(name) ?? '–'}</td>}
-              <td className="py-2 font-mono text-muted-foreground">{value}</td>
+              <td className="py-2 font-mono text-muted-foreground">
+                {value}
+                {group === 'elevation' && <span className="block font-sans text-xs">Light mode value; dark mode uses stronger shadows.</span>}
+              </td>
               <td className="py-2">
                 {group === 'space' && <div className="h-3 bg-primary" style={{ width: `var(${name})` }} />}
                 {group === 'radius' && (
                   <div className="size-10 border-2 border-primary bg-background-muted" style={{ borderRadius: `var(${name})` }} />
                 )}
-                {group === 'elevation' && <div className="size-10 rounded-control bg-surface" style={{ boxShadow: `var(${name})` }} />}
+                {group === 'elevation' && (
+                  // A raised surface on the page's subtle background, the way elevation is actually seen.
+                  <div className="inline-flex rounded-surface bg-background-subtle p-6">
+                    <div className="h-12 w-20 rounded-surface bg-surface-raised" style={{ boxShadow: `var(${name})` }} />
+                  </div>
+                )}
               </td>
             </tr>
           )
