@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "React components for waldow-ds.",
+  "description": "React components for waldow.design.",
   "exports": {
     ".": "./src/index.ts",
     "./styles.css": "./src/styles.css"

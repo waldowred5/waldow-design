@@ -1,4 +1,4 @@
-# waldow-ds
+# waldow.design
 
 A small but real design system: three-tier design tokens, accessible React components, Storybook and Chromatic visual regression from the first commit.
 

@@ -3,7 +3,7 @@ import { DocsLink } from './doc-blocks'
 
 <Meta title="Introduction" />
 
-# waldow-ds
+# waldow.design
 
 A small but real design system. This Storybook is the design reference: principles, foundations and every component, in light and dark (use the theme switcher in the toolbar).
 
@@ -14,5 +14,5 @@ A small but real design system. This Storybook is the design reference: principl
 ## How it fits together
 
 1. **Tokens** (`@waldow-ds/tokens`): primitive → semantic → component, built to CSS variables with light and dark themes.
-2. **Components** (`@waldow-ds/ui`): shadcn/ui on Radix, styled only with Tailwind utilities that map to semantic and component tokens ([ADR 001](https://github.com/waldowred5/waldow-ds/blob/main/docs/adr/001-shadcn-ui-component-foundation.md)).
+2. **Components** (`@waldow-ds/ui`): shadcn/ui on Radix, styled only with Tailwind utilities that map to semantic and component tokens ([ADR 001](https://github.com/waldowred5/waldow-design/blob/main/docs/adr/001-shadcn-ui-component-foundation.md)).
 3. **Quality gates:** every story is rendered and checked with axe in CI, Chromatic reviews visual changes, tokens fail the build below WCAG AA, and bundles have size budgets.

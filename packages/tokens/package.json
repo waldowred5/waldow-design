@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "type": "module",
-  "description": "Design tokens for waldow-ds, built into CSS variables.",
+  "description": "Design tokens for waldow.design, built into CSS variables.",
   "exports": {
     ".": {
       "types": "./dist/tokens.d.ts",

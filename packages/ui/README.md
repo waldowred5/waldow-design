@@ -1,6 +1,6 @@
 # @waldow-ds/ui
 
-Accessible React components for waldow-ds. Built from [shadcn/ui](https://ui.shadcn.com) source on [Radix](https://www.radix-ui.com/primitives) primitives, styled with Tailwind CSS mapped to `@waldow-ds/tokens` (see [ADR 001](../../docs/adr/001-shadcn-ui-component-foundation.md)).
+Accessible React components for waldow.design. Built from [shadcn/ui](https://ui.shadcn.com) source on [Radix](https://www.radix-ui.com/primitives) primitives, styled with Tailwind CSS mapped to `@waldow-ds/tokens` (see [ADR 001](../../docs/adr/001-shadcn-ui-component-foundation.md)).
 
 ## Use
 
